@@ -226,19 +226,19 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     <div class="container">
         <span class="error animated tada" id="msg"></span>
         <form name="form1" class="box" method="POST">
-            <h4>Admin<span> Login</span></h4>
-            <h5>Sign in to your account</h5>
-            <input type="text" name="email" placeholder="Email" autocomplete="off">
-            <input type="password" id="password" name="password" placeholder="Passsword">
+            <h4>Admin<span> Forget Password</span></h4>
+<!--            <h5>Sign in to your account</h5>-->
+            <input type="text" name="email" placeholder="Email">
+            <input type="password" id="password" name="password" placeholder="New Passsword">
+            <input type="password" id="password" name="password-cf" placeholder="Confirm Passsword">
             <label>
                 <input type="checkbox">
                 <span></span>
                 <small class="rmb">Remember me</small>
             </label>
-            <a href="#" class="forgetpass">Forget Password?</a>
-            <input type="submit" value="Sign in" class="btn1">
+            <a href="/admin/pages/login/signin.php" class="forgetpass">Login</a>
+            <input type="submit" value="confirm" class="btn1">
         </form>
-        <a href="#" class="dnthave">Don’t have an account? Sign up</a>
     </div>
 
 </div>
