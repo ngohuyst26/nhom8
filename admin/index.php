@@ -40,6 +40,9 @@
                 case 'product':
                     include './controller/products.php';
                     break;
+                case 'posts':
+                    include './controller/post.php';
+                    break;
             }
         }else{
             include './pages/home.php';

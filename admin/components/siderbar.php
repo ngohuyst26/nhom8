@@ -32,6 +32,13 @@
                             <a href="?page=product&action=list" class="dropdown-item">Danh sách sản phẩm</a>
                         </div>
                     </div>
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle <?= (isset($_GET['page']) && $_GET['page'] == 'posts')?'active':''?>" data-bs-toggle="dropdown"><i class="fa fa-laptop me-2"></i>Quản lý Bài Viết</a>
+                        <div class="dropdown-menu bg-transparent border-0">
+                            <a href="?page=posts&action=add" class="dropdown-item">Thêm Bài Viết</a>
+                            <a href="?page=posts&action=list" class="dropdown-item">Danh sách Bài Viết</a>
+                        </div>
+                    </div>
                 </div>
             </nav>
         </div>
