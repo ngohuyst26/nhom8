@@ -235,10 +235,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                 <span></span>
                 <small class="rmb">Remember me</small>
             </label>
-            <a href="#" class="forgetpass">Forget Password?</a>
             <input type="submit" value="Sign in" class="btn1">
         </form>
-        <a href="#" class="dnthave">Don’t have an account? Sign up</a>
+        <a href="/admin/pages/login/signup.php" class="dnthave">Don’t have an account? Sign up</a>
     </div>
 
 </div>
