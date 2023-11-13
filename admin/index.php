@@ -47,6 +47,8 @@ session_start();
                     break;
                 case 'users':
                     include './controller/users.php';
+                case 'posts':
+                    include './controller/post.php';
                     break;
             }
         }else{
