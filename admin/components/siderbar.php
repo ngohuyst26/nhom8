@@ -32,6 +32,14 @@
                             <a href="?page=product&action=list" class="dropdown-item">Danh sách sản phẩm</a>
                         </div>
                     </div>
+
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle <?= (isset($_GET['page']) && $_GET['page'] == 'users')?'active':''?>" data-bs-toggle="dropdown"><i class="fa fa-laptop me-2"></i>Quản lý Người Dùng</a>
+                        <div class="dropdown-menu bg-transparent border-0">
+                            <a href="?page=users&action=add" class="dropdown-item">Thêm người dùng</a>
+                            <a href="?page=users&action=list" class="dropdown-item">Danh sách người dùng</a>
+                        </div>
+                    </div>
                 </div>
             </nav>
         </div>
