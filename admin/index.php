@@ -1,3 +1,8 @@
+<?php
+session_start();
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -39,6 +44,9 @@
             switch($page){
                 case 'product':
                     include './controller/products.php';
+                    break;
+                case 'users':
+                    include './controller/users.php';
                     break;
             }
         }else{
