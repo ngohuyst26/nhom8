@@ -32,17 +32,18 @@
                             <a href="?page=product&action=list" class="dropdown-item">Danh sách sản phẩm</a>
                         </div>
                     </div>
-
-                    <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle <?= (isset($_GET['page']) && $_GET['page'] == 'users')?'active':''?>" data-bs-toggle="dropdown"><i class="fa fa-laptop me-2"></i>Quản lý Người Dùng</a>
-                        <div class="dropdown-menu bg-transparent border-0">
-                            <a href="?page=users&action=add" class="dropdown-item">Thêm người dùng</a>
-                            <a href="?page=users&action=list" class="dropdown-item">Danh sách người dùng</a>
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle <?= (isset($_GET['page']) && $_GET['page'] == 'posts')?'active':''?>" data-bs-toggle="dropdown"><i class="fa fa-laptop me-2"></i>Quản lý Bài Viết</a>
                         <div class="dropdown-menu bg-transparent border-0">
                             <a href="?page=posts&action=add" class="dropdown-item">Thêm Bài Viết</a>
-                            <a href="?page=posts&action=list" class="dropdown-item">Danh sách Bài Viết</a>
+                            <a href="?page=posts&action=list" class="dropdown-item">Danh sách sản phẩm</a>
+                        </div>
+                    </div>
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle <?= (isset($_GET['page']) && $_GET['page'] == 'statistical')?'active':''?>" data-bs-toggle="dropdown"><i class="fa fa-laptop me-2"></i>Thống Kê</a>
+                        <div class="dropdown-menu bg-transparent border-0">
+                            <a href="?page=statistical&action=orders" class="dropdown-item">Thống Kê Đơn Hàng</a>
+                            <a href="?page=statistical&action=products" class="dropdown-item">Thống Kê Sản Phẩm</a>
                         </div>
                     </div>
                 </div>

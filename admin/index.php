@@ -50,6 +50,9 @@ session_start();
                 case 'posts':
                     include './controller/post.php';
                     break;
+                case 'statistical':
+                    include './controller/statistical.php';
+                    break;
             }
         }else{
             include './pages/home.php';
