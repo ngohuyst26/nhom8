@@ -1,12 +1,3 @@
-<?php
-session_start();
-if (!isset($_SESSION['admin'])) {
-    header("Location: /login/signin.php");
-} else {
-    $user = $_SESSION['user'][1];
-}
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -43,12 +34,14 @@ if (!isset($_SESSION['admin'])) {
         <?php include './components/header.php'; ?>  
         <div class="row">
         <?php
-        include_once '../config/database.php';
         if (isset($_GET['page'])){
             $page = $_GET['page'];
-            switch($page){
+            switch ($page) {
                 case 'product':
                     include './controller/products.php';
+                    break;
+                case 'posts':
+                    include './controller/post.php';
                     break;
                 case 'users':
                     include './controller/users.php';
