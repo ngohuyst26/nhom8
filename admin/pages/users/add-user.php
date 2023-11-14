@@ -1,29 +1,29 @@
 <div class="col-3"></div>
 <div class="col-sm-12 col-xl-6 mt-3">
+    <form method="post" enctype="multipart/form-data">
     <div class="bg-secondary rounded h-100 p-4">
         <h6 class="mb-4">THÊM NGƯỜI DÙNG</h6>
         <div class="form-floating mb-3">
-            <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
-            <label for="floatingInput">Email address</label>
+            <input type="text" name="user" class="form-control" id="floatingInput" placeholder="" required >
+            <label for="floatingInput">Tên Người Dùng</label>
         </div>
         <div class="form-floating mb-3">
-            <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
+            <input type="email" name="email" class="form-control" id="floatingInput" placeholder="" required >
+            <label for="floatingInput">Email Người Dùng</label>
+        </div>
+        <div class="form-floating mb-3">
+            <input type="password" name="password" class="form-control" id="floatingPassword" placeholder="Password" required>
             <label for="floatingPassword">Password</label>
         </div>
         <div class="form-floating mb-3">
-            <select class="form-select" id="floatingSelect" aria-label="Floating label select example">
-                <option selected="">Open this select menu</option>
-                <option value="1">One</option>
-                <option value="2">Two</option>
-                <option value="3">Three</option>
-            </select>
-            <label for="floatingSelect">Works with selects</label>
+            <label for="exampleInputEmail1">Chức Vụ</label><br/><br/>
+            <input type="radio" name="chucvu" id="" value="1"> Admin
+            <br/>
+            <input type="radio" name="chucvu" id="" value="0"> Người Dùng
         </div>
-        <div class="form-floating">
-            <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea"
-                      style="height: 150px;"></textarea>
-            <label for="floatingTextarea">Comments</label>
-        </div>
+        <br/>
+        <button type="submit" class="btn btn-outline-primary">Thêm</button>
+    </form>
     </div>
 </div>
 <div class="col-3"></div>
