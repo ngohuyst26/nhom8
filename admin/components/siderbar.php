@@ -38,6 +38,9 @@
                         <div class="dropdown-menu bg-transparent border-0">
                             <a href="?page=users&action=add" class="dropdown-item">Thêm người dùng</a>
                             <a href="?page=users&action=list" class="dropdown-item">Danh sách người dùng</a>
+                        </div>
+                    </div>
+
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle <?= (isset($_GET['page']) && $_GET['page'] == 'posts')?'active':''?>" data-bs-toggle="dropdown"><i class="fa fa-laptop me-2"></i>Quản lý Bài Viết</a>
                         <div class="dropdown-menu bg-transparent border-0">

@@ -48,7 +48,7 @@
                                 <div class="product">
                                     <figure class="product-media">
                                         <span class="product-label label-new">New</span>
-                                        <a href="product.html">
+                                        <a href="?action=products-detail">
                                             <img src="assets/images/products/product-1.jpg" alt="Product image" class="product-image">
                                         </a>
 
@@ -89,7 +89,7 @@
                             <div class="col-6 col-md-4 col-lg-4 col-xl-3">
                                 <div class="product">
                                     <figure class="product-media">
-                                        <a href="product.html">
+                                        <a href="?action=products-detail">
                                             <img src="assets/images/products/product-2.jpg" alt="Product image" class="product-image">
                                         </a>
 
@@ -145,7 +145,7 @@
                                         <div class="product-cat">
                                             <a href="#">Women</a>
                                         </div><!-- End .product-cat -->
-                                        <h3 class="product-title"><a href="product.html">Aliquam tincidunt mauris</a></h3><!-- End .product-title -->
+                                        <h3 class="product-title"><a href="?action=products-detail">Aliquam tincidunt mauris</a></h3><!-- End .product-title -->
                                         <div class="product-price">
                                             <span class="new-price">$50.00</span>
                                             <span class="old-price">$84.00</span>
