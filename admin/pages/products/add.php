@@ -1,4 +1,4 @@
-<div class="col-3"></div>
+
 <div class="col-sm-12 col-xl-6 mt-3">
     <div class="bg-secondary rounded h-100 p-4">
         <h6 class="mb-4">THÊM SẢN PHẨM</h6>
@@ -26,4 +26,3 @@
         </div>
     </div>
 </div>
-<div class="col-3"></div>
