@@ -1,3 +1,12 @@
+<?php
+    include_once 'pages/users/user-function.php';
+if (isset($_GET["id"])) {
+    $id = $_GET['id'];
+    $data_delete = delete_user($id);
+}
+    $data_user = get_all_user();
+
+?>
 <div class="container-fluid pt-4 px-4">
     <div class="bg-secondary text-center rounded p-4">
         <div class="d-flex align-items-center justify-content-between mb-4">
@@ -12,19 +21,27 @@
                     <th scope="col">ID</th>
                     <th scope="col">Tên</th>
                     <th scope="col">Email</th>
+                    <th scope="col">Giới Tính</th>
                     <th scope="col">Hành Động</th>
                 </tr>
                 </thead>
+                <?php if (isset($data_user)): ?>
+                    <?php foreach($data_user as $print): ?>
                 <tbody>
                 <tr>
                     <td><input class="form-check-input" type="checkbox"></td>
-                    <td>01 Jan 2045</td>
-                    <td>INV-0123</td>
-                    <td>Jhon Doe</td>
-                    <td><a class="btn btn-sm btn-primary" href="">Detail</a></td>
+                    <td><?=$print['id']?></td>
+                    <td><?= $print['name'] ?></td>
+                    <td><?= $print['email'] ?></td>
+                    <td><?= $print['sex'] ?></td>
+                    <td>
+                        <a href="?page=users&action=list&id=<?=$print['id']?>"><button type="button" class="btn btn-primary">Xóa</button></a>
+                        <a href="?page=users&action=edit&id=<?=$print['id']?>"><button type="button" class="btn btn-success">Sửa</button></a>
+                    </td>
                 </tr>
-
                 </tbody>
+                <?php endforeach;?>
+                <?php endif;?>
             </table>
         </div>
     </div>
