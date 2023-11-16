@@ -1,7 +1,5 @@
 <?php
-
 class connect{
-
     function pdo_get_connection(){
         $servername = "localhost";
         $username = "root";
@@ -28,7 +26,7 @@ class connect{
     function pdo_execute($sql){
         $sql_args = array_slice(func_get_args(), 1);
         try{
-            $conn = pdo_get_connection();
+            $conn =$this->pdo_get_connection();
             $stmt = $conn->prepare($sql);
             $stmt->execute($sql_args);
         }
@@ -48,7 +46,7 @@ class connect{
     function pdo_query($sql){
         $sql_args = array_slice(func_get_args(), 1);
         try{
-            $conn = pdo_get_connection();
+            $conn =$this->pdo_get_connection();
             $stmt = $conn->prepare($sql);
             $stmt->execute($sql_args);
             $rows = $stmt->fetchAll();

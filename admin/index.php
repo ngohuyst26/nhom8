@@ -1,6 +1,5 @@
 <?php
 session_start();
-
 ?>
 
 <!DOCTYPE html>
@@ -39,6 +38,7 @@ session_start();
         <?php include './components/header.php'; ?>  
         <div class="row">
         <?php
+        include_once '../config/database.php';
         if (isset($_GET['page'])){
             $page = $_GET['page'];
             switch($page){
