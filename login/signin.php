@@ -1,11 +1,37 @@
 <?php
 session_start();
+include_once '../login/login_function.php';
+include_once '../config/database.php';
+//Lấy thông tin email
 if($_SERVER["REQUEST_METHOD"] == "POST"){
-    header('Location: /admin');
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+    $connect = new connect();
+    $data = "SELECT * FROM users WHERE email = '$email'";
+    $result = $connect->pdo_query($data);
+//Kiểm tra email với pass có đúng không
+    foreach($result as $info){
+        if(isset($_POST['email']) && isset($_POST['password'])){
+            if($info['email'] == $email && $info['password'] == $password && $info['role'] == '1'){
+                if($info['role'] == 1){
+                    $_SESSION['email'] = $email;
+                    $_SESSION['user'] =  $info['name'];
+                    $_SESSION['pass'] =  $password;
+                    $_SESSION['admin'] = 1;
+                }
+//Lưu cooke
+                if(isset($_POST['ghinho']) && ($_POST['ghinho'])){
+                    setcookie("email", $email, time()+(86400));
+                    setcookie("pass", $password, time()+(86400));
+                }
+                header('Location: /admin');
+            }  else{
+                $thongbao = "Thông tin đăng nhập không hợp lệ";
+            }
+        }
+    }
 }
-
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,14 +40,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     <title>Login</title>
 </head>
 <style>
-    /* CSS Libraries Used
-
-*Animate.css by Daniel Eden.
-*FontAwesome 4.7.0
-*Typicons
-
-*/
-
     @import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400');
 
     body, html {
@@ -228,18 +246,19 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         <form name="form1" class="box" method="POST">
             <h4>Admin<span> Login</span></h4>
             <h5>Sign in to your account</h5>
-            <input type="text" name="email" placeholder="Email" autocomplete="off">
+            <input type="text" name="email" placeholder="Email" >
             <input type="password" id="password" name="password" placeholder="Passsword">
-            <label>
-                <input type="checkbox">
-                <span></span>
-                <small class="rmb">Remember me</small>
-            </label>
+                <input type="checkbox" name="ghinho"> Remember me
             <input type="submit" value="Sign in" class="btn1">
         </form>
-        <a href="/admin/pages/login/signup.php" class="dnthave">Don’t have an account? Sign up</a>
+        <div style="color: red">
+            <?php
+            if (isset($thongbao)){
+                echo  $thongbao;
+            }
+            ?>
+        </div>
     </div>
-
 </div>
 </body>
 

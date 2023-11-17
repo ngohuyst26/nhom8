@@ -13,11 +13,11 @@ if (isset($_GET["id"])) {
             <h6 class="mb-0">Danh Sách Người Dùng</h6>
             <a href="">Show All</a>
         </div>
-        <div class="table-responsive">
+        <div class="table-responsive mb-0">
             <table class="table text-start align-middle table-bordered table-hover mb-0">
                 <thead>
                 <tr class="text-white">
-                    <th scope="col"><input class="form-check-input" type="checkbox"></th>
+                    <th scope="col"></th>
                     <th scope="col">ID</th>
                     <th scope="col">Tên</th>
                     <th scope="col">Email</th>

@@ -1,5 +1,10 @@
 <?php
 session_start();
+if (!isset($_SESSION['admin'])) {
+    header("Location: /login/signin.php");
+} else {
+    $user = $_SESSION['user'][1];
+}
 ?>
 
 <!DOCTYPE html>
