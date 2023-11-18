@@ -1,26 +1,105 @@
+<div class="container-fluid pt-4 px-4">
 
-<div class="container-fluid pt-4 px-4"> 
-    
-<div class="col-sm-12 mt-3">
-    <div class="bg-secondary rounded h-100 p-4">
-        <h6 class="mb-4">THÊM BÀI VIẾT</h6>
-        <div class="form-floating mb-3">
-            <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" value="Galaxy S24 Series lộ hình ảnh render mới nhất và các tính năng AI gây sốt">
-            <label for="floatingInput">Tiêu Đề bài Viết</label>
-        </div>
-        <div class=" mb-3">
-            <label for="img-post" class="btn-primary p-2 rounded" style="min-width: 120px; text-align : center " >Hình Ảnh</label>
-            <input type="file" class="" id="img-post" hidden placeholder="Password">
-            <img style="width: 180px;" src="https://cdn.tgdd.vn/Files/2023/11/12/1554765/redmi-note-12s-114-121123-101447-800-resize.jpg" alt="">
+    <div class="col-sm-12 mt-3">
+        <div class="bg-secondary rounded h-100 p-4">
+            <form action="/admin/pages/posts/handel.php" method="post" enctype="multipart/form-data">
+                <div class="d-flex align-items-center justify-content-between mb-4">
+                    <h6 class="">CHỈNH SỬA BÀI VIẾT</h6>
+                    <button type="submit" name="edit" class="btn btn-light">Cập Nhật</button>
+                </div>
 
-        </div>
-        <div class="form-floating">
-            <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea"
-                style="height: 150px;">Mặt sau của Redmi Note 12 tích hợp ba ống kính camera đa dạng, gồm: camera chính độ phân giải 50 MP, camera góc siêu rộng 8 MP và camera macro 2 MP. Camera chính không chỉ mang đến khả năng chụp ảnh phong cảnh siêu nét và chi tiết, mà còn hoạt động hiệu quả cả vào ban ngày lẫn ban đêm. Với góc nhìn rộng lên đến 120 độ, camera góc siêu rộng là sự lựa chọn lý tưởng cho việc chụp ảnh nhóm. Đồng thời, camera macro kích thích sự tò mò, giúp bạn khám phá thế giới cận cảnh một cách thú vị.
+                <?php
+                require_once 'model-post.php';
+                $post = new Posts;
+                $getPostCate = $post->getPostCate();
 
-Điện thoại được trang bị vi xử lý Snapdragon 685 với kiến trúc 6 nm, tốc độ CPU của Xiaomi Redmi Note 12 đạt 2.8 GHz. Chip này giúp máy xử lý mượt mà các tác vụ hằng ngày, chơi game nhẹ và trung bình, cũng như duyệt web và xem video. Với pin dung lượng 5.000 mAh, đây là nguồn năng lượng đáng tin cậy, hứa hẹn thời gian sử dụng lâu dài. Theo thông báo từ Xiaomi, máy có khả năng chơi game liên tục trong 9 giờ, xem video trong 21 giờ hoặc thực hiện cuộc gọi trong 31 giờ.</textarea>
-            <label for="floatingTextarea">Comments</label>
+                $id = $_GET['id'];
+
+                $post = $post->getPostByID($id);
+                foreach ($post as $post) :
+                ?>
+
+                    <div class=" mb-3">
+                        <label for="name" class="mb-2">Tiêu Đề Bài Viết</label>
+                        <input type="text" class="form-control" id="name" name="name" placeholder="Tiêu Đề Bài Viết" value="<?= $post['name'] ?>">
+                    </div>
+                    <div class=" mb-3">
+                        <label for="slug" class="mb-2">Slug</label>
+                        <input type="text" class="form-control" id="slug" name="slug" placeholder="Tiêu Đề Bài Viết" value="<?= $post['slug'] ?>">
+                    </div>
+
+                    <div class="">
+                        <div class="row">
+                            <div class="col-8">
+                                <div class=" mb-5">
+                                    <label for="img-post" class="btn-primary p-2 rounded" style="min-width: 120px; text-align : center ;cursor: pointer;">Hình ảnh + </label>
+
+                                    <input class="form-control form-control-sm border mb-3" id="img-post" type="file" name="thumbnail" hidden onchange="readURL(this);">
+                                    <div style="width: 100%" class="p-4 border rounded mt-3 border-light ">
+                                        <img src="https://cdn.tgdd.vn/2023/11/content/buds-3-pro-800x450.jpg" alt="" id="img" class="d-block p-3 " style="min-height: 240px; width: 100%; ">
+                                    </div>
+
+                                    <script>
+                                        function readURL(input) {
+                                            if (input.files && input.files[0]) {
+                                                var reader = new FileReader();
+
+                                                reader.onload = function(e) {
+                                                    $('#img').attr('src', e.target.result);
+                                                }
+                                                reader.readAsDataURL(input.files[0]);
+                                            }
+                                        }
+                                    </script>
+                                </div>
+
+                            </div>
+
+                            <div class="col-4">
+                                <div class="mb-3">
+                                    <label for="" class="mb-2">Danh Mục Bài Viết</label>
+
+                                    <select class="form-select" aria-label="select example" name="category_id">
+                                        <?php foreach ($getPostCate as $category) :  ?>
+                                            <?php
+                                            if ($post['category_id'] == $category['id']) :
+                                            ?>
+
+                                                <option selected value=" <?= $category['id'] ?>"><?= $category['name_category'] ?></option>
+
+                                            <?php else : ?>
+
+                                                <option value=" <?= $category['id'] ?>"><?= $category['name_category'] ?></option>
+
+                                            <?php endif ?>
+
+
+                                        <?php endforeach; ?>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                    <div class="form-floating">
+                        <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea" name="content" style="height: 150px;">
+                                    <?=
+                                    $post['content']
+                                    ?>
+                    </textarea>
+                    </div>
+
+                    <input type="text" name="id" value="<?= $id ?>" hidden>
+
+
+                <?php
+                endforeach;
+
+                ?>
+
+            </form>
         </div>
     </div>
-</div>
 </div>
