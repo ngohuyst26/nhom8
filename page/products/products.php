@@ -133,7 +133,8 @@
                                     <figure class="product-media">
                                         <span class="product-label label-sale">30% off</span>
                                         <a href="product.html">
-                                            <img src="assets/images/products/product-3.jpg" alt="Product image" class="product-image">
+                                            <img src="assets/images/products/product-3.jpg" alt="Product image"
+                                                 class="product-image">
                                         </a>
 
                                         <div class="product-action-vertical">
