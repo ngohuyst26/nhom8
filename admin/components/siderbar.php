@@ -65,6 +65,16 @@
                         <a href="?page=posts&action=list" class="dropdown-item">Danh sách Bài Viết</a>
                     </div>
                 </div>
+
+                <div class="nav-item dropdown">
+                    <a href="#"
+                       class="nav-link dropdown-toggle <?= (isset($_GET['page']) && $_GET['page'] == 'product') ? 'active' : '' ?>"
+                       data-bs-toggle="dropdown"><i class="fa fa-laptop me-2"></i>Quản lý loại sản phẩm</a>
+                    <div class="dropdown-menu bg-transparent border-0">
+                        <a href="?page=category&action=add" class="dropdown-item">Thêm loại sản phẩm</a>
+                        <a href="?page=category&action=list" class="dropdown-item">Danh sách loại sản phẩm</a>
+                    </div>
+                </div>
     </nav>
 </div>
 <!-- Sidebar End -->
