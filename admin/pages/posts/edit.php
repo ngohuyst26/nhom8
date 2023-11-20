@@ -17,7 +17,7 @@
 
                 $post = $post->getPostByID($id);
                 foreach ($post as $post) :
-                    ?>
+                ?>
 
                     <div class=" mb-3">
                         <label for="name" class="mb-2">Tiêu Đề Bài Viết</label>
@@ -41,8 +41,9 @@
                                     <input class="form-control form-control-sm border mb-3" id="img-post" type="file"
                                            name="thumbnail" hidden onchange="readURL(this);">
                                     <div style="width: 100%" class="p-4 border rounded mt-3 border-light ">
-                                        <img src="https://cdn.tgdd.vn/2023/11/content/buds-3-pro-800x450.jpg" alt=""
-                                             id="img" class="d-block p-3 " style="min-height: 240px; width: 100%; ">
+                                        <img src="<?php echo !empty($post['thumbnail']) ? $post['thumbnail'] : "https://i.pinimg.com/564x/79/64/48/79644808025ee0111ca37d5b88e67c02.jpg" ?>"
+                                             alt="" id="img" class="d-block p-3 "
+                                             style="min-height: 240px; width: 100%; ">
                                     </div>
 
                                     <script>
