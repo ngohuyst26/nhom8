@@ -31,10 +31,12 @@
 <div class="container-fluid position-relative d-flex p-0">
     <?php include './components/siderbar.php'; ?>
     <!-- Content Start -->
+
     <div class="content">
         <?php include './components/header.php'; ?>
         <div class="row">
             <?php
+            include_once '../config/database.php';
             if (isset($_GET['page'])) {
                 $page = $_GET['page'];
                 switch ($page) {
