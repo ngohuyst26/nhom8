@@ -1,6 +1,11 @@
 <?php
 session_start();
 
+
+               ini_set('display_errors', '1');
+    ini_set('display_startup_errors', '1');
+    error_reporting(E_ALL);
+
 ?>
 
 <!DOCTYPE html>
@@ -13,12 +18,10 @@ session_start();
     <meta content="" name="keywords">
     <meta content="" name="description">
 
-    <!-- Favicon -->
-    <link href="assets/img/favicon.ico" rel="icon">
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Roboto:wght@500;700&display=swap" rel="stylesheet"> 
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Roboto:wght@500;700&display=swap" rel="stylesheet">
     <!-- Icon Font Stylesheet -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
@@ -29,6 +32,9 @@ session_start();
     <link href="assets/css/bootstrap.min.css" rel="stylesheet">
     <!-- Template Stylesheet -->
     <link href="assets/css/style.css" rel="stylesheet">
+    
+    <!-- FONT awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 </head>
 
 <body>
@@ -36,30 +42,34 @@ session_start();
         <?php include './components/siderbar.php'; ?>
         <!-- Content Start -->
         <div class="content">
-        <?php include './components/header.php'; ?>  
-        <div class="row">
-        <?php
-        if (isset($_GET['page'])){
-            $page = $_GET['page'];
-            switch($page){
-                case 'product':
-                    include './controller/products.php';
-                    break;
-                case 'users':
-                    include './controller/users.php';
-                case 'posts':
-                    include './controller/post.php';
-                    break;
-                case 'statistical':
-                    include './controller/statistical.php';
-                    break;
-            }
-        }else{
-            include './pages/home.php';
-        }
-        ?>    
-        <?php include './components/footer.php'; ?>
-        </div>
+            <?php include './components/header.php'; ?>
+            <div class="container">
+                <div class="row">
+                    <?php
+                    if (isset($_GET['page'])) {
+                        $page = $_GET['page'];
+                        switch ($page) {
+                            case 'product':
+                                include './controller/products.php';
+                                break;
+                            case 'users':
+                                include './controller/users.php';
+                                break;
+                            case 'posts':
+                                include './controller/post.php';
+                                break;
+                            case 'statistical':
+                                include './controller/statistical.php';
+                                break;
+                        }
+                    } else {
+                        include './pages/home.php';
+                    }
+                    ?>
+                    <?php include './components/footer.php'; ?>
+                </div>
+            </div>
+
         </div>
         <!-- Content End -->
 

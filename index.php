@@ -1,7 +1,7 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <!-- molla/index-4.html  22 Nov 2019 09:53:08 GMT -->
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -32,9 +32,11 @@
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="stylesheet" href="assets/css/plugins/nouislider/nouislider.css">
     <link rel="stylesheet" href="assets/css/skins/skin-demo-4.css">
-    <link rel="stylesheet" href="assets/css/demos/demo-4.css"> 
+    <link rel="stylesheet" href="assets/css/demos/demo-4.css">
     <link rel="stylesheet" href="assets/css/skins/skin-demo-13.css">
     <!-- <link rel="stylesheet" href="assets/css/demos/demo-13.css">-->
+
+
 </head>
 
 <body>
@@ -42,42 +44,42 @@
         <?php include './components/header.php'; ?>
         <main>
             <?php
-            if(isset($_GET['action'])){
-            switch($_GET['action']){
-                case 'home':
-                    include './page/home.php';
-                    break;
-                case 'products':
-                    include './page/products/products.php';
-                    break;
-                case 'products-detail':
-                    include './page/products/product_detail.php';
-                    break;
-                case 'about':
-                    include './page/about.php';
-                    break;
-                case 'blog':
-                    include './page/blog/blog.php';
-                    break;
-                case 'contact':
-                    include './page/contact.php';
-                    break;
-                case 'cart':
-                    include './page/cart/cart.php';
-                    break;
-                case 'checkout':
-                    include './page/cart/checkout.php';
-                    break;
-            }
-            }else{
+            if (isset($_GET['action'])) {
+                switch ($_GET['action']) {
+                    case 'home':
+                        include './page/home.php';
+                        break;
+                    case 'products':
+                        include './page/products/products.php';
+                        break;
+                    case 'products-detail':
+                        include './page/products/product_detail.php';
+                        break;
+                    case 'about':
+                        include './page/about.php';
+                        break;
+                    case 'blog':
+                        include './page/blog/blog.php';
+                        break;
+                    case 'contact':
+                        include './page/contact.php';
+                        break;
+                    case 'cart':
+                        include './page/cart/cart.php';
+                        break;
+                    case 'checkout':
+                        include './page/cart/checkout.php';
+                        break;
+                }
+            } else {
                 include './page/home.php';
             }
             ?>
         </main>
 
-    <?php include './components/footer.php'; ?>    
+        <?php include './components/footer.php'; ?>
     </div><!-- End .page-wrapper -->
-    <?php include './components/mobile_menu.php'; ?>    
+    <?php include './components/mobile_menu.php'; ?>
     <!-- Plugins JS File -->
     <script src="assets/js/jquery.min.js"></script>
     <script src="assets/js/bootstrap.bundle.min.js"></script>
@@ -98,4 +100,5 @@
 
 
 <!-- molla/index-4.html  22 Nov 2019 09:54:18 GMT -->
+
 </html>

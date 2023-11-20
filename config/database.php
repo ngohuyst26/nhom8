@@ -7,7 +7,7 @@ class connect{
         $username = "root";
         $password = "mysql";
         try {
-            $conn = new PDO("mysql:host=$servername;dbname=duanone", $username, $password);
+            $conn = new PDO("mysql:host=$servername;dbname=php1", $username, $password);
             // set the PDO error mode to exception
             $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             // echo "Connected successfully";
@@ -17,18 +17,10 @@ class connect{
         return $conn;
     }
 
-
-
-//Hàm dùng để thêm xóa sửa
-//Thêm $sql = "INSERT INTO loai(ten_loai) VALUES(?)";
-//Cập nhật $sql = "UPDATE loai SET ten_loai=? WHERE ma_loai=?";
-//Xóa $sql = "DELETE FROM loai WHERE ma_loai=?";
-//Ví dụ $sql = "INSERT INTO users (name,email,password) VALUES(?,?,?)";
-// pdo_execute($sql, "testpdo", "pdo@gmail.com", "12345pdo");
     function pdo_execute($sql){
         $sql_args = array_slice(func_get_args(), 1);
         try{
-            $conn = pdo_get_connection();
+            $conn = $this->pdo_get_connection();
             $stmt = $conn->prepare($sql);
             $stmt->execute($sql_args);
         }
@@ -48,7 +40,7 @@ class connect{
     function pdo_query($sql){
         $sql_args = array_slice(func_get_args(), 1);
         try{
-            $conn = pdo_get_connection();
+            $conn = $this->pdo_get_connection();
             $stmt = $conn->prepare($sql);
             $stmt->execute($sql_args);
             $rows = $stmt->fetchAll();
@@ -90,7 +82,7 @@ class connect{
     function pdo_query_value($sql){
         $sql_args = array_slice(func_get_args(), 1);
         try{
-            $conn = pdo_get_connection();
+            $conn = $this->pdo_get_connection();
             $stmt = $conn->prepare($sql);
             $stmt->execute($sql_args);
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
