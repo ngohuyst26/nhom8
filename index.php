@@ -1,7 +1,7 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <!-- molla/index-4.html  22 Nov 2019 09:53:08 GMT -->
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -32,18 +32,20 @@
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="stylesheet" href="assets/css/plugins/nouislider/nouislider.css">
     <link rel="stylesheet" href="assets/css/skins/skin-demo-4.css">
-    <link rel="stylesheet" href="assets/css/demos/demo-4.css"> 
+    <link rel="stylesheet" href="assets/css/demos/demo-4.css">
     <link rel="stylesheet" href="assets/css/skins/skin-demo-13.css">
     <!-- <link rel="stylesheet" href="assets/css/demos/demo-13.css">-->
+
+
 </head>
 
 <body>
-    <div class="page-wrapper">
-        <?php include './components/header.php'; ?>
-        <main>
-            <?php
-            if(isset($_GET['action'])){
-            switch($_GET['action']){
+<div class="page-wrapper">
+    <?php include './components/header.php'; ?>
+    <main>
+        <?php
+        if (isset($_GET['action'])) {
+            switch ($_GET['action']) {
                 case 'home':
                     include './page/home.php';
                     break;
@@ -69,25 +71,25 @@
                     include './page/cart/checkout.php';
                     break;
             }
-            }else{
-                include './page/home.php';
-            }
-            ?>
-        </main>
+        } else {
+            include './page/home.php';
+        }
+        ?>
+    </main>
 
-    <?php include './components/footer.php'; ?>    
-    </div><!-- End .page-wrapper -->
-    <?php include './components/mobile_menu.php'; ?>    
-    <!-- Plugins JS File -->
-    <script src="assets/js/jquery.min.js"></script>
-    <script src="assets/js/bootstrap.bundle.min.js"></script>
-    <script src="assets/js/jquery.hoverIntent.min.js"></script>
-    <script src="assets/js/jquery.waypoints.min.js"></script>
-    <script src="assets/js/superfish.min.js"></script>
-    <script src="assets/js/owl.carousel.min.js"></script>
-    <script src="assets/js/wNumb.js"></script>
-    <script src="assets/js/bootstrap-input-spinner.js"></script>
-    <script src="assets/js/jquery.plugin.min.js"></script>
+    <?php include './components/footer.php'; ?>
+</div><!-- End .page-wrapper -->
+<?php include './components/mobile_menu.php'; ?>
+<!-- Plugins JS File -->
+<script src="assets/js/jquery.min.js"></script>
+<script src="assets/js/bootstrap.bundle.min.js"></script>
+<script src="assets/js/jquery.hoverIntent.min.js"></script>
+<script src="assets/js/jquery.waypoints.min.js"></script>
+<script src="assets/js/superfish.min.js"></script>
+<script src="assets/js/owl.carousel.min.js"></script>
+<script src="assets/js/wNumb.js"></script>
+<script src="assets/js/bootstrap-input-spinner.js"></script>
+<script src="assets/js/jquery.plugin.min.js"></script>
     <script src="assets/js/jquery.magnific-popup.min.js"></script>
     <script src="assets/js/jquery.countdown.min.js"></script>
     <script src="assets/js/nouislider.min.js"></script>
@@ -98,4 +100,5 @@
 
 
 <!-- molla/index-4.html  22 Nov 2019 09:54:18 GMT -->
+
 </html>

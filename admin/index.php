@@ -1,3 +1,13 @@
+<?php
+session_start();
+
+
+ini_set('display_errors', '1');
+ini_set('display_startup_errors', '1');
+error_reporting(E_ALL);
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -25,6 +35,9 @@
     <link href="assets/css/bootstrap.min.css" rel="stylesheet">
     <!-- Template Stylesheet -->
     <link href="assets/css/style.css" rel="stylesheet">
+
+    <!-- FONT awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 </head>
 
 <body>
