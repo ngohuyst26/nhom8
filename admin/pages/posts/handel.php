@@ -5,12 +5,13 @@ require_once 'model-post.php';
 $posts = new Posts;
 
 
-function upload_image($file) {
-    
+function upload_image($file)
+{
+
     $originalName = basename($file['name']);
     $tempName = $file['tmp_name'];
     $imageFileType = pathinfo($originalName, PATHINFO_EXTENSION);
-    
+
 
     // check duoi anh 
     $allowedImageExtensions = array('jpg', 'jpeg', 'png', 'gif');
@@ -18,17 +19,17 @@ function upload_image($file) {
 
         // Check if the file is too large.
         $maxFilesize = 1024 * 1024 * 10; // 10 MB
-        
+
         if ($file['size'] > $maxFilesize) {
             echo "The file is too large.";
         } else {
-            $folder_name = "../../../upload-img/". date('Y'). "/" . date('m');
-            if(!is_dir($folder_name)) {
+            $folder_name = "../../../upload-img/" . date('Y') . "/" . date('m');
+            if (!is_dir($folder_name)) {
                 mkdir($folder_name, 0777, true);
             }
             // Generate a new name for the image.
             $imageName = uniqid() . '.' . $imageFileType;
-            
+
             // duong dan anh 
             $imagr_url = $folder_name . '/' . $imageName;
 
@@ -46,13 +47,17 @@ function upload_image($file) {
 
 if (isset($_POST['add'])) {
 
-    $name = $_POST['name'];
-    $slug = str_replace(" ", "-", $name);
-    $category_id = $_POST['category_id'];
+    if (isset($_POST['name']) && $_POST['name'] != '') {
+        $name = $_POST['name'];
+        $slug = str_replace(" ", "-", $name);
+        $category_id = $_POST['category_id'];
 
-    $thumbnail = upload_image($_FILES['thumbnail']);
-    $content = $_POST['content'];
-    $posts->cretePost($name, $thumbnail, $slug, $content, 1, $category_id);
+        $thumbnail = upload_image($_FILES['thumbnail']);
+        $content = $_POST['content'];
+        $posts->cretePost($name, $thumbnail, $slug, $content, 1, $category_id);
+    }
+
+
     header('location: /admin/?page=posts&action=list');
 }
 
@@ -71,9 +76,8 @@ if (isset($_POST['edit'])) {
     $id = $_POST['id'];
     $posts->updatePost($name, $slug, $content, $id, $category_id, 1);
     header('location: /admin/?page=posts&action=list');
-
-   
 }
+
 if (isset($_POST['quick-update'])) {
 
     var_dump($_POST);
@@ -84,21 +88,44 @@ if (isset($_POST['quick-update'])) {
     $id = $_POST['id'];
     $posts->updateQuick($name, $slug, $id, $category_id, 1);
     header('location: /admin/?page=posts&action=list');
-
-   
 }
 
-if(isset($_POST['listID'])) {
+
+
+if (isset($_POST['noteListID'])) {
     echo "<pre>";
     var_dump($_POST);
 
-    // if(!empty($_POST['check_list'])) {
-    //     foreach($_POST['check_list'] as $check) {
-    //             echo $check; //echoes the value set in the HTML form for each checked checkbox.
-    //                          //so, if I were to check 1, 3, and 5 it would echo value 1, value 3, value 5.
-    //                          //in your case, it would echo whatever $row['Report ID'] is equivalent to.
-    //     }
-    // }
+    echo 'note';
+    // header('location: /admin/?page=posts&action=list');
+
+}
+if (isset($_POST['trashListID'])) {
+    echo "<pre>";
+    var_dump($_POST);
+    echo 'trash';
+
+    $id = $_POST['check_list'];
+    $posts->updateTranshPost(1, $id);
+    header('location: /admin/?page=posts&action=list');
+
+
+}
+
+if(isset($_POST['restore'])) { 
+    var_dump($_POST) ;
+
+    $id = $_POST['check_list'];
+    $posts->restorePost($id);
+    header('location: /admin/?page=posts&action=list');
+
 }
 
 ?>
+
+
+
+
+
+
+

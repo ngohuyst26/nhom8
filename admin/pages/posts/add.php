@@ -9,7 +9,7 @@
         <form action="/admin/pages/posts/handel.php" method="post" enctype="multipart/form-data">
             <div class="d-flex align-items-center justify-content-between mb-4">
                 <h6 class="">THÊM BÀI VIẾT</h6>
-                <button type="submit" name="add" class="btn btn-light">Thêm Mới</button>
+                <button type="submit" name="add" class="btn btn-light">Thêm Mới <i class="fa-solid fa-plus"></i></button>
             </div>
 
             <div class="mb-3">
