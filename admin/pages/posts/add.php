@@ -1,7 +1,7 @@
 <?php
-    require_once 'model-post.php';
-    $post = new Posts;
-    $getPostCate = $post->getPostCate();
+require_once 'model-post.php';
+$post = new Posts;
+$getPostCate = $post->getPostCate();
 ?>
 
 <div class="col-sm-12 mt-3">
@@ -9,7 +9,11 @@
         <form action="/admin/pages/posts/handel.php" method="post" enctype="multipart/form-data">
             <div class="d-flex align-items-center justify-content-between mb-4">
                 <h6 class="">THÊM BÀI VIẾT</h6>
-                <button type="submit" name="add" class="btn btn-light">Thêm Mới <i class="fa-solid fa-plus"></i></button>
+                <div class="">
+                    <button type="submit" name="addNote" class="btn btn-light">Lưu vào Nháp <i class="fa-solid fa-plus"></i></button>
+                    <button type="submit" name="add" class="btn btn-light">Thêm Mới <i class="fa-solid fa-plus"></i></button>
+                </div>
+
             </div>
 
             <div class="mb-3">
