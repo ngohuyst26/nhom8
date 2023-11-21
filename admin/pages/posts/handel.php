@@ -54,17 +54,32 @@ if (isset($_POST['add'])) {
 
         $thumbnail = upload_image($_FILES['thumbnail']);
         $content = $_POST['content'];
-        $posts->cretePost($name, $thumbnail, $slug, $content, 1, $category_id);
+        $posts->cretePost($name, $thumbnail, $slug, $content, 1, 1, $category_id);
+    }
+
+
+    header('location: /admin/?page=posts&action=list');
+}
+if (isset($_POST['addNote'])) {
+
+    if (isset($_POST['name']) && $_POST['name'] != '') {
+        $name = $_POST['name'];
+        $slug = str_replace(" ", "-", $name);
+        $category_id = $_POST['category_id'];
+
+        $thumbnail = upload_image($_FILES['thumbnail']);
+        $content = $_POST['content'];
+        $posts->cretePost($name, $thumbnail, $slug, $content, 3, 1, $category_id);
     }
 
 
     header('location: /admin/?page=posts&action=list');
 }
 
-if (isset($_POST['del'])) {
-    $id = $_POST['id'];
+if (isset($_POST['delListID'])) {
+    $id = $_POST['check_list'];
     $posts->delPost($id);
-    header('location: /admin/?page=posts&action=list');
+    header('location: ' . $_SERVER['HTTP_REFERER']);
 }
 
 if (isset($_POST['edit'])) {
@@ -90,10 +105,12 @@ if (isset($_POST['quick-update'])) {
     header('location: /admin/?page=posts&action=list');
 }
 
-
 if (isset($_POST['noteListID'])) {
     echo "<pre>";
     var_dump($_POST);
+    $id = $_POST['check_list'];
+    $posts->updateNotePost($id);
+    header('location: /admin/?page=posts&action=list');
 
     echo 'note';
     // header('location: /admin/?page=posts&action=list');
@@ -112,6 +129,15 @@ if (isset($_POST['trashListID'])) {
 }
 
 if (isset($_POST['restore'])) {
+    var_dump($_POST);
+
+    $id = $_POST['check_list'];
+    $posts->restorePost($id);
+    header('location: /admin/?page=posts&action=list');
+
+}
+
+if (isset($_POST['publishPost'])) {
     var_dump($_POST);
 
     $id = $_POST['check_list'];

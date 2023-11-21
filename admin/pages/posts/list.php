@@ -5,39 +5,101 @@ $post = new Posts;
 
 $getPostCate = $post->getPostCate();
 $countAllPost = $post->countAllPost();
-$countTrashPost = $post->countTrashPost();
+$countTrashPost = $post->countPostByStatus(2);
+$countPushPost = $post->countPostByStatus(1);
+$countNotePost = $post->countPostByStatus(3);
 
-if (isset($_GET['f']) && $_GET['f'] == 'trash') {
-    $status = 2;
+
+// page-link
+$base_url = (isset($_GET['offset'])) ? '?page=posts&action=list' : $_SERVER['REQUEST_URI'];
+
+
+if (isset($_GET['f'])) {
+
+    $next_page_url = $base_url . '&f=' . $_GET['f'];
+} else {
+    $next_page_url = $base_url;
+}
+
+
+if (isset($_GET['offset'])) {
+    $offset = $_GET['offset'];
+} else {
+    $offset = 0;
+}
+
+
+if (isset($_GET['f'])) {
+    if ($_GET['f'] == 'trash') {
+        $status = 2;
+        $page = ceil($countTrashPost / 3);
+    }
+
+    if ($_GET['f'] == 'note') {
+        $status = 3;
+        $page = ceil($countNotePost / 3);
+    }
 } else {
     $status = 1;
+    $page = ceil($countPushPost / 3);
 }
 
 if (isset($_GET['category'])) {
-
     $cate = $_GET['category'];
 
     if ($cate == 'all') {
-        $getAllPost = $post->getAllPost();
+        $getAllPost = $post->getAllPost($offset);
     } else {
-        $getAllPost = $post->getPostByCate($cate, $status);
+        $next_page_url = $base_url . '&category=' . $_GET['category'];
+        $countPostCate = $post->countPostCate($cate, $status);
+        $page = ceil($countPostCate / 3);
+        $getAllPost = $post->getPostByCate($cate, $status, $offset);
     }
 } else {
     $cate = 'all';
-    $getAllPost = $post->getAllPost();
+    $getAllPost = $post->getAllPost($offset);
 }
 
 if (isset($_GET['f']) && $_GET['f'] == 'trash') {
     if (isset($_GET['category'])) {
         $cate = $_GET['category'];
         if ($cate == 'all') {
-            $getAllPost = $post->getTrashPost();
+            $getAllPost = $post->getTrashPost($offset);
         } else {
-            $getAllPost = $post->getPostByCate($cate, $status);
+            $next_page_url = $base_url . '&f=' . $_GET['f'] . '&category=' . $_GET['category'];
+            $countPostCate = $post->countPostCate($cate, $status);
+            $page = ceil($countPostCate / 3);
+            $getAllPost = $post->getPostByCate($cate, $status, $offset);
         }
     } else {
-        $getAllPost = $post->getTrashPost();
+        $getAllPost = $post->getTrashPost($offset);
     }
+}
+
+if (isset($_GET['f']) && $_GET['f'] == 'note') {
+    if (isset($_GET['category'])) {
+        $cate = $_GET['category'];
+        if ($cate == 'all') {
+            $getAllPost = $post->getNotePost($offset);
+        } else {
+            $next_page_url = $base_url . '&f=' . $_GET['f'] . '&category=' . $_GET['category'];
+
+            $countPostCate = $post->countPostCate($cate, $status);
+            $page = ceil($countPostCate / 3);
+            $getAllPost = $post->getPostByCate($cate, $status, $offset);
+        }
+    } else {
+        $getAllPost = $post->getNotePost($offset);
+    }
+}
+
+if (isset($_GET['key'])) {
+    $keyword = $_GET['key'];
+    $countPostCate = $post->countPostSearch($keyword);
+    $page = ceil($countPostCate / 3);
+    $next_page_url = $base_url . '&key=' . $_GET['key'];
+    $getAllPost = $post->searchPost($keyword);
+
 }
 
 
@@ -77,10 +139,11 @@ if (isset($_GET['f']) && $_GET['f'] == 'trash') {
         </div>
         <div class="text-start d-flex mb-3">
             <span class="me-3"><a href="/admin/?page=posts&action=list"
-                                  class="text-light">Tat ca </a>(<?= $countAllPost; ?>)</span>
+                                  class="<?= (!isset($_GET['f'])) ? 'text-white' : 'text-light' ?>">Tất Cả (<?= $countAllPost; ?>) </a></span>
             <span class="me-3"><a href="/admin/?page=posts&action=list&f=trash"
-                                  class="text-light">Thung rac</a> (<?= $countTrashPost; ?>)</span>
-            <span class="me-3">Nháp (0)</span>
+                                  class="<?= (isset($_GET['f']) && $_GET['f'] == 'trash') ? 'text-white' : 'text-light' ?>">Thùng rác (<?= $countTrashPost; ?>)</a> </span>
+            <span class="me-3"><a href="/admin/?page=posts&action=list&f=note"
+                                  class="<?= (isset($_GET['f']) && $_GET['f'] == 'note') ? 'text-white' : 'text-light' ?>">Nháp (<?= $countNotePost ?>)</a> </span>
 
         </div>
         <div class="d-lg-flex mb-3 justify-content-between aligh-items-center">
@@ -89,13 +152,15 @@ if (isset($_GET['f']) && $_GET['f'] == 'trash') {
                     <div class="d-flex">
                         <div class="me-2">
                             <select class="form-select form-select-sm" name="sortAction" id="sortAction">
-                                <option value="del">Xóa</option>
+                                <option value="delListID">Xóa</option>
                                 <?php
                                 if (isset($_GET['f']) && $_GET['f'] == 'trash') :
 
                                     ?>
                                     <option value="restore">Khôi Phục</option>
+
                                 <?php
+
                                 else :;
                                     ?>
 
@@ -104,7 +169,24 @@ if (isset($_GET['f']) && $_GET['f'] == 'trash') {
                                 <?php
                                 endif;
                                 ?>
-                                <option value="noteListID">Nháp</option>
+
+                                <?php
+                                if (isset($_GET['f']) && $_GET['f'] == 'note') :
+                                    ?>
+
+                                    <option value="publishPost">Xuất Bảng</option>
+
+                                <?php
+
+                                else :;
+                                    ?>
+
+                                    <option value="noteListID">Nháp</option>
+
+                                <?php
+                                endif;
+                                ?>
+
                             </select>
                         </div>
                         <label for="listID" id="labelListID" class="btn btn-sm  btn-outline-light">Thực Hiện</label>
@@ -140,11 +222,12 @@ if (isset($_GET['f']) && $_GET['f'] == 'trash') {
             </div>
             <div class="search">
                 <form class="d-flex" role="search" method="GET">
-                    <!-- <input type="hidden" name="action" value="categories"> -->
-                    <input type="text" class="form-control form-control-sm" name=" key" id="key"
-                           placeholder="Tìm kiếm....">
-                    <button class="btn border btn-sm border-2 border-light" type="submit"><i
-                                class="fa-solid fa-magnifying-glass"></i></button>
+                    <input type="hidden" name="page" value="posts">
+                    <input type="hidden" name="action" value="list">
+                    <input type="text" class="form-control form-control-sm main-search" style="min-width: 220px;"
+                           name=" key" id="key" placeholder="Tìm kiếm....">
+                    <button id="searchSubmit" class="btn btn-outline-light border btn-sm border-2 border-light"
+                            type="submit" disabled><i class="fa-solid fa-magnifying-glass"></i></button>
                 </form>
             </div>
 
@@ -153,7 +236,8 @@ if (isset($_GET['f']) && $_GET['f'] == 'trash') {
         <div class="" style="overflow-x: auto;">
             <div class="text-start align-middle table-hover">
                 <div class="d-flex align-items-center mb-3 border-bottom pb-3 border-info" style="width: 1173px">
-                    <div class="" style="width:40px;"><input type="checkbox"></div>
+                    <div class="" style="width:40px;"><input type="checkbox" id="head_check_list"
+                                                             class="form-check-input"></div>
                     <div class="" style="width: 440px;">Tiêu Đề</div>
                     <div class="" style="width:180px">Hình Ảnh</div>
                     <div class="" style="width:120px">Tác Giả</div>
@@ -162,7 +246,7 @@ if (isset($_GET['f']) && $_GET['f'] == 'trash') {
                     <div class="">Thao Tác</div>
                 </div>
 
-                <div class="d-flex align-items-center" id="">
+                <div class="d-flex align-items-center" id="test-list">
                     <div class="">
                         <form action="/admin/pages/posts/handel.php" method="post">
 
@@ -171,23 +255,21 @@ if (isset($_GET['f']) && $_GET['f'] == 'trash') {
                                 foreach ($getAllPost as $post) :
 
                                     ?>
-                                    <div class="d-flex align-items-center mb-3" style="width: 40px; height: 78px;">
-                                        <input type="checkbox" class="checkList" name="check_list[]"
-                                               value="<?= $post['id'] ?>"></div>
+                                    <div class=" d-flex align-items-center mb-3" style="width: 40px; height: 78px;">
+                                        <input type="checkbox" class="list checkList form-check-input"
+                                               name="check_list[]" value="<?= $post['id'] ?>"></div>
 
                                 <?php
                                 endforeach;
                             endif;
                             ?>
 
-
                             <input type="submit" id="listID" name="delListID" hidden>
 
                         </form>
 
-
                     </div>
-                    <div class="">
+                    <div>
                         <?php
                         if (isset($getAllPost)) :
                             foreach ($getAllPost as $post) :
@@ -250,6 +332,19 @@ if (isset($_GET['f']) && $_GET['f'] == 'trash') {
                                                         </form>
 
                                                     <?php
+                                                    elseif ((isset($_GET['f']) && $_GET['f'] == 'note')) :
+                                                        ?>
+
+                                                        <form action="/admin/pages/posts/handel.php" method="post">
+                                                            <input type="text" name="check_list[]"
+                                                                   value="<?= $post['id'] ?>" hidden>
+                                                            <button type="submit" name="publishPost"
+                                                                    class="btn dropdown-item text-light"
+                                                                    style="min-width:90px">Xuất Bảng
+                                                            </button>
+                                                        </form>
+
+                                                    <?php
                                                     else :;
                                                         ?>
 
@@ -297,7 +392,7 @@ if (isset($_GET['f']) && $_GET['f'] == 'trash') {
                                                                                 <p class="mb-2"
                                                                                    style="font-size: 0.8rem;">Danh Mục
                                                                                     Bài Viết</p>
-                                                                                <select class="form-select"
+                                                                                <select class="form-select quick_category"
                                                                                         size="3 aria-label=" Size 3
                                                                                         select example"
                                                                                 name="category_id">
@@ -358,12 +453,51 @@ if (isset($_GET['f']) && $_GET['f'] == 'trash') {
                         ?>
 
                     </div>
+
                 </div>
+
+
+                <?php if ($page != 0) : ?>
+
+                    <nav aria-label="Page navigation example">
+                        <ul class="pagination">
+                            <li class="page-item">
+                                <a class="page-link m-1 bg-secondary text-white" href="#" aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                            </li>
+                            <?php
+                            for ($i = 0; $i < $page; $i++) :
+                                ?>
+
+                                <li class="page-item">
+                                    <a class="page-link rounded m-1 <?= (isset($_GET['offset']) && $_GET['offset'] / 3 == $i) ? 'bg-info text-white' : 'bg-secondary text-white' ?>"
+                                       href="
+                                        <?= $next_page_url ?>&offset=<?= $i * 3 ?>"><?= $i + 1 ?>
+                                    </a>
+                                </li>
+
+                            <?php endfor; ?>
+
+                            <li class="page-item">
+                                <a class="page-link m-1 bg-secondary text-white" href="#" aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+
+                <?php endif; ?>
+
+
             </div>
+
+
         </div>
+
+
     </div>
 </div>
-
 
 <!-- Modal -->
 <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
@@ -378,7 +512,7 @@ if (isset($_GET['f']) && $_GET['f'] == 'trash') {
                 </div>
 
                 <div class="modal-footer">
-                    <input type="text" name="id" value="" id="formDel" hidden>
+                    <input type="text" name="check_list" value="" id="formDel" hidden>
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
                     <button class="btn  text-light" type="submit" name="del">Xóa</button>
 
@@ -391,20 +525,24 @@ if (isset($_GET['f']) && $_GET['f'] == 'trash') {
 
 
 <script>
-    // const c = document.querySelectorAll('.checkList')
-    // console.log(c);
-    // c.forEach((item) => {
-    //     item.addEventListener("click", () => {
-    //         document.getElementById("listID").setAttribute('disable', '');
-    //     });
-    // });
+    const d = document.getElementById('head_check_list');
+    const e = document.querySelectorAll('.checkList')
+
+    d.addEventListener('click', () => {
+        if (d.checked == true) {
+            e.forEach((item) => {
+                item.checked = true;
+            })
+        } else {
+            e.forEach((item) => {
+                item.checked = false;
+            })
+        }
+
+    });
 
 
     const b = document.querySelectorAll('.LISTID');
-
-    console.log(b)
-
-
     b.forEach((item) => {
         item.addEventListener("click", () => {
             document.getElementById("formDel").setAttribute('value', item.value);
@@ -422,25 +560,20 @@ if (isset($_GET['f']) && $_GET['f'] == 'trash') {
 
     });
 
-    const categorySelect2 = document.getElementById('key');
-    const currentURL2 = new URL(window.location.href);
-
-    categorySelect2.addEventListener('change', (event) => {
-        const selectedCategoryId2 = event.target.value;
-        currentURL2.searchParams.set('key', selectedCategoryId2);
-        window.location.href = currentURL2.toString();
-
-    });
-
-
     const sortAction = document.getElementById('sortAction')
 
     sortAction.addEventListener('change', (event) => {
         const a = event.target.value;
-
-        console.log(a);
-
         document.getElementById("listID").setAttribute('name', a);
 
     })
+
+    document.getElementById("key").addEventListener("keyup", function () {
+        var nameInput = document.getElementById('key').value;
+        if (nameInput != "") {
+            document.getElementById('searchSubmit').removeAttribute("disabled");
+        } else {
+            document.getElementById('searchSubmit').setAttribute("disabled", null);
+        }
+    });
 </script>
