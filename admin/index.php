@@ -5,6 +5,7 @@ if (!isset($_SESSION['admin'])) {
 } else {
     $user = $_SESSION['user'][1];
 }
+
 ?>
 
 <!DOCTYPE html>

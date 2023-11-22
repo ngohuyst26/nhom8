@@ -4,6 +4,7 @@ function add_user($user, $email, $password,$sex, $role){
     $data = "INSERT INTO users(name,email ,password,sex,role) VALUES ('$user','$email','$password','$sex','$role')";
     $connect->pdo_execute($data);
 }
+
 function get_all_user(){
     $connect = new connect();
     $data = "SELECT * FROM users";
@@ -27,5 +28,26 @@ function delete_user($id){
     $connect = new connect();
     $data = "DELETE FROM users WHERE id = $id";
     $connect = $connect->pdo_query_one($data);
+    return $connect;
+}
+
+function GetCount($table){
+    $connect = new connect();
+    $data = "SELECT COUNT(*) FROM $table";
+    $connect = $connect->pdo_query_value($data);
+    return $connect;
+}
+
+function GetuserByCategori($id){
+    $connect = new connect();
+    $data = "SELECT * FROM users WHERE id = '$id'";
+    $connect = $connect->pdo_query($data);
+    return $connect;
+}
+function GetDataPage($table, $offset, $limit){
+    $connect = new connect();
+    $data = "SELECT * FROM $table LIMIT $offset, $limit ";
+    $connect = $connect->pdo_query($data);
+    return $connect;
 }
 ?>

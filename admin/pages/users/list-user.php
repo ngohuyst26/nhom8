@@ -2,10 +2,22 @@
     include_once 'pages/users/user-function.php';
 if (isset($_GET["id"])) {
     $id = $_GET['id'];
+//    Hàm này dùng để xóa người dùng
     $data_delete = delete_user($id);
 }
-    $data_user = get_all_user();
-
+    $count = GetCount('users');
+    $totalRecords = $count;
+    $recordsPerPage = 3;
+// Trang hiện tại (nếu không được xác định, mặc định là trang 1)
+$current_page = isset($_GET['page-item']) ? $_GET['page-item'] : 1;
+// Tính số lượng trang cần hiển thị
+$totalPages = ceil($totalRecords / $recordsPerPage);
+// Giới hạn giá trị trang hiện tại trong khoảng từ 1 đến tổng số trang
+$current_page = max(1, min($current_page, $totalPages));
+// Tính vị trí bắt đầu lấy dữ liệu từ CSDL
+$startFrom = ($current_page - 1) * $recordsPerPage;
+//$datas = get_all_user();
+$data = GetDataPage('users', $startFrom, $recordsPerPage);
 ?>
 <div class="container-fluid pt-4 px-4">
     <div class="bg-secondary text-center rounded p-4">
@@ -25,8 +37,8 @@ if (isset($_GET["id"])) {
                     <th scope="col">Hành Động</th>
                 </tr>
                 </thead>
-                <?php if (isset($data_user)): ?>
-                    <?php foreach($data_user as $print): ?>
+                <?php if (isset($data)): ?>
+                    <?php foreach($data as $print): ?>
                 <tbody>
                 <tr>
                     <td><input class="form-check-input" type="checkbox"></td>
@@ -46,3 +58,42 @@ if (isset($_GET["id"])) {
         </div>
     </div>
 </div>
+<nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center">
+        <?php if($current_page > 1): ?>
+            <li class="page-item">
+                <a class="page-link" href="?page=users&action=list" tabindex="-1" aria-disabled="true">Star page</a>
+            </li>
+        <?php endif; ?>
+        <?php if($current_page >= 1): ?>
+            <?php $next =  $current_page - 1 ?>
+            <li class="page-item">
+                <a class="page-link" href="?page=users&action=list&page-item=<?= $next ?>">Back</a>
+            </li>
+        <?php endif; ?>
+
+        <?php for($i = max(1, $current_page - 2); $i <= min($current_page + 2, $totalPages); $i++): ?>
+            <?php if($i == $current_page):?>
+                <li class="page-item">
+                    <strong> <a class="page-link" href="#"><?= $i ?></a></strong>
+                </li>
+            <?php else: ?>
+                <li class="page-item">
+                    <a class="page-link" href="?page=users&action=list&page-item=<?= $i ?>"><?= $i ?></a>
+                </li>
+            <?php endif ?>
+        <?php endfor; ?>
+
+        <?php if($current_page >= 1): ?>
+            <?php $next =  $current_page +1 ?>
+            <li class="page-item">
+                <a class="page-link" href="?page=users&action=list&page-item=<?= $next ?>">Next</a>
+            </li>
+        <?php endif; ?>
+        <?php if($current_page < $totalPages): ?>
+            <li class="page-item">
+                <a class="page-link" href="?page=users&action=list&page-item=<?= $totalPages ?>" tabindex="-1" aria-disabled="true">End page</a>
+            </li>
+        <?php endif; ?>
+    </ul>
+</nav>
