@@ -58,6 +58,9 @@ session_start();
                             case 'posts':
                                 include './controller/post.php';
                                 break;
+                            case 'categoriesPost':
+                                include './controller/categoriesPost.php';
+                                break;
                             case 'statistical':
                                 include './controller/statistical.php';
                                 break;
