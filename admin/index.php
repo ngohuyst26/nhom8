@@ -19,8 +19,6 @@ session_start();
         <meta content="" name="keywords">
         <meta content="" name="description">
 
-        <!-- Favicon -->
-        <link href="assets/img/favicon.ico" rel="icon">
         <!-- Google Web Fonts -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -36,46 +34,47 @@ session_start();
         <link href="assets/css/bootstrap.min.css" rel="stylesheet">
         <!-- Template Stylesheet -->
         <link href="assets/css/style.css" rel="stylesheet">
+
+        <!-- FONT awesome -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-        <script src="https://kit.fontawesome.com/91f424987f.js" crossorigin="anonymous"></script>
     </head>
 
     <body>
     <div class="container-fluid position-relative d-flex p-0">
         <?php include './components/siderbar.php'; ?>
         <!-- Content Start -->
-
         <div class="content">
             <?php include './components/header.php'; ?>
-            <div class="row">
-                <?php
-                include_once '../config/database.php';
-                include_once '../config/upLoad.php';
-                if (isset($_GET['page'])) {
-                    $page = $_GET['page'];
-                    switch ($page) {
-                        case 'product':
-                            include './controller/products.php';
-                            break;
-                        case 'users':
-                            include './controller/users.php';
-                            break;
-                        case 'posts':
-                            include './controller/post.php';
-                            break;
-                        case 'statistical':
-                            include './controller/statistical.php';
-                            break;
-                        case 'category':
-                            include './controller/category.php';
-                            break;
+            <div class="container">
+                <div class="row">
+                    <?php
+                    if (isset($_GET['page'])) {
+                        $page = $_GET['page'];
+                        switch ($page) {
+                            case 'product':
+                                include './controller/products.php';
+                                break;
+                            case 'users':
+                                include './controller/users.php';
+                                break;
+                            case 'posts':
+                                include './controller/post.php';
+                                break;
+                            case 'categoriesPost':
+                                include './controller/categoriesPost.php';
+                                break;
+                            case 'statistical':
+                                include './controller/statistical.php';
+                                break;
+                        }
+                    } else {
+                        include './pages/home.php';
                     }
-                } else {
-                    include './pages/home.php';
-                }
-                ?>
-                <?php include './components/footer.php'; ?>
+                    ?>
+                    <?php include './components/footer.php'; ?>
+                </div>
             </div>
+
         </div>
         <!-- Content End -->
 

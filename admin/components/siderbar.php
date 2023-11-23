@@ -7,6 +7,7 @@
 <!-- Spinner End -->
 
 
+
 <!-- Sidebar Start -->
 <div class="sidebar pe-4 pb-3">
     <nav class="navbar bg-secondary navbar-dark">
@@ -62,6 +63,7 @@
                     <div class="dropdown-menu bg-transparent border-0">
                         <a href="?page=posts&action=add" class="dropdown-item">Thêm Bài Viết</a>
                         <a href="?page=posts&action=list" class="dropdown-item">Danh sách Bài Viết</a>
+                        <a href="?page=categoriesPost&action=list" class="dropdown-item">Danh Mục Bài Viết</a>
                     </div>
                 </div>
 

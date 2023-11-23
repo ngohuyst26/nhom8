@@ -9,16 +9,14 @@ $countTrashPost = $post->countPostByStatus(2);
 $countPushPost = $post->countPostByStatus(1);
 $countNotePost = $post->countPostByStatus(3);
 
+$limit = 5;
+$numberPag = $limit;
 
-// page-link
 $base_url = (isset($_GET['offset'])) ? '?page=posts&action=list' : $_SERVER['REQUEST_URI'];
-
+$next_page_url = $base_url;
 
 if (isset($_GET['f'])) {
-
     $next_page_url = $base_url . '&f=' . $_GET['f'];
-} else {
-    $next_page_url = $base_url;
 }
 
 
@@ -32,47 +30,47 @@ if (isset($_GET['offset'])) {
 if (isset($_GET['f'])) {
     if ($_GET['f'] == 'trash') {
         $status = 2;
-        $page = ceil($countTrashPost / 3);
+        $page = ceil($countTrashPost / $numberPag);
     }
 
     if ($_GET['f'] == 'note') {
         $status = 3;
-        $page = ceil($countNotePost / 3);
+        $page = ceil($countNotePost / $numberPag);
     }
 } else {
     $status = 1;
-    $page = ceil($countPushPost / 3);
+    $page = ceil($countPushPost / $numberPag);
 }
 
 if (isset($_GET['category'])) {
     $cate = $_GET['category'];
 
     if ($cate == 'all') {
-        $getAllPost = $post->getAllPost($offset);
+        $getAllPost = $post->getAllPost($offset, $limit);
     } else {
         $next_page_url = $base_url . '&category=' . $_GET['category'];
         $countPostCate = $post->countPostCate($cate, $status);
-        $page = ceil($countPostCate / 3);
-        $getAllPost = $post->getPostByCate($cate, $status, $offset);
+        $page = ceil($countPostCate / $numberPag);
+        $getAllPost = $post->getPostByCate($cate, $status, $offset, $limit);
     }
 } else {
     $cate = 'all';
-    $getAllPost = $post->getAllPost($offset);
+    $getAllPost = $post->getAllPost($offset, $limit);
 }
 
 if (isset($_GET['f']) && $_GET['f'] == 'trash') {
     if (isset($_GET['category'])) {
         $cate = $_GET['category'];
         if ($cate == 'all') {
-            $getAllPost = $post->getTrashPost($offset);
+            $getAllPost = $post->getTrashPost($offset, $limit);
         } else {
             $next_page_url = $base_url . '&f=' . $_GET['f'] . '&category=' . $_GET['category'];
             $countPostCate = $post->countPostCate($cate, $status);
-            $page = ceil($countPostCate / 3);
-            $getAllPost = $post->getPostByCate($cate, $status, $offset);
+            $page = ceil($countPostCate / $numberPag);
+            $getAllPost = $post->getPostByCate($cate, $status, $offset, $limit);
         }
     } else {
-        $getAllPost = $post->getTrashPost($offset);
+        $getAllPost = $post->getTrashPost($offset, $limit);
     }
 }
 
@@ -80,26 +78,43 @@ if (isset($_GET['f']) && $_GET['f'] == 'note') {
     if (isset($_GET['category'])) {
         $cate = $_GET['category'];
         if ($cate == 'all') {
-            $getAllPost = $post->getNotePost($offset);
+            $getAllPost = $post->getNotePost($offset, $limit);
         } else {
             $next_page_url = $base_url . '&f=' . $_GET['f'] . '&category=' . $_GET['category'];
 
             $countPostCate = $post->countPostCate($cate, $status);
-            $page = ceil($countPostCate / 3);
-            $getAllPost = $post->getPostByCate($cate, $status, $offset);
+            $page = ceil($countPostCate / $numberPag);
+            $getAllPost = $post->getPostByCate($cate, $status, $offset, $limit);
         }
     } else {
-        $getAllPost = $post->getNotePost($offset);
+        $getAllPost = $post->getNotePost($offset, $limit);
     }
 }
 
+
 if (isset($_GET['key'])) {
     $keyword = $_GET['key'];
-    $countPostCate = $post->countPostSearch($keyword);
-    $page = ceil($countPostCate / 3);
     $next_page_url = $base_url . '&key=' . $_GET['key'];
-    $getAllPost = $post->searchPost($keyword);
+    $countPostSearch = $post->countSearchPost($keyword);
+    $page = ceil($countPostSearch / $numberPag);
 
+    if (isset($_GET['category'])) {
+        $cate = $_GET['category'];
+
+        if ($cate == 'all') {
+
+            $getAllPost = $post->getNotePost($offset, $limit);
+        } else {
+
+            $next_page_url = $base_url . '&key=' . $_GET['key'] . '&category=' . $_GET['category'];
+
+            $countPostCate = $post->countSearchPostCate($keyword, $cate);
+            $page = ceil($countPostCate / $numberPag);
+            $getAllPost = $post->getSearchPostCate($keyword, $cate, $offset, $limit);
+        }
+    } else {
+        $getAllPost = $post->getSearchPost($keyword, $offset, $limit);
+    }
 }
 
 
@@ -116,18 +131,15 @@ if (isset($_GET['key'])) {
     }
 
     .dropdown-toggle::after {
-
         border: none !important;
     }
 
     .update-quick {
-        position: absolute !important;
-        top: -50px !important;
-        background-color: #fff;
         left: -320px !important;
-        /* max-width: 120px; */
-        z-index: 100;
+    }
 
+    .page-link:hover {
+        background-color: #0dcaf0 !important;
     }
 </style>
 
@@ -137,13 +149,17 @@ if (isset($_GET['key'])) {
         <div class="d-flex align-items-center justify-content-between mb-4">
             <h6 class="mb-0">DANH SÁCH BÀI VIẾT</h6>
         </div>
-        <div class="text-start d-flex mb-3">
-            <span class="me-3"><a href="/admin/?page=posts&action=list"
-                                  class="<?= (!isset($_GET['f'])) ? 'text-white' : 'text-light' ?>">Tất Cả (<?= $countAllPost; ?>) </a></span>
-            <span class="me-3"><a href="/admin/?page=posts&action=list&f=trash"
-                                  class="<?= (isset($_GET['f']) && $_GET['f'] == 'trash') ? 'text-white' : 'text-light' ?>">Thùng rác (<?= $countTrashPost; ?>)</a> </span>
-            <span class="me-3"><a href="/admin/?page=posts&action=list&f=note"
-                                  class="<?= (isset($_GET['f']) && $_GET['f'] == 'note') ? 'text-white' : 'text-light' ?>">Nháp (<?= $countNotePost ?>)</a> </span>
+        <div class="text-start d-lg-flex mb-3">
+            <p class="me-3 text-warning">Tất Cả (<?= $countAllPost; ?>) </p>
+            <p class="me-3"><a href="/admin/?page=posts&action=list"
+                               class="<?= (!isset($_GET['f'])) ? 'text-white' : 'text-light' ?>">Công Khai
+                    (<?= $countPushPost; ?>) </a></p>
+            <p class="me-3"><a href="/admin/?page=posts&action=list&f=trash"
+                               class="<?= (isset($_GET['f']) && $_GET['f'] == 'trash') ? 'text-white' : 'text-light' ?>">Thùng
+                    rác (<?= $countTrashPost; ?>)</a></p>
+            <p class="me-3"><a href="/admin/?page=posts&action=list&f=note"
+                               class="<?= (isset($_GET['f']) && $_GET['f'] == 'note') ? 'text-white' : 'text-light' ?>">Nháp
+                    (<?= $countNotePost ?>)</a></p>
 
         </div>
         <div class="d-lg-flex mb-3 justify-content-between aligh-items-center">
@@ -195,8 +211,15 @@ if (isset($_GET['key'])) {
                 </div>
                 <div class=" me-3 mb-3">
                     <form action="" method="GET">
+                        <input type="hidden" name="page" value="posts">
+                        <input type="hidden" name="action" value="list">
+                        <input type="hidden" name="<?= (isset($_GET['f']) ? 'f' : '') ?>"
+                               value="<?= (isset($_GET['f']) ? $_GET['f'] : '') ?>">
+                        <input type="hidden" name="<?= (isset($_GET['key']) ? 'key' : '') ?>"
+                               value="<?= (isset($_GET['key']) ? $_GET['key'] : '') ?>">
                         <select name="category" id="category" class="form-select form-select-sm"
                                 onchange="this.form.submit();">
+
                             <option value="all">All</option>
                             <?php
                             foreach ($getPostCate as $category) : ?>
@@ -233,7 +256,16 @@ if (isset($_GET['key'])) {
 
         </div>
 
-        <div class="" style="overflow-x: auto;">
+        <?php
+        if (isset($keyword) && isset($countPostSearch)) :
+            ?>
+            <div class="text-start mb-3 text-white fst-italic">
+                <span>Kết quả tìm kiếm "<?= (isset($_GET['key'])) ? $_GET['key'] : '' ?> " (<?= $countPostSearch ?>) </span>
+            </div>
+
+        <?php endif; ?>
+
+        <div class="pt-3" style="overflow-x: auto;">
             <div class="text-start align-middle table-hover">
                 <div class="d-flex align-items-center mb-3 border-bottom pb-3 border-info" style="width: 1173px">
                     <div class="" style="width:40px;"><input type="checkbox" id="head_check_list"
@@ -280,7 +312,7 @@ if (isset($_GET['key'])) {
                                         <span style="width:420px" class="post_table_title"> <?= $post['name'] ?></span>
                                     </div>
                                     <div style="width:180px"><img style="width: 140px; height: 78px;" class="rounded"
-                                                                  src="<?php echo !empty($post['thumbnail']) ? $post['thumbnail'] : "https://i.pinimg.com/736x/72/d2/96/72d296e10b71253eb2c259b0ad810919.jpg" ?>"
+                                                                  src="<?php echo !empty($post['thumbnail']) ? $post['thumbnail'] : "https://cdn11.bigcommerce.com/s-1812kprzl2/images/stencil/original/products/582/5042/no-image__63632.1665666729.jpg?c=2" ?>"
                                                                   alt=""></div>
                                     <div style="width:120px">
                                         <p class=""> <?= $post['user_name'] ?></p>
@@ -392,10 +424,10 @@ if (isset($_GET['key'])) {
                                                                                 <p class="mb-2"
                                                                                    style="font-size: 0.8rem;">Danh Mục
                                                                                     Bài Viết</p>
-                                                                                <select class="form-select quick_category"
-                                                                                        size="3 aria-label=" Size 3
-                                                                                        select example"
-                                                                                name="category_id">
+                                                                                <select
+                                                                                    class="form-select quick_category"
+                                                                                    size="3 aria-label=" Size 3 select
+                                                                                    example" name="category_id">
                                                                                 <?php foreach ($getPostCate as $category) : ?>
                                                                                     <?php
                                                                                     if ($post['category_id'] == $category['id']) :
@@ -406,7 +438,8 @@ if (isset($_GET['key'])) {
 
                                                                                     <?php else : ?>
 
-                                                                                        <option value=" <?= $category['id'] ?>"><?= $category['name_category'] ?></option>
+                                                                                        <option
+                                                                                            value=" <?= $category['id'] ?>"><?= $category['name_category'] ?></option>
 
                                                                                     <?php endif ?>
 
@@ -418,7 +451,8 @@ if (isset($_GET['key'])) {
                                                                         </div>
                                                                     </div>
 
-                                                                    <div class="d-flex justify-content-between align-items-center">
+                                                                    <div
+                                                                        class="d-flex justify-content-between align-items-center">
                                                                         <button type="button"
                                                                                 class="btn btn-sm btn-outline-info"
                                                                                 aria-expanded="false">Hủy
@@ -457,43 +491,57 @@ if (isset($_GET['key'])) {
                 </div>
 
 
-                <?php if ($page != 0) : ?>
-
-                    <nav aria-label="Page navigation example">
-                        <ul class="pagination">
-                            <li class="page-item">
-                                <a class="page-link m-1 bg-secondary text-white" href="#" aria-label="Previous">
-                                    <span aria-hidden="true">&laquo;</span>
-                                </a>
-                            </li>
-                            <?php
-                            for ($i = 0; $i < $page; $i++) :
-                                ?>
-
-                                <li class="page-item">
-                                    <a class="page-link rounded m-1 <?= (isset($_GET['offset']) && $_GET['offset'] / 3 == $i) ? 'bg-info text-white' : 'bg-secondary text-white' ?>"
-                                       href="
-                                        <?= $next_page_url ?>&offset=<?= $i * 3 ?>"><?= $i + 1 ?>
-                                    </a>
-                                </li>
-
-                            <?php endfor; ?>
-
-                            <li class="page-item">
-                                <a class="page-link m-1 bg-secondary text-white" href="#" aria-label="Next">
-                                    <span aria-hidden="true">&raquo;</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </nav>
-
-                <?php endif; ?>
-
-
             </div>
 
 
         </div>
+
+        <?php if ($page > 1) :
+            ?>
+            <div class="Pagination">
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination justify-content-end">
+                        <li class="page-item <?= (isset($_GET['offset']) && $_GET['offset'] == 0 ? 'disabled ' : '') ?> ">
+                            <a class="page-link m-1 bg-secondary text-white"
+                               href="<?= $next_page_url ?>&offset=<?= (isset($_GET['offset'])) ? $_GET['offset'] - $limit : '0' ?> "
+                               aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+                        <?php
+                        for ($i = 0; $i < $page; $i++) :
+                            $active = false;
+                            if (isset($_GET['offset'])) {
+                                $active = ($_GET['offset'] / $limit == $i);
+                            } else {
+                                $active = ($i == 0);
+                            }
+                            $class = $active ? 'bg-info text-white' : 'bg-secondary text-white';
+
+                            ?>
+
+                            <li class="page-item">
+                                <a class="page-link rounded m-1 <?= $class ?>" href="
+                                        <?= $next_page_url ?>&offset=<?= $i * $limit ?>"><?= $i + 1 ?>
+                                </a>
+                            </li>
+
+                        <?php endfor; ?>
+
+                        <li class="page-item <?= (isset($_GET['offset']) && $_GET['offset'] == ($page * $limit) - $limit ? 'disabled' : '') ?>">
+                            <a class="page-link m-1 bg-secondary text-white" href="
+                                    <?= $next_page_url ?>&offset=<?= (isset($_GET['offset'])) ? $_GET['offset'] + $limit : $limit ?>"
+                               aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+
+            </div>
+
+
+        <?php endif; ?>
 
 
     </div>
@@ -514,7 +562,7 @@ if (isset($_GET['key'])) {
                 <div class="modal-footer">
                     <input type="text" name="check_list" value="" id="formDel" hidden>
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-                    <button class="btn  text-light" type="submit" name="del">Xóa</button>
+                    <button class="btn text-light" type="submit" name="delListID">Xóa</button>
 
                 </div>
             </form>
@@ -522,6 +570,7 @@ if (isset($_GET['key'])) {
         </div>
     </div>
 </div>
+
 
 
 <script>
@@ -549,19 +598,7 @@ if (isset($_GET['key'])) {
         });
     });
 
-
-    const categorySelect = document.getElementById('category');
-    const currentURL = new URL(window.location.href);
-
-    categorySelect.addEventListener('change', (event) => {
-        const selectedCategoryId = event.target.value;
-        currentURL.searchParams.set('category', selectedCategoryId);
-        window.location.href = currentURL.toString();
-
-    });
-
     const sortAction = document.getElementById('sortAction')
-
     sortAction.addEventListener('change', (event) => {
         const a = event.target.value;
         document.getElementById("listID").setAttribute('name', a);

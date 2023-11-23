@@ -33,7 +33,7 @@ $getPostCate = $post->getPostCate();
                             <input class="form-control form-control-sm border mb-3" id="img-post" type="file"
                                    name="thumbnail" hidden onchange="readURL(this);">
                             <div style="width: 100%" class="p-lg-4 border rounded mt-3 border-light ">
-                                <img src="https://i.pinimg.com/564x/79/64/48/79644808025ee0111ca37d5b88e67c02.jpg"
+                                <img src="https://cdn11.bigcommerce.com/s-1812kprzl2/images/stencil/original/products/582/5042/no-image__63632.1665666729.jpg?c=2"
                                      alt="" id="img" class="d-block p-3 " style="min-height: 240px; width: 100%; ">
                             </div>
 
