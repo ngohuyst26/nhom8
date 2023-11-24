@@ -4,6 +4,7 @@ require_once 'model-post.php';
 $post = new Posts;
 
 $getPostCate = $post->getPostCate();
+
 $countAllPost = $post->countAllPost();
 $countTrashPost = $post->countPostByStatus(2);
 $countPushPost = $post->countPostByStatus(1);
@@ -425,9 +426,10 @@ if (isset($_GET['key'])) {
                                                                                    style="font-size: 0.8rem;">Danh Mục
                                                                                     Bài Viết</p>
                                                                                 <select
-                                                                                    class="form-select quick_category"
-                                                                                    size="3 aria-label=" Size 3 select
-                                                                                    example" name="category_id">
+                                                                                        class="form-select quick_category"
+                                                                                        size="3 aria-label=" Size 3
+                                                                                        select
+                                                                                        example" name="category_id">
                                                                                 <?php foreach ($getPostCate as $category) : ?>
                                                                                     <?php
                                                                                     if ($post['category_id'] == $category['id']) :
@@ -439,7 +441,7 @@ if (isset($_GET['key'])) {
                                                                                     <?php else : ?>
 
                                                                                         <option
-                                                                                            value=" <?= $category['id'] ?>"><?= $category['name_category'] ?></option>
+                                                                                                value=" <?= $category['id'] ?>"><?= $category['name_category'] ?></option>
 
                                                                                     <?php endif ?>
 
@@ -452,7 +454,7 @@ if (isset($_GET['key'])) {
                                                                     </div>
 
                                                                     <div
-                                                                        class="d-flex justify-content-between align-items-center">
+                                                                            class="d-flex justify-content-between align-items-center">
                                                                         <button type="button"
                                                                                 class="btn btn-sm btn-outline-info"
                                                                                 aria-expanded="false">Hủy
@@ -570,7 +572,6 @@ if (isset($_GET['key'])) {
         </div>
     </div>
 </div>
-
 
 
 <script>

@@ -48,6 +48,8 @@ session_start();
             <div class="container">
                 <div class="row">
                     <?php
+                    include_once '../config/database.php';
+                    include_once '../config/upLoad.php';
                     if (isset($_GET['page'])) {
                         $page = $_GET['page'];
                         switch ($page) {
