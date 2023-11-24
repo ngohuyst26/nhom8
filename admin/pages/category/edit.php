@@ -1,16 +1,28 @@
+<?php
+$id = $_GET['id'];
+$connect = new connect();
+$tryvan = "SELECT * FROM product_categories WHERE id = $id";
+$data = $connect->pdo_query($tryvan);
+
+if($_SERVER["REQUEST_METHOD"] === "POST"){
+    $sualoai = $_POST['sualoai'];
+    $connect = new connect();
+    $tryvan = "UPDATE product_categories SET name_category = '$sualoai' WHERE id = $id";
+    $connect->pdo_execute($tryvan);
+}
+
+?>
 <div class="bg-secondary rounded h-100 p-4">
-    <h6 class="mb-4">THÊM LOẠI SẢN PHẨM</h6>
-    <form>
+    <h6 class="mb-4">SỬA LOẠI SẢN PHẨM</h6>
+    <?php foreach ($data as $categories): ?>
+    <form method="post" enctype="multipart/form-data">
         <div class="mb-3">
             <label for="exampleInputEmail1" class="form-label">Loại sản phẩm:</label>
-            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-            <div id="emailHelp" class="form-text">
+            <input type="text" value="<?=$categories['name_category']?>" name="sualoai" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+            <div id="emailHelp" class="form-text" >
             </div>
+            <button type="submit" class="btn btn-primary">Sửa loại</button>
         </div>
-        <div class="mb-3 form-check">
-            <input type="checkbox" class="form-check-input" id="exampleCheck1">
-            <label class="form-check-label" for="exampleCheck1">Check me out</label>
-        </div>
-        <button type="submit" class="btn btn-primary">Thêm loại</button>
     </form>
+    <?php endforeach; ?>
 </div>
