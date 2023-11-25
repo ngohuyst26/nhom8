@@ -69,6 +69,16 @@
 
                 <div class="nav-item dropdown">
                     <a href="#"
+                       class="nav-link dropdown-toggle <?= (isset($_GET['page']) && $_GET['page'] == 'posts') ? 'active' : '' ?>"
+                       data-bs-toggle="dropdown"><i class="fa fa-laptop me-2"></i>Quản lý mã ưu đãi</a>
+                    <div class="dropdown-menu bg-transparent border-0">
+                        <a href="?page=discounts&action=add-discount" class="dropdown-item">Thêm mã ưu đãi</a>
+                        <a href="?page=discounts&action=list-discount" class="dropdown-item">Danh sách ưu đãi</a>
+                    </div>
+                </div>
+
+                <div class="nav-item dropdown">
+                    <a href="#"
                        class="nav-link dropdown-toggle <?= (isset($_GET['page']) && $_GET['page'] == 'product') ? 'active' : '' ?>"
                        data-bs-toggle="dropdown"><i class="fa fa-laptop me-2"></i>Quản lý loại sản phẩm</a>
                     <div class="dropdown-menu bg-transparent border-0">
