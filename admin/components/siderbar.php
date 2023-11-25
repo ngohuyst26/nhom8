@@ -30,7 +30,7 @@
             <div class="nav-item dropdown">
                 <a href="#"
                    class="nav-link dropdown-toggle <?= (isset($_GET['page']) && $_GET['page'] == 'product') ? 'active' : '' ?>"
-                   data-bs-toggle="dropdown"><i class="fa fa-laptop me-2"></i>Quản lý sản phẩm</a>
+                   data-bs-toggle="dropdown"><i class="fa-solid fa-box-archive"></i> Sản phẩm</a>
                 <div class="dropdown-menu bg-transparent border-0">
                     <a href="?page=product&action=add" class="dropdown-item">Thêm sản phẩm</a>
                     <a href="?page=product&action=list" class="dropdown-item">Danh sách sản phẩm</a>
@@ -40,7 +40,7 @@
             <div class="nav-item dropdown">
                 <a href="#"
                    class="nav-link dropdown-toggle <?= (isset($_GET['page']) && $_GET['page'] == 'statistical') ? 'active' : '' ?>"
-                   data-bs-toggle="dropdown"><i class="fa fa-laptop me-2"></i>Thống Kê</a>
+                   data-bs-toggle="dropdown"><i class="fa-solid fa-chart-line"></i> Thống Kê</a>
                 <div class="dropdown-menu bg-transparent border-0">
                     <a href="?page=statistical&action=orders" class="dropdown-item">Thống Kê Đơn Hàng</a>
                     <a href="?page=statistical&action=products" class="dropdown-item">Thống Kê Sản Phẩm</a>
@@ -50,7 +50,7 @@
             <div class="nav-item dropdown">
                 <a href="#"
                    class="nav-link dropdown-toggle <?= (isset($_GET['page']) && $_GET['page'] == 'users') ? 'active' : '' ?>"
-                   data-bs-toggle="dropdown"><i class="fa fa-laptop me-2"></i>Quản lý Người Dùng</a>
+                   data-bs-toggle="dropdown"><i class="fa-solid fa-user"></i> Người Dùng</a>
                 <div class="dropdown-menu bg-transparent border-0">
                     <a href="?page=users&action=add" class="dropdown-item">Thêm người dùng</a>
                     <a href="?page=users&action=list" class="dropdown-item">Danh sách người dùng</a>
@@ -59,7 +59,7 @@
                 <div class="nav-item dropdown">
                     <a href="#"
                        class="nav-link dropdown-toggle <?= (isset($_GET['page']) && $_GET['page'] == 'posts') ? 'active' : '' ?>"
-                       data-bs-toggle="dropdown"><i class="fa fa-laptop me-2"></i>Quản lý Bài Viết</a>
+                       data-bs-toggle="dropdown"><i class="fa-solid fa-pen-nib"></i> Bài Viết</a>
                     <div class="dropdown-menu bg-transparent border-0">
                         <a href="?page=posts&action=add" class="dropdown-item">Thêm Bài Viết</a>
                         <a href="?page=posts&action=list" class="dropdown-item">Danh sách Bài Viết</a>
@@ -69,8 +69,8 @@
 
                 <div class="nav-item dropdown">
                     <a href="#"
-                       class="nav-link dropdown-toggle <?= (isset($_GET['page']) && $_GET['page'] == 'posts') ? 'active' : '' ?>"
-                       data-bs-toggle="dropdown"><i class="fa fa-laptop me-2"></i>Quản lý mã ưu đãi</a>
+                       class="nav-link dropdown-toggle <?= (isset($_GET['page']) && $_GET['page'] == 'discounts') ? 'active' : '' ?>"
+                       data-bs-toggle="dropdown"><i class="fa-solid fa-tags"></i> Mã ưu đãi</a>
                     <div class="dropdown-menu bg-transparent border-0">
                         <a href="?page=discounts&action=add-discount" class="dropdown-item">Thêm mã ưu đãi</a>
                         <a href="?page=discounts&action=list-discount" class="dropdown-item">Danh sách ưu đãi</a>
@@ -79,8 +79,8 @@
 
                 <div class="nav-item dropdown">
                     <a href="#"
-                       class="nav-link dropdown-toggle <?= (isset($_GET['page']) && $_GET['page'] == 'product') ? 'active' : '' ?>"
-                       data-bs-toggle="dropdown"><i class="fa fa-laptop me-2"></i>Quản lý loại sản phẩm</a>
+                       class="nav-link dropdown-toggle <?= (isset($_GET['page']) && $_GET['page'] == 'category') ? 'active' : '' ?>"
+                       data-bs-toggle="dropdown"><i class="fa-solid fa-list-ul"></i>Loại sản phẩm</a>
                     <div class="dropdown-menu bg-transparent border-0">
                         <a href="?page=category&action=add" class="dropdown-item">Thêm loại sản phẩm</a>
                         <a href="?page=category&action=list" class="dropdown-item">Danh sách loại sản phẩm</a>
