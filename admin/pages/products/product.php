@@ -177,10 +177,14 @@ class  product
 
     function GetNameCategoryById($id)
     {
-        $db = new connect();
-        $sql = "SELECT name_category FROM `product_categories` WHERE id = ?";
-        $name = $db->pdo_query_one($sql, $id);
-        return $name['name_category'];
+        if ($id > 0) {
+            $db = new connect();
+            $sql = "SELECT name_category FROM `product_categories` WHERE id = ?";
+            $name = $db->pdo_query_one($sql, $id);
+            return $name['name_category'];
+        } else {
+            return "Chưa phân loại";
+        }
     }
 
     function CountVariants($product_id)
