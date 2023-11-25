@@ -1,12 +1,3 @@
-<!-- Spinner Start -->
-<div id="spinner"
-     class="show bg-dark position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
-    <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
-        <span class="sr-only">Loading...</span>
-    </div>
-</div>
-<!-- Spinner End -->
-
 
 <!-- Sidebar Start -->
 <div class="sidebar pe-4 pb-3">
@@ -63,6 +54,16 @@
                     <div class="dropdown-menu bg-transparent border-0">
                         <a href="?page=posts&action=add" class="dropdown-item">Thêm Bài Viết</a>
                         <a href="?page=posts&action=list" class="dropdown-item">Danh sách Bài Viết</a>
+                    </div>
+                </div>
+
+                <div class="nav-item dropdown">
+                    <a href="#"
+                       class="nav-link dropdown-toggle <?= (isset($_GET['page']) && $_GET['page'] == 'posts') ? 'active' : '' ?>"
+                       data-bs-toggle="dropdown"><i class="fa fa-laptop me-2"></i>Quản lý mã ưu đãi</a>
+                    <div class="dropdown-menu bg-transparent border-0">
+                        <a href="?page=discounts&action=add-discount" class="dropdown-item">Thêm mã ưu đãi</a>
+                        <a href="?page=discounts&action=list-discount" class="dropdown-item">Danh sách ưu đãi</a>
                     </div>
                 </div>
 

@@ -52,6 +52,9 @@
                     case 'statistical':
                         include './controller/statistical.php';
                         break;
+                    case 'discounts':
+                        include './controller/discounts.php';
+                        break;
                     case 'category':
                         include './controller/category.php';
                         break;
