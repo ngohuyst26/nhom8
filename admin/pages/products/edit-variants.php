@@ -3,6 +3,10 @@ include 'product.php';
 $pro = new product();
 $up = new upLoad();
 
+$_SESSION['name'] = 0;
+$_SESSION['description'] = 0;
+$_SESSION['ckfinder'] = 0;
+$_SESSION['thumbnail'] = 0;
 
 //Thêm variants cho sản phẩm
 if (isset($_POST['add']) && isset($_GET['product'])) {
@@ -88,14 +92,19 @@ if (isset($_GET['product'])) {
         $name = $_POST['name'];
         $description = $_POST['description'];
         $category = $_POST['category'];
+        $ckfinder = $_POST['ckfinder'];
         if ($_FILES['thumbnail']['size'] > 0) {
-            echo $_FILES['thumbnail']['size'];
             $thumbnail = $up->uploadImg($_FILES["thumbnail"]);
+        } else if (!empty($ckfinder)) {
+            $thumbnail = $ckfinder;
         } else {
             $thumbnail = $data['thumbnail'];
         }
-//        $pro->EditProductDefault($id_product, $id_sku, $name, $description, $category, $thumbnail, $sku, $price);
-//        header("Location: ?page=product&action=list");
+        $check = $pro->ValidateProductVariants($name, $description, $ckfinder, $thumbnail);
+        if (!$check) {
+            $pro->EditProductVariants($id_product, $name, $description, $category, $thumbnail);
+        }
+
     }
     $data = $pro->GetOneProduct($id_product);
 }
@@ -112,11 +121,16 @@ if (isset($_GET['product'])) {
                 <div class="mb-3">
                     <label for="exampleInputEmail1" class="form-label">Tên sản phẩm</label>
                     <input type="text" name="name" value="<?= $data['product_name'] ?>" class="form-control">
+                    <?php if ($_SESSION['name'] == 1): ?>
+                        <p class="text-danger">Tên không được để trống</p>
+                    <?php endif; ?>
                 </div>
                 <div class="mb-3">
                     <label for="exampleInputPassword1" class="form-label">Mô tả</label>
                     <input type="text" name="description" value="<?= $data['description'] ?>" class="form-control">
-                </div>
+                    <?php if ($_SESSION['description'] == 1): ?>
+                        <p class="text-danger">Mô tả không được để trống</p>
+                    <?php endif; ?></div>
                 <div class="mb-3">
                     <label for="" class="form-label"> Danh mục </label>
                     <select name="category" id="" class="form-select">
@@ -165,10 +179,47 @@ if (isset($_GET['product'])) {
                                 <button class="btn btn-warning" data-bs-toggle="modal"
                                         data-bs-target="#editVarriants<?= $key['id'] ?>"><i
                                             class="fa-sharp fa-solid fa-pen-to-square"></i></button>
-                                <a href="?product=<?= $id_product ?>&variant_del=<?= $key['id'] ?>"
-                                   class="rounded-3 p-2 text-decoration-none bg-danger me-3" style="color: black;">
+                                <button class="btn btn-danger" data-bs-toggle="modal"
+                                        data-bs-target="#DelVariants<?= $key['id'] ?>">
                                     <i class="fa-solid fa-trash"></i>
-                                </a>
+                                </button>
+
+                                <div class="modal fade" id="DelVariants<?= $key['id'] ?>" tabindex="-1"
+                                     aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog  ">
+                                        <form method="post">
+                                            <div class="modal-content bg-light text-dark">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title text-dark" id="exampleModalLabel">XÓA THUỘC
+                                                        TÍNH</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                            aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <?php if ($pro->CheckOptions($key['id']) > 0): ?>
+                                                        <p>Vui lòng xóa các thuộc tính của biến thể này trước khi
+                                                            xóa</p>
+                                                    <?php else: ?>
+                                                        <p>Bạn có chắc chắn muốn xóa chưa!</p>
+                                                    <?php endif; ?>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary"
+                                                            data-bs-dismiss="modal">Close
+                                                    </button>
+                                                    <?php if ($pro->CheckOptions($key['id']) == 0): ?>
+                                                        <a href="?page=product&action=edit-variants&product=<?= $id_product ?>&variant_del=<?= $key['id'] ?>"
+                                                           class="rounded-3 p-2 text-decoration-none bg-danger me-3"
+                                                           style="color: black;">
+                                                            Xóa
+                                                        </a>
+                                                    <?php endif; ?>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+
                                 <!-- Modal -->
                                 <div class="modal fade" id="editVarriants<?= $key['id'] ?>" tabindex="-1"
                                      aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -244,10 +295,47 @@ if (isset($_GET['product'])) {
                                     <button class="btn btn-warning" data-bs-toggle="modal"
                                             data-bs-target="#editOption<?= $optionIdArray[$index] ?>"><i
                                                 class="fa-sharp fa-solid fa-pen-to-square"></i></button>
-                                    <a href="?page=product&action=edit-variants&product=<?= $id_product ?>&option_del=<?= $optionIdArray[$index] ?>"
-                                       class="rounded-3 p-2 text-decoration-none bg-danger me-3" style="color: black;">
+                                    <button class="btn btn-danger" data-bs-toggle="modal"
+                                            data-bs-target="#DelOption<?= $optionIdArray[$index] ?>">
                                         <i class="fa-solid fa-trash"></i>
-                                    </a>
+                                    </button>
+
+
+                                    <div class="modal fade" id="DelOption<?= $optionIdArray[$index] ?>" tabindex="-1"
+                                         aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog  ">
+                                            <form method="post">
+                                                <div class="modal-content bg-light text-dark">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title text-dark" id="exampleModalLabel">XÓA
+                                                            THUỘC TÍNH</h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                                aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <?php if ($pro->CheckSetOption($optionIdArray[$index]) > 0): ?>
+                                                            <p>Vui lòng xóa các tùy chọn có thuộc tính này trước khi
+                                                                xóa</p>
+                                                        <?php else: ?>
+                                                            <p>Bạn có chắc chắn muốn xóa chưa!</p>
+                                                        <?php endif; ?>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary"
+                                                                data-bs-dismiss="modal">Close
+                                                        </button>
+                                                        <?php if ($pro->CheckSetOption($optionIdArray[$index]) == 0): ?>
+                                                            <a href="?page=product&action=edit-variants&product=<?= $id_product ?>&option_del=<?= $optionIdArray[$index] ?>"
+                                                               class="btn btn-primary" style="color: black;">
+                                                                Xóa
+                                                            </a>
+                                                        <?php endif; ?>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+
 
                                     <div class="modal fade" id="editOption<?= $optionIdArray[$index] ?>" tabindex="-1"
                                          aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -329,8 +417,40 @@ if (isset($_GET['product'])) {
                             <button class="btn btn-warning" data-bs-toggle="modal"
                                     data-bs-target="#editSetOption<?= $option['id'] ?>"><i
                                         class="fa-sharp fa-solid fa-pen-to-square"></i></button>
-                            <a href="?page=product&action=edit-variants&product=<?= $id_product ?>&del_setoption=<?= $option['id'] ?>"
-                               class="btn btn-danger">Xóa</a>
+
+                            <button class="btn btn-danger" data-bs-toggle="modal"
+                                    data-bs-target="#DelSetOption<?= $option['id'] ?>">
+                                <i class="fa-solid fa-trash"></i>
+                            </button>
+
+
+                            <div class="modal fade" id="DelSetOption<?= $option['id'] ?>" tabindex="-1"
+                                 aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog  ">
+                                    <form method="post">
+                                        <div class="modal-content bg-light text-dark">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title text-dark" id="exampleModalLabel">XÓA TÙY
+                                                    CHỌN</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                        aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p>Bạn có chắc chắn muốn xóa chưa!</p>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary"
+                                                        data-bs-dismiss="modal">Close
+                                                </button>
+                                                <a href="?page=product&action=edit-variants&product=<?= $id_product ?>&del_setoption=<?= $option['id'] ?>"
+                                                   class="btn btn-danger">
+                                                    Xóa
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
 
                             <div class="modal fade" id="editSetOption<?= $option['id'] ?>" tabindex="-1"
                                  aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -394,7 +514,7 @@ if (isset($_GET['product'])) {
         <form action="" method="post">
             <div class="modal-content bg-light">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Thêm thuộc tính</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">THÊM BIẾN THỂ</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -417,7 +537,7 @@ if (isset($_GET['product'])) {
         <form action="" method="post">
             <div class="modal-content bg-light">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Thêm thuộc tính</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">THÊM THUỘC TÍNH BIẾN THỂ</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -446,11 +566,11 @@ if (isset($_GET['product'])) {
 
 <!-- Modal thêm tùy chọn biến thể -->
 <div class="modal fade" id="setoptionsModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog text-white">
         <form action="" method="post">
-            <div class="modal-content">
+            <div class="modal-content bg-light">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Thêm các tùy chọn</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">THÊM CÁC TÙY CHỌN</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -483,4 +603,4 @@ if (isset($_GET['product'])) {
             </div>
         </form>
     </div>
-
+</div>

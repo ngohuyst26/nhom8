@@ -163,9 +163,57 @@ class  product
                (SELECT s.sku FROM skus s WHERE s.product_id = p.id ORDER BY s.id LIMIT 1) AS sku,
                (SELECT s.price FROM skus s WHERE s.product_id = p.id ORDER BY s.id LIMIT 1) AS price
         FROM products p
-        WHERE EXISTS (SELECT 1 FROM skus s WHERE s.product_id = p.id);
+        WHERE EXISTS (SELECT 1 FROM skus s WHERE s.product_id = p.id) AND del = 0 ;
         ";
         return $db->pdo_query($sql);
+    }
+
+    function GetAllProductDraft()
+    {
+        $db = new connect();
+        $sql = "SELECT p.id AS product_id,
+                   p.name AS product_name,
+                   p.thumbnail,
+                   p.categori_id,
+                   p.categori_id,
+                   (SELECT s.id FROM skus s WHERE s.product_id = p.id ORDER BY s.id LIMIT 1) AS sku_id,
+                   (SELECT s.sku FROM skus s WHERE s.product_id = p.id ORDER BY s.id LIMIT 1) AS sku,
+                   (SELECT s.price FROM skus s WHERE s.product_id = p.id ORDER BY s.id LIMIT 1) AS price
+            FROM products p
+            WHERE NOT EXISTS (SELECT 1 FROM skus s WHERE s.product_id = p.id) AND p.del = 0;
+        ";
+        return $db->pdo_query($sql);
+    }
+
+    function GetAllProductDel()
+    {
+        $db = new connect();
+        $sql = "SELECT p.id AS product_id,
+               p.name AS product_name,
+               p.thumbnail,
+               p.categori_id,
+               p.categori_id,
+               (SELECT s.id FROM skus s WHERE s.product_id = p.id ORDER BY s.id LIMIT 1) AS sku_id,
+               (SELECT s.sku FROM skus s WHERE s.product_id = p.id ORDER BY s.id LIMIT 1) AS sku,
+               (SELECT s.price FROM skus s WHERE s.product_id = p.id ORDER BY s.id LIMIT 1) AS price
+        FROM products p
+        WHERE  del = 1 ;
+        ";
+        return $db->pdo_query($sql);
+    }
+
+    function DelProduct($id_product)
+    {
+        $db = new connect();
+        $sql = "UPDATE products SET del = 1 WHERE id = ?";
+        $db->pdo_execute($sql, $id_product);
+    }
+
+    function UndoProduct($id_product)
+    {
+        $db = new connect();
+        $sql = "UPDATE products SET del = 0 WHERE id = ?";
+        $db->pdo_execute($sql, $id_product);
     }
 
     function GetCategory()
@@ -203,6 +251,14 @@ class  product
         $db->pdo_execute($sql, $name, $thumbnail, $description, $category, $id_product, $sku, $price, $id_sku);
     }
 
+    function EditProductVariants($id_product, $name, $description, $category, $thumbnail)
+    {
+        $db = new connect();
+        $sql = "UPDATE products SET name=?, thumbnail=?, description=?, categori_id=? WHERE id=?;
+                ";
+        $db->pdo_execute($sql, $name, $thumbnail, $description, $category, $id_product);
+    }
+
     function GetOneProduct($id_product)
     {
         $db = new connect();
@@ -219,6 +275,150 @@ class  product
         return $db->pdo_query_one($sql, $id_product);
     }
 
+    function SearchProduct($search)
+    {
+        $db = new connect();
+        $sql = "SELECT p.id AS product_id,
+               p.name AS product_name,
+               p.thumbnail,
+               p.categori_id,
+               p.categori_id,
+               (SELECT s.id FROM skus s WHERE s.product_id = p.id ORDER BY s.id LIMIT 1) AS sku_id,
+               (SELECT s.sku FROM skus s WHERE s.product_id = p.id ORDER BY s.id LIMIT 1) AS sku,
+               (SELECT s.price FROM skus s WHERE s.product_id = p.id ORDER BY s.id LIMIT 1) AS price
+        FROM products p
+        WHERE EXISTS (SELECT 1 FROM skus s WHERE s.product_id = p.id) AND p.name LIKE '%$search%' ";
+        return $db->pdo_query($sql);
+    }
+
+    function GetProductByCategory($category_id)
+    {
+        $db = new connect();
+        $sql = "SELECT p.id AS product_id,
+               p.name AS product_name,
+               p.thumbnail,
+               p.categori_id,
+               p.categori_id,
+               (SELECT s.id FROM skus s WHERE s.product_id = p.id ORDER BY s.id LIMIT 1) AS sku_id,
+               (SELECT s.sku FROM skus s WHERE s.product_id = p.id ORDER BY s.id LIMIT 1) AS sku,
+               (SELECT s.price FROM skus s WHERE s.product_id = p.id ORDER BY s.id LIMIT 1) AS price
+        FROM products p
+        WHERE EXISTS (SELECT 1 FROM skus s WHERE s.product_id = p.id) AND p.categori_id = ? ";
+        return $db->pdo_query($sql, $category_id);
+    }
+
+    function ValidateProductDefault($name, $description, $sku, $price, $ckfinder, $thumbnail)
+    {
+        $check = false;
+        //Bắt lỗi rổng tên sản phẩm
+        if (empty($name)) {
+            $_SESSION['name'] = 1;
+            $check = true;
+        }
+        //Bắt lỗi rổng mô tả
+        if (empty($description)) {
+            $_SESSION['description'] = 1;
+            $check = true;
+        }
+        // Bắt lỗi rỗng giá
+        if (empty($price)) {
+            $_SESSION['price'] = 1;
+            $check = true;
+        }
+        //Bắt lổi giá bé hơn 0
+        if ($price <= 0) {
+            $_SESSION['price'] = 2;
+            $check = true;
+        }
+        //Bắt lỗi không phải số
+        if (!is_numeric($price)) {
+            $_SESSION['price'] = 3;
+            $check = true;
+        }
+
+        if (empty($sku)) {
+            $_SESSION['sku'] = 1;
+            $check = true;
+        }
+        //Bắt lỗi chưa chọn hình ảnh
+        if (empty($ckfinder) && $thumbnail == 0) {
+            $_SESSION['thumbnail'] = 1;
+            $check = true;
+        }
+        return $check;
+    }
+
+    function ValidateProductVariants($name, $description, $ckfinder, $thumbnail)
+    {
+        $check = false;
+        //Bắt lỗi rổng tên sản phẩm
+        if (empty($name)) {
+            $_SESSION['name'] = 1;
+            $check = true;
+        }
+        //Bắt lỗi rổng mô tả
+        if (empty($description)) {
+            $_SESSION['description'] = 1;
+            $check = true;
+        }
+        //Bắt lỗi chưa chọn hình ảnh
+        if (empty($ckfinder) && $thumbnail == 0) {
+            $_SESSION['thumbnail'] = 1;
+            $check = true;
+        }
+        return $check;
+    }
+
+    function CheckSetOption($id_option)
+    {
+        $db = new connect();
+        $sql = "SELECT COUNT(*) AS product_variant_options
+                FROM skus_product_variant_options
+                WHERE product_variant_options_id = ?";
+        return $db->pdo_query_value($sql, $id_option);
+    }
+
+    function CheckOptions($id_variants)
+    {
+        $db = new connect();
+        $sql = "SELECT COUNT(*) AS product_options
+                FROM product_variant_options
+                WHERE product_variant_id = ?";
+        return $db->pdo_query_value($sql, $id_variants);
+    }
+
+    function CheckVariants($id_product)
+    {
+        $db = new connect();
+        $sql = "SELECT COUNT(*) AS variants
+                FROM product_variants
+                WHERE product_id = ?";
+        return $db->pdo_query_value($sql, $id_product);
+    }
+
+    function CheckSku($id_product)
+    {
+        $db = new connect();
+        $sql = "SELECT COUNT(*) AS sku
+                FROM skus
+                WHERE product_id = ?";
+        return $db->pdo_query_value($sql, $id_product);
+    }
+
+    function DelProductVari($id_product)
+    {
+        $db = new connect();
+        $sql = "DELETE FROM products WHERE id = ?";
+        $db->pdo_execute($sql, $id_product);
+    }
+
+    function DelProductDef($id_product)
+    {
+        $db = new connect();
+        $sql = "DELETE FROM skus WHERE product_id = ?;
+                DELETE FROM products WHERE id = ?";
+        $db->pdo_execute($sql, $id_product, $id_product);
+    }
 }
 
 

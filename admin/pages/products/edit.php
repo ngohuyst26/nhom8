@@ -2,6 +2,14 @@
 include 'product.php';
 $pro = new product();
 $up = new upLoad();
+
+$_SESSION['name'] = 0;
+$_SESSION['description'] = 0;
+$_SESSION['price'] = 0;
+$_SESSION['ckfinder'] = 0;
+$_SESSION['thumbnail'] = 0;
+$_SESSION['sku'] = 0;
+
 if (isset($_GET['product'])) {
     $id_product = $_GET['product'];
     $data = $pro->GetOneProduct($id_product);
@@ -13,14 +21,19 @@ if (isset($_GET['product'])) {
         $sku = $_POST['sku'];
         $id_sku = $_POST['id_sku'];
         $price = $_POST['price'];
+        $ckfinder = $_POST['ckfinder'];
         if ($_FILES['thumbnail']['size'] > 0) {
             echo $_FILES['thumbnail']['size'];
             $thumbnail = $up->uploadImg($_FILES["thumbnail"]);
+        } else if (!empty($ckfinder)) {
+            $thumbnail = $ckfinder;
         } else {
             $thumbnail = $data['thumbnail'];
         }
-        $pro->EditProductDefault($id_product, $id_sku, $name, $description, $category, $thumbnail, $sku, $price);
-//        header("Location: ?page=product&action=list");
+        $check = $pro->ValidateProductDefault($name, $description, $sku, $price, $ckfinder, $thumbnail);
+        if (!$check) {
+            $pro->EditProductDefault($id_product, $id_sku, $name, $description, $category, $thumbnail, $sku, $price);
+        }
     }
     $data = $pro->GetOneProduct($id_product);
 }
@@ -35,20 +48,35 @@ if (isset($_GET['product'])) {
             <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label">Tên sản phẩm</label>
                 <input type="text" name="name" value="<?= $data['product_name'] ?>" class="form-control">
+                <?php if ($_SESSION['name'] == 1): ?>
+                    <p class="text-danger">Tên không được để trống</p>
+                <?php endif; ?>
             </div>
             <div class="mb-3">
                 <label for="exampleInputPassword1" class="form-label">Mô tả</label>
                 <input type="text" name="description" value="<?= $data['description'] ?>" class="form-control">
+                <?php if ($_SESSION['description'] == 1): ?>
+                    <p class="text-danger">Mô tả không được để trống</p>
+                <?php endif; ?>
             </div>
             <div class="mb-3">
                 <label for="exampleInputPassword1" class="form-label">Giá</label>
                 <input type="number" name="price" value="<?= $data['price'] ?>" class="form-control">
+                <?php if ($_SESSION['price'] == 1): ?>
+                    <p class="text-danger">Giá không được để trống</p>
+                <?php elseif ($_SESSION['price'] == 2): ?>
+                    <p class="text-danger">Giá không được nhỏ hơn 0</p>
+                <?php elseif ($_SESSION['price'] == 3): ?>
+                    <p class="text-danger">Giá không hợp lệ</p>
+                <?php endif; ?>
             </div>
             <div class="mb-3">
                 <label for="exampleInputPassword1" class="form-label">Sku</label>
                 <input type="text" name="sku" value="<?= $data['sku'] ?>" class="form-control">
                 <input type="hidden" name="id_sku" value="<?= $data['sku_id'] ?>">
-            </div>
+                <?php if ($_SESSION['sku'] == 1): ?>
+                    <p class="text-danger">Sku không được để trống</p>
+                <?php endif; ?></div>
             <div class="mb-3">
                 <label for="" class="form-label"> Danh mục </label>
                 <select name="category" id="" class="form-select">
