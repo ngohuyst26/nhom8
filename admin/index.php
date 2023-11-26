@@ -36,9 +36,10 @@ if (!isset($_SESSION['admin'])) {
         <link href="assets/css/bootstrap.min.css" rel="stylesheet">
         <!-- Template Stylesheet -->
         <link href="assets/css/style.css" rel="stylesheet">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
         <script src="https://kit.fontawesome.com/91f424987f.js" crossorigin="anonymous"></script>
+        <script src="../view/ckfinder/ckfinder.js"></script>
     </head>
-
     <body>
     <div class="container-fluid position-relative d-flex p-0">
         <?php include './components/siderbar.php'; ?>
@@ -105,6 +106,35 @@ if (!isset($_SESSION['admin'])) {
     <!-- Template Javascript -->
     <script src="assets/js/main.js"></script>
     </body>
+    <script>
 
-    </html>
+        var button2 = document.getElementById('ckfinder-popup-1');
+        button2.onclick = function () {
+            selectFileWithCKFinder('ckfinder-input-1');
+        };
+
+        function selectFileWithCKFinder(elementId) {
+            console.log("click");
+            CKFinder.modal({
+                chooseFiles: true,
+                width: 800,
+                height: 600,
+                onInit: function (finder) {
+                    finder.on('files:choose', function (evt) {
+                        var file = evt.data.files.first();
+                        var output = document.getElementById(elementId);
+                        output.value = file.getUrl();
+                    });
+
+                    finder.on('file:choose:resizedImage', function (evt) {
+                        var output = document.getElementById(elementId);
+                        output.value = evt.data.resizedUrl;
+                    });
+                }
+            });
+        }
+
+
+    </script>
+</html>
 <?php ob_end_flush(); ?>

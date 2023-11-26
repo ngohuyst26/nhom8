@@ -34,6 +34,8 @@
                 <div class="dropdown-menu bg-transparent border-0">
                     <a href="?page=product&action=add" class="dropdown-item">Thêm sản phẩm</a>
                     <a href="?page=product&action=list" class="dropdown-item">Danh sách sản phẩm</a>
+                    <a href="?page=product&action=del" class="dropdown-item">Thùng rác</a>
+                    <a href="?page=product&action=draft" class="dropdown-item">Bản nháp</a>
                 </div>
             </div>
 
