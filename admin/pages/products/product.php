@@ -419,6 +419,7 @@ class  product
                 DELETE FROM products WHERE id = ?";
         $db->pdo_execute($sql, $id_product, $id_product);
     }
+
 }
 
 

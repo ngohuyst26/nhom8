@@ -75,6 +75,9 @@ if (!isset($_SESSION['admin'])) {
                             case 'category':
                                 include './controller/category.php';
                                 break;
+                            case 'order':
+                                include './controller/order.php';
+                                break;
                         }
                     } else {
                         include './pages/home.php';
