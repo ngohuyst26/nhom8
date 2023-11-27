@@ -52,7 +52,7 @@ if (isset($_POST['add'])) {
 
         $thumbnail = upload_image($_FILES['thumbnail']);
         $content = $_POST['content'];
-        $posts->cretePost($name, $thumbnail, $slug, $content, 1, 2, $category_id);
+        $posts->cretePost($name, $thumbnail, $slug, $content, 1, 1, $category_id);
     }
 
 
@@ -70,8 +70,7 @@ if (isset($_POST['addNote'])) {
         $posts->cretePost($name, $thumbnail, $slug, $content, 3, 1, $category_id);
     }
 
-
-    header('location: ' . $_SERVER['HTTP_REFERER']);
+    header('location: /admin/?page=posts&action=list');
 }
 
 if (isset($_POST['delListID'])) {
