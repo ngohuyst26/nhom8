@@ -37,13 +37,13 @@ $value = $pro->GetAllProduct();
             </td>
             <td>
                 <?php if ($pro->CountVariants($product['product_id']) > 0): ?>
-                    <a class="btn btn-sm btn-primary"
-                       href="?page=product&action=edit-variants&product=<?= $product['product_id'] ?>">Chỉnh
-                        sửa</a>
+                    <a class="btn btn-sm btn-warning"
+                       href="?page=product&action=edit-variants&product=<?= $product['product_id'] ?>"><i
+                                class="fa-sharp fa-solid fa-pen-to-square"></i></a>
                     <button type="button" data-bs-toggle="modal"
                             data-bs-target="#Delete<?= $product['product_id'] ?>"
                             class="btn btn-sm  btn-primary">
-                        Xóa
+                        <i class="fa-solid fa-trash"></i>
                     </button>
                     <div class="modal fade" id="Delete<?= $product['product_id'] ?>" tabindex="-1"
                          aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -73,12 +73,13 @@ $value = $pro->GetAllProduct();
                         </div>
                     </div>
                 <?php else: ?>
-                    <a class="btn btn-sm btn-primary"
-                       href="?page=product&action=edit&product=<?= $product['product_id'] ?>">Chỉnh sửa</a>
+                    <a class="btn btn-sm btn-warning"
+                       href="?page=product&action=edit&product=<?= $product['product_id'] ?>"><i
+                                class="fa-sharp fa-solid fa-pen-to-square"></i></a>
                     <button type="button" data-bs-toggle="modal"
                             data-bs-target="#Delete<?= $product['product_id'] ?>"
                             class="btn btn-sm  btn-primary">
-                        Xóa
+                        <i class="fa-solid fa-trash"></i>
                     </button>
                     <div class="modal fade" id="Delete<?= $product['product_id'] ?>" tabindex="-1"
                          aria-labelledby="exampleModalLabel" aria-hidden="true">
