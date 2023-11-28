@@ -33,6 +33,13 @@ function delete_user($id)
     return $connect;
 }
 
+function delete_all($del){
+    $connect = new connect();
+    $data = "DELETE FROM users WHERE id IN ($del)";
+    $connect = $connect->pdo_execute($data);
+    return $connect;
+}
+
 function GetCount($table)
 {
     $connect = new connect();
@@ -53,6 +60,15 @@ function GetDataPage($table, $offset, $limit)
 {
     $connect = new connect();
     $data = "SELECT * FROM $table LIMIT $offset, $limit ";
+    $connect = $connect->pdo_query($data);
+    return $connect;
+}
+
+//Tìm kiếm
+function search($timkiem)
+{
+    $connect = new connect();
+    $data = "SELECT * FROM users WHERE email LIKE '%".$timkiem."%' ORDER BY id DESC LIMIT 3";
     $connect = $connect->pdo_query($data);
     return $connect;
 }
