@@ -39,6 +39,8 @@ if (!isset($_SESSION['admin'])) {
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
         <script src="https://kit.fontawesome.com/91f424987f.js" crossorigin="anonymous"></script>
         <script src="../view/ckfinder/ckfinder.js"></script>
+        <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+
     </head>
     <body>
     <div class="container-fluid position-relative d-flex p-0">
