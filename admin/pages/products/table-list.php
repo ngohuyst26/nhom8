@@ -61,7 +61,7 @@ $value = $pro->GetAllProduct();
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                                            Close
+                                            Đóng
                                         </button>
                                         <button type="submit" name="del_product"
                                                 class="btn btn-primary">
@@ -96,7 +96,7 @@ $value = $pro->GetAllProduct();
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                                            Close
+                                            Đóng
                                         </button>
                                         <button type="submit" name="del_product"
                                                 class="btn btn-primary">

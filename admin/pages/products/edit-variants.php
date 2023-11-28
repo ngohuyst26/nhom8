@@ -205,7 +205,7 @@ if (isset($_GET['product'])) {
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-secondary"
-                                                            data-bs-dismiss="modal">Close
+                                                            data-bs-dismiss="modal">Đóng
                                                     </button>
                                                     <?php if ($pro->CheckOptions($key['id']) == 0): ?>
                                                         <a href="?page=product&action=edit-variants&product=<?= $id_product ?>&variant_del=<?= $key['id'] ?>"
@@ -244,10 +244,10 @@ if (isset($_GET['product'])) {
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-secondary"
-                                                            data-bs-dismiss="modal">Close
+                                                            data-bs-dismiss="modal">Đóng
                                                     </button>
                                                     <button type="submit" name="edit_variants" class="btn btn-primary">
-                                                        Save changes
+                                                        Lưu
                                                     </button>
                                                 </div>
                                             </div>
@@ -322,7 +322,7 @@ if (isset($_GET['product'])) {
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn btn-secondary"
-                                                                data-bs-dismiss="modal">Close
+                                                                data-bs-dismiss="modal">Đóng
                                                         </button>
                                                         <?php if ($pro->CheckSetOption($optionIdArray[$index]) == 0): ?>
                                                             <a href="?page=product&action=edit-variants&product=<?= $id_product ?>&option_del=<?= $optionIdArray[$index] ?>"
@@ -360,11 +360,11 @@ if (isset($_GET['product'])) {
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn btn-secondary"
-                                                                data-bs-dismiss="modal">Close
+                                                                data-bs-dismiss="modal">Đóng
                                                         </button>
                                                         <button type="submit" name="edit_option"
                                                                 class="btn btn-primary">
-                                                            Save changes
+                                                            Lưu
                                                         </button>
                                                     </div>
                                                 </div>
@@ -440,7 +440,7 @@ if (isset($_GET['product'])) {
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary"
-                                                        data-bs-dismiss="modal">Close
+                                                        data-bs-dismiss="modal">Đóng
                                                 </button>
                                                 <a href="?page=product&action=edit-variants&product=<?= $id_product ?>&del_setoption=<?= $option['id'] ?>"
                                                    class="btn btn-danger">
@@ -479,11 +479,11 @@ if (isset($_GET['product'])) {
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary"
-                                                        data-bs-dismiss="modal">Close
+                                                        data-bs-dismiss="modal">Đóng
                                                 </button>
                                                 <button type="submit" name="edit_setoption"
                                                         class="btn btn-primary">
-                                                    Save changes
+                                                    Lưu
                                                 </button>
                                             </div>
                                         </div>
@@ -523,8 +523,8 @@ if (isset($_GET['product'])) {
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" name="add" class="btn btn-primary">Save changes</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đống</button>
+                    <button type="submit" name="add" class="btn btn-primary">Lưu</button>
                 </div>
             </div>
         </form>
@@ -555,8 +555,8 @@ if (isset($_GET['product'])) {
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" name="addoptions" class="btn btn-primary">Save changes</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                    <button type="submit" name="addoptions" class="btn btn-primary">Lưu</button>
                 </div>
             </div>
         </form>
@@ -597,8 +597,8 @@ if (isset($_GET['product'])) {
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" name="setoptions" class="btn btn-primary">Save changes</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                    <button type="submit" name="setoptions" class="btn btn-primary">Lưu</button>
                 </div>
             </div>
         </form>

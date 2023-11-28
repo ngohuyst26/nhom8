@@ -104,7 +104,7 @@ $value = $pro->GetAllProductDel();
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-secondary"
                                                             data-bs-dismiss="modal">
-                                                        Close
+                                                        Đóng
                                                     </button>
                                                     <?php if ($pro->CheckVariants($product['product_id']) == 0): ?>
                                                         <button type="submit" name="del_product_variants"
@@ -138,7 +138,7 @@ $value = $pro->GetAllProductDel();
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-secondary"
                                                             data-bs-dismiss="modal">
-                                                        Close
+                                                        Đóng
                                                     </button>
                                                     <button type="submit" name="undo_product"
                                                             class="btn btn-primary">
@@ -187,7 +187,7 @@ $value = $pro->GetAllProductDel();
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-secondary"
                                                             data-bs-dismiss="modal">
-                                                        Close
+                                                        Đóng
                                                     </button>
                                                     <?php if ($pro->CheckSku($product['product_id']) == 1): ?>
                                                         <button type="submit" name="del_product_def"
@@ -220,7 +220,7 @@ $value = $pro->GetAllProductDel();
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-secondary"
                                                             data-bs-dismiss="modal">
-                                                        Close
+                                                        Đóng
                                                     </button>
                                                     <button type="submit" name="undo_product"
                                                             class="btn btn-primary">
