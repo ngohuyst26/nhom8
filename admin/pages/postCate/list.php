@@ -154,16 +154,16 @@ if(isset($_GET['key']))  {
 <!-- Modal -->
 <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog">
-        <div class="modal-content">
+        <div class="modal-content bg-secondary">
             <form action="/admin/pages/postCate/handel.php" method="post">
                 <div class="modal-header">
-                    <h1 class="modal-title text-dark fs-5" id="staticBackdropLabel">Bạn Có Chắc Chắn Muốn Xóa Bài Viết Này</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h1 class="modal-title text-ưhite fs-5" id="staticBackdropLabel">Bạn Có Chắc Chắn Muốn Xóa Bài Viết Này</h1>
+                    <button type="button" class="btn-close bg-light" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
 
                 <div class="modal-footer">
                     <input type="text" name="check_list" value="" id="formDel" hidden>
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Hủy</button>
                     <button class="btn text-light" type="submit" name="delListID">Xóa</button>
 
                 </div>

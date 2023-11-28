@@ -7,12 +7,11 @@ $getPostCate = $post->getPostCate();
 <div class="col-sm-12 mt-3">
     <div class="bg-secondary rounded h-100 p-4">
         <form action="/admin/pages/posts/handel.php" method="post" enctype="multipart/form-data">
-            <div class="d-flex align-items-center justify-content-between mb-4">
+            <div class="d-lg-flex align-items-center justify-content-between mb-4">
                 <h6 class="">THÊM BÀI VIẾT</h6>
                 <div class="">
-                    <button type="submit" name="addNote" class="btn btn-light">Lưu vào Nháp <i
-                                class="fa-solid fa-plus"></i></button>
-                    <button type="submit" name="add" class="btn btn-light">Thêm Mới <i class="fa-solid fa-plus"></i>
+                    <button type="submit" name="addNote" class="btn btn-primary">Lưu vào Nháp </button>
+                    <button type="submit" name="add" class="btn btn-primary">Thêm Mới 
                     </button>
                 </div>
 

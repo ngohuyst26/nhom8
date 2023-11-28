@@ -142,6 +142,12 @@ if (isset($_GET['key'])) {
     .page-link:hover {
         background-color: #0dcaf0 !important;
     }
+
+    @media (max-width: 768px) { 
+    .over-fl-mb {
+        overflow-x: auto;
+    }
+}
 </style>
 
 
@@ -266,8 +272,8 @@ if (isset($_GET['key'])) {
 
         <?php endif; ?>
 
-        <div class="pt-3" style="overflow-x: auto;">
-            <div class="text-start align-middle table-hover">
+        <div class="pt-3">
+            <div class="text-start align-middle table-hover over-fl-mb">
                 <div class="d-flex align-items-center mb-3 border-bottom pb-3 border-info" style="width: 1173px">
                     <div class="" style="width:40px;"><input type="checkbox" id="head_check_list"
                                                              class="form-check-input"></div>
@@ -550,20 +556,19 @@ if (isset($_GET['key'])) {
 </div>
 
 <!-- Modal -->
-<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+<div class="modal fade " id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
      aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
+    <div class="modal-dialog ">
+        <div class="modal-content bg-secondary">
             <form action="/admin/pages/posts/handel.php" method="post">
                 <div class="modal-header">
-                    <h1 class="modal-title text-dark fs-5" id="staticBackdropLabel">Bạn Có Chắc Chắn Muốn Xóa Bài Viết
-                        Này</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h1 class="modal-title text-white fs-5" id="staticBackdropLabel">Bạn Có Chắc Chắn Muốn Xóa Bài Viết Này</h1>
+                    <button type="button" class="btn-close bg-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
 
                 <div class="modal-footer">
                     <input type="text" name="check_list" value="" id="formDel" hidden>
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Hủy</button>
                     <button class="btn text-light" type="submit" name="delListID">Xóa</button>
 
                 </div>
