@@ -60,24 +60,24 @@ $value = $pro->GetAllProductDel();
                                 Sản phẩm thường
                             <?php endif; ?>
                         </td>
-                        <td class="d-flex flex-wrap gap-1">
+                        <td class="">
                             <?php if ($pro->CountVariants($product['product_id']) > 0 || $pro->CheckSku($product['product_id']) == 0): ?>
-                                <a class="btn btn-sm btn-primary"
-                                   href="?page=product&action=edit-variants&product=<?= $product['product_id'] ?>">Chỉnh
-                                    sửa</a>
+                                <a class="btn btn-sm btn-warning"
+                                   href="?page=product&action=edit-variants&product=<?= $product['product_id'] ?>"><i
+                                            class="fa-sharp fa-solid fa-pen-to-square"></i></a>
 
                                 <!--                            Nút khôi phục-->
                                 <button type="button" data-bs-toggle="modal"
                                         data-bs-target="#Undo<?= $product['product_id'] ?>"
-                                        class="btn btn-sm  btn-primary">
-                                    Khôi phục
+                                        class="btn btn-sm  btn-info">
+                                    <i class="fa-solid fa-repeat"></i>
                                 </button>
 
                                 <!--                            Nút xóa vĩnh viễn-->
                                 <button type="button" data-bs-toggle="modal"
                                         data-bs-target="#DelVari<?= $product['product_id'] ?>"
                                         class="btn btn-sm  btn-primary">
-                                    Xóa
+                                    <i class="fa-solid fa-trash"></i>
                                 </button>
 
                                 <!--                            Modal xóa sản phẩm biến thể -->
@@ -150,12 +150,13 @@ $value = $pro->GetAllProductDel();
                                     </div>
                                 </div>
                             <?php else: ?>
-                                <a class="btn btn-sm btn-primary"
-                                   href="?page=product&action=edit&product=<?= $product['product_id'] ?>">Chỉnh sửa</a>
+                                <a class="btn btn-sm btn-warning"
+                                   href="?page=product&action=edit&product=<?= $product['product_id'] ?>"><i
+                                            class="fa-sharp fa-solid fa-pen-to-square"></i></a>
                                 <button type="button" data-bs-toggle="modal"
                                         data-bs-target="#Undo<?= $product['product_id'] ?>"
-                                        class="btn btn-sm  btn-primary">
-                                    Khôi phục
+                                        class="btn btn-sm  btn-info">
+                                    <i class="fa-solid fa-repeat"></i>
                                 </button>
 
 
@@ -163,7 +164,7 @@ $value = $pro->GetAllProductDel();
                                 <button type="button" data-bs-toggle="modal"
                                         data-bs-target="#DelDef<?= $product['product_id'] ?>"
                                         class="btn btn-sm  btn-primary">
-                                    Xóa
+                                    <i class="fa-solid fa-trash"></i>
                                 </button>
 
                                 <!--                            Modal xóa sản phẩm biến thể -->
