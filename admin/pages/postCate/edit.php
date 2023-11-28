@@ -5,7 +5,7 @@
             <form action="/admin/pages/postCate/handel.php" method="post" enctype="multipart/form-data">
                 <div class="d-flex align-items-center justify-content-between mb-4">
                     <h6 class="">CHỈNH SỬA DANH MỤC BÀI VIẾT</h6>
-                    <button type="submit" name="edit" class="btn btn-light">Cập Nhật</button>
+                    <button type="submit" name="edit" class="btn btn-primary">Cập Nhật</button>
                 </div>
 
                 <?php

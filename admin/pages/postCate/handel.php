@@ -14,7 +14,7 @@ if (isset($_POST['delListID'])) {
         $id = $_POST['check_list'];
         $posts->delPostCate($id);
     }
-    header('location: ' . $_SERVER['HTTP_REFERER']);
+    header('location: /admin/?page=categoriesPost&action=list');
 }
 
 if (isset($_POST['add'])) {
@@ -22,7 +22,7 @@ if (isset($_POST['add'])) {
     $content = $_POST['content'];
     $slug = $_POST['slug'];
 
-    if (isset($_POST['name'])) {
+    if (isset($_POST['name']) && !empty($_POST['name'])) {
         $posts->cretePostCate($name, $slug, $content);
     }
     header('location: ' . $_SERVER['HTTP_REFERER']);
