@@ -12,12 +12,9 @@ if($_SERVER["REQUEST_METHOD"] === "POST"){
     $number_use = $_POST["number_use"];
     $date_end = $_POST["date_end"];
     $connect = new connect();
-    $tryvan = "UPDATE discount SET (code, type, discount, description, number_use, date_end) 
-               = ('$code', '$type', '$discount', '$description', '$number_use', '$date_end') WHERE id = $id";
+    $tryvan = "UPDATE discount SET code = '$code', type = '$type', discount ='$discount', description = '$description', number_use =  '$number_use', date_end = '$date_end' WHERE id = $id";
     $connect->pdo_execute($tryvan);
 }
-
-
 ?>
 <div class="bg-secondary rounded h-100 p-4">
     <h6 class="mb-4">SỬA MÃ ƯU ĐÃI</h6>
@@ -31,7 +28,7 @@ if($_SERVER["REQUEST_METHOD"] === "POST"){
                 <fieldset class="row mb-3">
                     <div class="col-sm-10">
                         <div class="form-check">
-                            <input class="form-check-input" type="radio"  name="type" id="gridRadios1" value="0" checked="">
+                            <input class="form-check-input" type="radio" name="type" id="gridRadios1" value="0" checked="">
                             <label class="form-check-label" for="gridRadios1">
                                 Giảm theo phần trăm tổng đơn hàng
                             </label>
