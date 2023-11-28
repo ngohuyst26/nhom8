@@ -5,7 +5,7 @@ class connect{
         $username = "root";
         $password = "mysql";
         try {
-            $conn = new PDO("mysql:host=$servername;dbname=duanone", $username, $password);
+            $conn = new PDO("mysql:host=$servername;dbname=duanone1", $username, $password);
             // set the PDO error mode to exception
             $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             // echo "Connected successfully";
@@ -67,7 +67,7 @@ class connect{
     function pdo_query_one($sql){
         $sql_args = array_slice(func_get_args(), 1);
         try{
-            $conn = $this->pdo_get_connection();
+            $conn =$this->pdo_get_connection();
             $stmt = $conn->prepare($sql);
             $stmt->execute($sql_args);
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
