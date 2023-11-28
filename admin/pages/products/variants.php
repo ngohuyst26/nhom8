@@ -84,52 +84,6 @@ if (isset($_GET['product'])) {
 <h2 class="text-center">Thêm biến thể cho sản phẩm</h2>
 
 <div class="container p-4">
-    <div class="col-sm-12 col-xl-12 mt-3 mb-3">
-        <div class="bg-secondary rounded h-100 p-4">
-            <h6 class="mb-4">SỬA SẢN PHẨM</h6>
-            <form enctype="multipart/form-data" method="post">
-                <div class="mb-3">
-                    <label for="exampleInputEmail1" class="form-label">Tên sản phẩm</label>
-                    <input type="text" name="name" value="<?= $data['product_name'] ?>" class="form-control">
-                    <?php if ($_SESSION['name'] == 1): ?>
-                        <p class="text-danger">Tên không được để trống</p>
-                    <?php endif; ?>
-                </div>
-                <div class="mb-3">
-                    <label for="exampleInputPassword1" class="form-label">Mô tả</label>
-                    <input type="text" name="description" value="<?= $data['description'] ?>" class="form-control">
-                    <?php if ($_SESSION['description'] == 1): ?>
-                        <p class="text-danger">Mô tả không được để trống</p>
-                    <?php endif; ?></div>
-                <div class="mb-3">
-                    <label for="" class="form-label"> Danh mục </label>
-                    <select name="category" id="" class="form-select">
-                        <option value="0" <?= (($data['categori_id'] == 0) ? "selected" : "") ?> >Chưa phân loại
-                        </option>
-                        <?php foreach ($categoryName as $cate): ?>
-                            <option value="<?= $cate['id'] ?>" <?= (($data['categori_id'] == $cate['id']) ? "selected" : "") ?> ><?= $cate['name_category'] ?></option>
-                        <?php endforeach; ?>
-                    </select>
-                </div>
-                <div class="mb-3">
-                    <label for="formFile" class="form-label">Hình ảnh</label>
-                    <input class="form-control" name="thumbnail" type="file" id="formFile">
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">Hình đã tải lên</label>
-                </div>
-                <div class="input-group mb-3">
-                    <button type="button" onclick="selectFileWithCKFinder('ckfinder-input-1')" class="input-group-text">
-                        Chọn hình
-                    </button>
-                    <input type="text" class="form-control" name="ckfinder" id="ckfinder-input-1"
-                           placeholder="Chưa hình nào được chọn" value="">
-                </div>
-                <button type="submit" name="edit" class="btn btn-primary">Lưu</button>
-                <a href="?page=product&action=list" class="btn btn-primary">Danh sách sản phẩm</a>
-            </form>
-        </div>
-    </div>
     <div class="row">
         <div class="mb-3">
             <table class="table table-bordered border-white text-white">
@@ -175,7 +129,7 @@ if (isset($_GET['product'])) {
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-secondary"
-                                                            data-bs-dismiss="modal">Close
+                                                            data-bs-dismiss="modal">Đóng
                                                     </button>
                                                     <?php if ($pro->CheckOptions($key['id']) == 0): ?>
                                                         <a href="?page=product&action=edit-variants&product=<?= $id_product ?>&variant_del=<?= $key['id'] ?>"
@@ -214,10 +168,10 @@ if (isset($_GET['product'])) {
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-secondary"
-                                                            data-bs-dismiss="modal">Close
+                                                            data-bs-dismiss="modal">Đóng
                                                     </button>
                                                     <button type="submit" name="edit_variants" class="btn btn-primary">
-                                                        Save changes
+                                                        Lưu
                                                     </button>
                                                 </div>
                                             </div>
@@ -292,7 +246,7 @@ if (isset($_GET['product'])) {
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn btn-secondary"
-                                                                data-bs-dismiss="modal">Close
+                                                                data-bs-dismiss="modal">Đóng
                                                         </button>
                                                         <?php if ($pro->CheckSetOption($optionIdArray[$index]) == 0): ?>
                                                             <a href="?page=product&action=edit-variants&product=<?= $id_product ?>&option_del=<?= $optionIdArray[$index] ?>"
@@ -330,11 +284,11 @@ if (isset($_GET['product'])) {
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn btn-secondary"
-                                                                data-bs-dismiss="modal">Close
+                                                                data-bs-dismiss="modal">Đóng
                                                         </button>
                                                         <button type="submit" name="edit_option"
                                                                 class="btn btn-primary">
-                                                            Save changes
+                                                            Lưu
                                                         </button>
                                                     </div>
                                                 </div>
@@ -410,7 +364,7 @@ if (isset($_GET['product'])) {
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary"
-                                                        data-bs-dismiss="modal">Close
+                                                        data-bs-dismiss="modal">Đóng
                                                 </button>
                                                 <a href="?page=product&action=edit-variants&product=<?= $id_product ?>&del_setoption=<?= $option['id'] ?>"
                                                    class="btn btn-danger">
@@ -449,11 +403,11 @@ if (isset($_GET['product'])) {
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary"
-                                                        data-bs-dismiss="modal">Close
+                                                        data-bs-dismiss="modal">Đóng
                                                 </button>
                                                 <button type="submit" name="edit_setoption"
                                                         class="btn btn-primary">
-                                                    Save changes
+                                                    Lưu
                                                 </button>
                                             </div>
                                         </div>
@@ -493,8 +447,8 @@ if (isset($_GET['product'])) {
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" name="add" class="btn btn-primary">Save changes</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                    <button type="submit" name="add" class="btn btn-primary">Lưu</button>
                 </div>
             </div>
         </form>
@@ -525,8 +479,8 @@ if (isset($_GET['product'])) {
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" name="addoptions" class="btn btn-primary">Save changes</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                    <button type="submit" name="addoptions" class="btn btn-primary">Lưu</button>
                 </div>
             </div>
         </form>
@@ -562,13 +516,13 @@ if (isset($_GET['product'])) {
                         <input type="text" placeholder="" name="sku" class="form-control">
                     </div>
                     <div class="mb-3">
-                        <label for="exampleInputPassword1" class="form-label">Price</label>
+                        <label for="exampleInputPassword1" class="form-label">Giá</label>
                         <input type="text" placeholder="" name="price" class="form-control">
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" name="setoptions" class="btn btn-primary">Save changes</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                    <button type="submit" name="setoptions" class="btn btn-primary">Lưu</button>
                 </div>
             </div>
         </form>
