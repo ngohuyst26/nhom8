@@ -26,7 +26,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $data = "SELECT email FROM users WHERE email = '$email'";
         $check_email = $connect->pdo_query_one($data);
             if (!empty($check_email)){
-                $email_check_error = "<span style='color:red;'>Error: Email đã được đăng ký tài khoảng, vui lòng nhập email khác!</span>";
+                $email_check_error = "<span style='color:red;'>Error: Email đã được đăng ký tài khoản, vui lòng nhập email khác!</span>";
                 $check = true;
             }
         }
@@ -41,14 +41,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if (empty($_POST["sex"])){
         $check = true;
+        $sex = $_POST['sex'];
         $sex_error = "<span style='color:red;'>Error: Giới tính bắt buộc phải chọn.</span>";
+        echo $sex;
     } else{
         $sex = $_POST['sex'];
+
     }
 
     if (empty($_POST['role'])){
         $check = true;
+        $role = $_POST['role'];
         $role_error = "<span style='color:red;'>Error: Chức vụ bắt buộc phải chọn.</span>";
+        echo $role;
     } else{
         $role = $_POST['role'];
     }
@@ -98,11 +103,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         ?>
         <div class="form-floating mb-3">
             <label for="exampleInputEmail1">Giới Tính</label><br/><br/>
-            <input type="radio" name="sex" id="" value="male"> Nam
+            <input type="radio" name="sex" id="" value="1"> Nam
             <br/>
-            <input type="radio" name="sex" id="" value="female"> Nữ
+            <input type="radio" name="sex" id="" value="2"> Nữ
             <br/>
-            <input type="radio" name="sex" id="" value="orther"> Khác
+            <input type="radio" name="sex" id="" value="3"> Khác
         </div>
         <?php
         if (isset($sex_error)){
@@ -117,7 +122,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <br/>
             <input type="radio" name="role" id="" value="3"> Product Manager
             <br/>
-            <input type="radio" name="role" id="" value="0"> User
+            <input type="radio" name="role" id="" value="4"> User
         </div>
         <?php
         if (isset($role_error)){
