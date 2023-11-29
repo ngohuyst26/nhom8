@@ -18,28 +18,28 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                         $info['check'] = array(
                             //Cho phép vào trang quản lý người dùng
                             "\?page=users&action=list$",
-                            "\?page=users&action=edit&id=\d$",
-                            "\?page=users&action=list&id=\d$",
-                            "\?page=users&action=list&page-item=\d$",
+                            "\?page=users&action=edit&id=\d+$",
+                            "\?page=users&action=list&id=\d+$",
+                            "\?page=users&action=list&page-item=\d+$",
                             "\?page=users&action=add$",
                             //Cho phép vào trang quản lý sản phẩm
                             "\?page=product&action=add$",
                             "\?page=product&action=list$",
-                            "\?page=product&action=edit-variants&product=\d$",
                             "\?page=product&action=del$",
                             "\?page=product&action=draft$",
+                            "\?page=product&action=edit-variants&product=\d+$",
                             //Cho phép vào trang đơn hàng
                             "\?page=order&action=list$",
-                            "\?page=order&action=order-detail&order=\d$",
-                            "\?page=order&action=edit&edit_order=\d$",
-                            "\?page=order&action=list&del_order=\d$",
+                            "\?page=order&action=order-detail&order=\d+$",
+                            "\?page=order&action=edit&edit_order=\d+$",
+                            "\?page=order&action=list&del_order=\d+$",
                             //Cho phép vào trang bài viết
                             "\?page=posts&action=add$",
                             "\?page=posts&action=list$",
                             "\?page=posts&action=list&f=trash$",
                             "\?page=posts&action=list&f=note$",
                             "\?page=categoriesPost&action=list$",
-                            "\?page=categoriesPost&action=edit&id=\d$",
+                            "\?page=categoriesPost&action=edit&id=\d+$",
 //                        Chưa thấy cái xóa bài viết đâu
                             //Cho phép vào trang mã ưu đãi
                             "\?page=discounts&action=add-discount$",
@@ -48,8 +48,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                             //Cho phép vào trang loại sản phẩm
                             "\?page=category&action=add$",
                             "\?page=category&action=list$",
-                            "\?page=category&action=edit&id\d$",
-                            "\?page=category&action=list&id=\d$"
+                            "\?page=category&action=edit&id\d+$",
+                            "\?page=category&action=list&id=\d+$",
+                            "\?page=category&action=edit&id=\d+$",
                         ) ;
                         $_SESSION['id'] = $info['id'];
                         $_SESSION['email'] = $email;
@@ -66,7 +67,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                         "\?page=posts&action=list&f=trash$",
                         "\?page=posts&action=list&f=note$",
                         "\?page=categoriesPost&action=list$",
-                        "\?page=categoriesPost&action=edit&id=\d$",
+                        "\?page=categoriesPost&action=edit&id=\d+$",
+                        "\?page=product&action=edit&product=\d+$"
 //                        Chưa thấy cái xóa bài viết đâu
                     ) ;
                     $_SESSION['id'] = $info['id'];
