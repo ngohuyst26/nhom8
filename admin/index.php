@@ -1,11 +1,10 @@
 <?php
 ob_start();
 session_start();
-if (!isset($_SESSION['admin'])) {
+if (!isset($_SESSION['admin']['check'])) {
     header("Location: /login/signin.php");
-} else {
-    $user = $_SESSION['user'][1];
 }
+
 ?>
 
     <!DOCTYPE html>
