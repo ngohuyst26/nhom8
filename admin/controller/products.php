@@ -1,9 +1,9 @@
 <?php
 include_once "decentralization/decentralization_function.php";
-$check = decentralization($uri = false);
+$check = decentralization();
 if (!$check){
-echo "Bạn không có quyền truy cập vào chức năng này";
-exit;
+    include_once "decentralization/Notification.php";
+    exit;
 } else {
     if (isset($_GET['action'])) {
         $action = $_GET['action'];
