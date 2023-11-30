@@ -12,40 +12,42 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 //Kiểm tra email với pass có đúng không
     foreach($result as $info){
         if(isset($_POST['email']) && isset($_POST['password'])){
-            if($info['email'] == $email && $info['password'] == $password && ($info['role'] == '1' || $info['role'] == '2' ||  $info['role'] == '3' )){
+            if($info['email'] == $email && password_verify($password,$info['password']) && ($info['role'] == '1' || $info['role'] == '2' ||  $info['role'] == '3'
+                    ||  $info['role'] == '4' ||  $info['role'] == '5' ||  $info['role'] == '6' ||  $info['role'] == '7' )){
                 if($info['role'] == 1){
                         //Phân quyền khi đăng nhập luôn
                         $info['check'] = array(
-                            //Cho phép vào trang quản lý người dùng
+                            //Cho phép vào trang quản lý người dùng role = 4
                             "\?page=users&action=list$",
                             "\?page=users&action=edit&id=\d+$",
                             "\?page=users&action=list&id=\d+$",
                             "\?page=users&action=list&page-item=\d+$",
                             "\?page=users&action=add$",
-                            //Cho phép vào trang quản lý sản phẩm
+                            //Cho phép vào trang quản lý sản phẩm role = 3
                             "\?page=product&action=add$",
                             "\?page=product&action=list$",
                             "\?page=product&action=del$",
                             "\?page=product&action=draft$",
                             "\?page=product&action=edit-variants&product=\d+$",
-                            //Cho phép vào trang đơn hàng
+                            //Cho phép vào trang đơn hàng role = 5
                             "\?page=order&action=list$",
                             "\?page=order&action=order-detail&order=\d+$",
                             "\?page=order&action=edit&edit_order=\d+$",
                             "\?page=order&action=list&del_order=\d+$",
-                            //Cho phép vào trang bài viết
+                            //Cho phép vào trang bài viết role = 2
                             "\?page=posts&action=add$",
                             "\?page=posts&action=list$",
                             "\?page=posts&action=list&f=trash$",
                             "\?page=posts&action=list&f=note$",
                             "\?page=categoriesPost&action=list$",
                             "\?page=categoriesPost&action=edit&id=\d+$",
+                            "\?page=posts&action=list&offset=\d+$",
 //                        Chưa thấy cái xóa bài viết đâu
-                            //Cho phép vào trang mã ưu đãi
+                            //Cho phép vào trang mã ưu đãi role = 6
                             "\?page=discounts&action=add-discount$",
                             "\?page=discounts&action=list-discount$",
                             //Chưa thấy cái xóa đâu với edit
-                            //Cho phép vào trang loại sản phẩm
+                            //Cho phép vào trang loại sản phẩm role = 7
                             "\?page=category&action=add$",
                             "\?page=category&action=list$",
                             "\?page=category&action=edit&id\d+$",
@@ -57,7 +59,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                         $_SESSION['user'] =  $info['name'];
                         $_SESSION['pass'] =  $password;
                         $_SESSION['admin'] = $info;
-//                        var_dump( $_SESSION['admin']['check']); exit;
                     header('Location: /admin');
                 } else if($info['role'] == 2){
                     $info['check'] = array(
@@ -68,7 +69,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                         "\?page=posts&action=list&f=note$",
                         "\?page=categoriesPost&action=list$",
                         "\?page=categoriesPost&action=edit&id=\d+$",
-                        "\?page=product&action=edit&product=\d+$"
+                        "\?page=product&action=edit&product=\d+$",
+                        "\?page=posts&action=list&offset=\d+$",
 //                        Chưa thấy cái xóa bài viết đâu
                     ) ;
                     $_SESSION['id'] = $info['id'];
@@ -78,12 +80,13 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                     $_SESSION['admin'] = $info;
                     header('Location: /admin');
                 } else if($info['role'] == 3){
+                    //Cho phép vào trang quản lý sản phẩm
                     $info['check'] = array(
                         "\?page=product&action=add$",
                         "\?page=product&action=list$",
-                        "\?page=product&action=edit-variants&product=\d$",
                         "\?page=product&action=del$",
                         "\?page=product&action=draft$",
+                        "\?page=product&action=edit-variants&product=\d+$",
                     );
                     $_SESSION['id'] = $info['id'];
                     $_SESSION['email'] = $email;
@@ -91,6 +94,38 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                     $_SESSION['pass'] =  $password;
                     $_SESSION['admin'] = $info;
                     header('Location: /admin');
+                } else if($info['role'] == 4){
+                    //Cho phép vào trang người dùng
+                    $info['check'] = array(
+                        "\?page=users&action=list$",
+                        "\?page=users&action=edit&id=\d+$",
+                        "\?page=users&action=list&id=\d+$",
+                        "\?page=users&action=list&page-item=\d+$",
+                        "\?page=users&action=add$",
+                    );
+                } else if($info['check'] == 5){
+                    //Cho phép vào trang đơn hàng
+                    $info['check'] = array(
+                        "\?page=order&action=list$",
+                        "\?page=order&action=order-detail&order=\d+$",
+                        "\?page=order&action=edit&edit_order=\d+$",
+                        "\?page=order&action=list&del_order=\d+$",
+                    );
+                } else if($info['check'] == 6){
+                    //Cho phép vào trang mã giảm giá
+                    $info['check'] = array(
+                        "\?page=discounts&action=add-discount$",
+                        "\?page=discounts&action=list-discount$",
+                    );
+                } else if($info['check'] == 7){
+                    //Cho phép vào trang loại sản phẩm
+                    $info['check'] = array(
+                        "\?page=category&action=add$",
+                        "\?page=category&action=list$",
+                        "\?page=category&action=edit&id\d+$",
+                        "\?page=category&action=list&id=\d+$",
+                        "\?page=category&action=edit&id=\d+$",
+                    );
                 }
 
 //Lưu cooke

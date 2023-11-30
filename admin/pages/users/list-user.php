@@ -24,9 +24,7 @@ $totalPages = ceil($totalRecords / $recordsPerPage);
 $current_page = max(1, min($current_page, $totalPages));
 // Tính vị trí bắt đầu lấy dữ liệu từ CSDL
 $startFrom = ($current_page - 1) * $recordsPerPage;
-//$datas = get_all_user();
 $data = GetDataPage('users', $startFrom, $recordsPerPage);
-
 ?>
 <script type="text/javascript">
     $(document).ready(function () {
@@ -73,19 +71,37 @@ $data = GetDataPage('users', $startFrom, $recordsPerPage);
                         }
                         ?>
                         <tr>
-                            <td><input class="form-check-input" type="checkbox" name='checkbox[]' value='<?=$print['id'] ?>'></td>
+                            <td><input class="form-check-input" id="checkAll" type="checkbox" name='checkbox[]' value='<?=$print['id'] ?>'></td>
                             <td><?= $print['name'] ?></td>
                             <td><?= $print['email'] ?></td>
                             <td><?= $sex_fr ?></td>
                             <td>
-                                <a href="?page=users&action=list&id=<?= $print['id'] ?>">
-                                    <button type="button" class="btn btn-primary">Xóa</button>
-                                </a>
+                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#mddeleteuser">Xóa</button>
                                 <a href="?page=users&action=edit&id=<?= $print['id'] ?>">
                                     <button type="button" class="btn btn-success">Sửa</button>
                                 </a>
                             </td>
                         </tr>
+
+                                <div class="modal fade" id="mddeleteuser" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel" style="color: red">Xác nhận xóa người dùng</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                Bạn có chắc muốn xóa người dùng này?
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                                                <a href="?page=users&action=list&id=<?= $print['id'] ?>">
+                                                <button type="button" class="btn btn-primary">Xác nhận xóa</button>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             <?php endforeach; ?>
                         <?php endif; ?>
                         </tbody>
@@ -99,7 +115,6 @@ $data = GetDataPage('users', $startFrom, $recordsPerPage);
     </form>
 </div>
 <script type="text/javascript">
-        $(document).ready(function () {
             function checkAllCheckboxes() {
                 var checkboxes = document.getElementsByName('checkbox[]');
                 var checkAllCheckbox = document.getElementById('checkAll');
@@ -107,22 +122,22 @@ $data = GetDataPage('users', $startFrom, $recordsPerPage);
                     checkboxes[i].checked = checkAllCheckbox.checked;
                 }
             }
-    })
-
-
 </script>
+
+
+
 <nav aria-label="Page navigation example">
     <br/>
     <ul class="pagination justify-content-center">
         <?php if ($current_page > 1): ?>
             <li class="page-item">
-                <a class="page-link" href="?page=users&action=list" tabindex="-1" aria-disabled="true">Star page</a>
+                <a class="page-link" href="?page=users&action=list" tabindex="-1" aria-disabled="true">Trang Đầu</a>
             </li>
         <?php endif; ?>
         <?php if ($current_page >= 1): ?>
             <?php $next = $current_page - 1 ?>
             <li class="page-item">
-                <a class="page-link" href="?page=users&action=list&page-item=<?= $next ?>">Back</a>
+                <a class="page-link" href="?page=users&action=list&page-item=<?= $next ?>">Trang Trước</a>
             </li>
         <?php endif; ?>
 
@@ -141,13 +156,13 @@ $data = GetDataPage('users', $startFrom, $recordsPerPage);
         <?php if ($current_page >= 1): ?>
             <?php $next = $current_page + 1 ?>
             <li class="page-item">
-                <a class="page-link" href="?page=users&action=list&page-item=<?= $next ?>">Next</a>
+                <a class="page-link" href="?page=users&action=list&page-item=<?= $next ?>">Trang Sau</a>
             </li>
         <?php endif; ?>
         <?php if ($current_page < $totalPages): ?>
             <li class="page-item">
                 <a class="page-link" href="?page=users&action=list&page-item=<?= $totalPages ?>" tabindex="-1"
-                   aria-disabled="true">End page</a>
+                   aria-disabled="true">Trang cuối</a>
             </li>
         <?php endif; ?>
     </ul>

@@ -1,9 +1,9 @@
 <?php
 include_once 'pages/users/user-function.php';
 $id = $_GET['id'];
+$data_edit = get_user_edit($id);
 $user_error = $email_error = $password_error = $sex_error = $role_error = "";
 $check = false;
-$data_edit = get_user_edit($id);
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if (empty($_POST["user"])) {
         $check = true;
@@ -16,10 +16,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $email_error = "<span style='color:red;'>Error: Email bắt buộc phải nhập.</span>";
         $check == true;
     } else{
-        $email = $_POST['email'];
         if (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
             $email_error = "<span style='color:red;'>Error: Email nhập chưa đúng.</span>";
             $check == true;
+        } else{
+            $email = $_POST['email'];
         }
     }
 
@@ -54,7 +55,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 <div class="col-sm-12 col-xl-6 mt-3">
     <?php if (isset($data_edit)): ?>
         <?php foreach($data_edit as $print): ?>
-    <form method="POST" enctype="multipart/form-data">
+    <form method="post" enctype="multipart/form-data">
         <div class="bg-secondary rounded h-100 p-4">
             <h6 class="mb-4">SỬA THÔNG TIN NGƯỜI DÙNG</h6>
             <div class="form-floating mb-3">
@@ -87,14 +88,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 echo $password_error;
             }
             ?>
-
             <div class="form-floating mb-3">
                 <label for="exampleInputEmail1">Giới Tính</label><br/><br/>
-                <input type="radio" name="sex" id="" value="male"> Nam
+                <input type="radio" name="sex" id="" value="1"> Nam
                 <br/>
-                <input type="radio" name="sex" id="" value="female"> Nữ
+                <input type="radio" name="sex" id="" value="2"> Nữ
                 <br/>
-                <input type="radio" name="sex" id="" value="orther"> Khác
+                <input type="radio" name="sex" id="" value="3"> Khác
             </div>
             <?php
             if (isset($sex_error)){
@@ -103,13 +103,21 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             ?>
             <div class="form-floating mb-3">
                 <label for="exampleInputEmail1">Chức Vụ</label><br/><br/>
-                <input type="radio" name="role" id="admin" value="1"> Admin
+                <input type="radio" name="role" id="" value="1"> Admin
                 <br/>
                 <input type="radio" name="role" id="" value="2"> Creators
                 <br/>
-                <input type="radio" name="role" id="" value="3"> Product Manager
+                <input type="radio" name="role" id="" value="3"> Product Management
                 <br/>
-                <input type="radio" name="role" id="clinet" value="0"> Người Dùng
+                <input type="radio" name="role" id="" value="4"> User Management
+                <br/>
+                <input type="radio" name="role" id="" value="5"> Order Management
+                <br/>
+                <input type="radio" name="role" id="" value="6"> Manage Promotional Codes
+                <br/>
+                <input type="radio" name="role" id="" value="7"> Manage Product Types
+                <br/>
+                <input type="radio" name="role" id="" value="8"> Client
             </div>
             <?php
             if (isset($role_error)){
@@ -117,7 +125,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             }
             ?>
             <br/>
-            <button type="submit" class="btn btn-outline-primary">Thêm</button>
+            <button type="submit" class="btn btn-outline-primary">Cập nhật</button>
     </form>
     <?php endforeach;?>
     <?php endif;?>

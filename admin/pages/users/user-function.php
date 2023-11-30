@@ -1,8 +1,8 @@
 <?php
-function add_user($user, $email, $password,$sex, $role){
+function add_user($user, $email, $mahoa,$sex, $role){
     $connect = new connect();
-    $data = "INSERT INTO users(name,email ,password,sex,role) VALUES ('$user','$email','$password','$sex','$role')";
-    $connect->pdo_execute($data);
+    $data = "INSERT INTO users(name,email ,password,sex,role) VALUES (?,?,?,?,?)";
+    $connect->pdo_execute($data, $user, $email, $mahoa, $sex,$role);
 }
 
 function get_all_user(){
@@ -13,16 +13,17 @@ function get_all_user(){
 }
 function get_user_edit($id){
     $connect = new connect();
-    $data = "SELECT * FROM users WHERE id = $id";
-    $result = $connect->pdo_query($data);
+    $data = "SELECT * FROM users WHERE id = ?";
+    $result = $connect->pdo_query($data, $id);
     return $result;
 }
 
 function edit_user($user, $email, $password, $sex, $role)
 {
     $connect = new connect();
-    $data = "UPDATE users SET name ='$user', email='$email', password='$password', sex='$sex', role= $role WHERE email=  '$email'";
-    $connect->pdo_execute($data);
+    $data = "UPDATE users SET name = ?, email= ?, password= ?, sex= ?, role= ? WHERE email=  ?";
+    $connect->pdo_execute($data, $user,$email, $password,$sex,$role ,$email );
+    return $connect;
 }
 
 function delete_user($id)
@@ -72,5 +73,4 @@ function search($timkiem)
     $connect = $connect->pdo_query($data);
     return $connect;
 }
-
 ?>
