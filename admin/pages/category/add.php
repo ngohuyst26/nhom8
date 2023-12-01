@@ -1,11 +1,28 @@
 <?php
+$_SESSION['loaisanpham'] = 0;
+$check = true;
 //them loai sam pham
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $loaisanpham = $_POST["loaisanpham"];
     $connect = new connect();
-    $tryvan = "INSERT INTO product_categories(name_category) VALUES ('$loaisanpham')";
-    $connect->pdo_execute($tryvan);
+    if(empty($loaisanpham)){
+        $_SESSION['loaisanpham'] = 1;
+        $check = false;
+    }
+    if($check == true){
+        $tryvan = "INSERT INTO product_categories(name_category) VALUES ('$loaisanpham')";
+        $connect->pdo_execute($tryvan);
+    }
+//    try {
+//        $connect->pdo_execute($tryvan);
+//        echo "Thêm loại sản phẩm thành công!";
+//    } catch(Exception $e) {
+//        echo "Đã xảy lỗi!!!! " . $e->getMessage();
+//    }
 }
+//if ($_SESSION['loaisanpham'] == 1) {
+//    echo '<p>Loại saản phẩm không được để trống</p>';
+//}
 ?>
 <div class="bg-secondary rounded h-100 p-4">
     <h6 class="mb-4">THÊM LOẠI SẢN PHẨM</h6>
@@ -14,6 +31,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             <label for="exampleInputEmail1" class="form-label">Loại sản phẩm:</label>
             <input type="text" name="loaisanpham" class="form-control" id="exampleInputEmail1"
                    aria-describedby="emailHelp">
+            <?php if($_SESSION['loaisanpham'] == 1): ?>
+            <p>Không được để trống!!!</p>
+            <?php endif; ?>
             <div id="emailHelp" class="form-text">
             </div>
         </div>
