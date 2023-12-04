@@ -1,7 +1,30 @@
 <?php
-function check_user($email){
+function login($email){
     $connect = new connect();
-    $select="SELECT * FROM users WHERE email = $email";
-    $result = $connect->pdo_query($select);
+    $sql = "SELECT * FROM users WHERE email = ?";
+    $connect->pdo_query($sql,$email);
+}
+
+function forgot($newpassword,$email){
+    $connect = new connect();
+    $sql = "UPDATE users SET password = ? WHERE email = ?";
+    try{
+        $data = $connect->pdo_execute($sql, $newpassword,$email);
+        $_SESSION['chk'] = 1;
+    } catch(customException $e){
+        $_SESSION['chk'] = 2;
+    }
+    return $data;
+}
+
+function create($name,$email, $mahoa, $sex , $role){
+    $connect = new connect();
+    $sql = "INSERT INTO users(name,email ,password,sex,role) VALUES (?,?,?,?,?)";
+        try{
+            $connect->pdo_execute($sql, $name, $email, $mahoa,$sex,$role);
+            $_SESSION['tb'] = 1;
+        } catch (customException $e){
+            $_SESSION['tb'] = 2;
+        }
 }
 ?>
