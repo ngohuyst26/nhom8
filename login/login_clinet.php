@@ -14,6 +14,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
                 $_SESSION['name'] = $data['name'];
                 $_SESSION['email'] = $data['email'];
                 $_SESSION['role'] = $data['role'];
+                header('Location: ?action=home');
             } else {
                 $thongbao = "<span style='color:red; font-size: 20px; font-family: Roboto;'>Tài khoản hoặc mật khẩu không hợp lệ!</span>";
             }
