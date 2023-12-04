@@ -1,3 +1,16 @@
+<?php
+ob_start();
+session_start();
+$hienthi = '';
+$Signin = 'Sign in';
+$account = 'My account';
+if (isset($_SESSION['email']) && isset($_SESSION['name'])) {
+    $hienthi = $account;
+} else {
+    $hienthi = $Signin;
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <!-- molla/index-4.html  22 Nov 2019 09:53:08 GMT -->
@@ -70,6 +83,24 @@
                 case 'checkout':
                     include './page/cart/checkout.php';
                     break;
+                case 'login':
+                    include './login/login_clinet.php';
+                    break;
+                case 'account':
+                    include './page/users/account.php';
+                    break;
+                case 'logout':
+                    include './login/logout_client.php';
+                    break;
+                case 'forgot':
+                    include './login/forgot_password.php';
+                    break;
+                case 'check':
+                    include './login/add_verification.php';
+                    break;
+                case 'create':
+                    include './login/create_account.php';
+                    break;
             }
         } else {
             include './page/home.php';
@@ -102,3 +133,4 @@
 <!-- molla/index-4.html  22 Nov 2019 09:54:18 GMT -->
 
 </html>
+<?php ob_end_flush(); ?>

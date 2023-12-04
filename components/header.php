@@ -34,7 +34,7 @@
                                             </div><!-- End .header-menu -->
                                         </div>
                                     </li>
-                                    <li><a href="#signin-modal" data-toggle="modal">Sign in / Sign up</a></li>
+                                    <li><a href="login_client.php" data-toggle="modal">Sign in / Sign up</a></li>
                                 </ul>
                             </li>
                         </ul><!-- End .top-menu -->
@@ -224,6 +224,25 @@
                                 <li class="<?= (isset($_GET['action']) && $_GET['action'] == 'cart')?'megamenu-container  active':''?>">
                                     <a href="?action=cart" >Giỏ hàng</a>
                                 </li>
+                                <?php
+                                    $hienthi = "";
+                                    $login = "Đăng nhập";
+                                    $account = "Tài khoản";
+                                 if (isset($_SESSION['name']) && isset($_SESSION['email'])){
+                                     $hienthi = $account;
+                                 ?>
+                                     <li class="<?= (isset($_GET['action']) && $_GET['action'] == 'account')?'megamenu-container  active':''?>">
+                                         <a href="?action=account" ><?=$hienthi?></a>
+                                     </li>
+                                  <?php } else{
+                                        $hienthi = $login;
+                                 ?>
+                                <li class="<?= (isset($_GET['action']) && $_GET['action'] == 'login')?'megamenu-container  active':''?>">
+                                    <a href="?action=login" ><?=$hienthi?></a>
+                                </li>
+                                <?php
+                                 }
+                                ?>
                             </ul><!-- End .menu -->
                         </nav><!-- End .main-nav -->
                     </div><!-- End .header-center -->
