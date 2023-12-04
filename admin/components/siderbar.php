@@ -1,13 +1,6 @@
-<!-- Spinner Start -->
-<!-- <div id="spinner" class=" bg-dark position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
-    <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
-        <span class="sr-only">Loading...</span>
-    </div>
-</div> -->
-<!-- Spinner End -->
-
-
-
+<?php
+//session_start();
+?>
 <!-- Sidebar Start -->
 <div class="sidebar pe-4 pb-3">
     <nav class="navbar bg-secondary navbar-dark">
@@ -20,8 +13,7 @@
                 <div class="bg-success rounded-circle border border-2 border-white position-absolute end-0 bottom-0 p-1"></div>
             </div>
             <div class="ms-3">
-                <h6 class="mb-0">Jhon Doe</h6>
-                <span>Admin</span>
+                <span><?= $_SESSION['user'] ?></span>
             </div>
         </div>
         <div class="navbar-nav w-100">

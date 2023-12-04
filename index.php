@@ -1,15 +1,24 @@
 <?php
+ob_start();
 session_start();
+$hienthi = '';
+$Signin = 'Sign in';
+$account = 'My account';
+if (isset($_SESSION['email']) && isset($_SESSION['name'])) {
+    $hienthi = $account;
+} else {
+    $hienthi = $Signin;
+}
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-<!-- molla/index-4.html  22 Nov 2019 09:53:08 GMT -->
+    <!DOCTYPE html>
+    <html lang="en">
+    <!-- molla/index-4.html  22 Nov 2019 09:53:08 GMT -->
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Molla - Bootstrap eCommerce Template</title>
     <meta name="keywords" content="HTML5 Template">
     <meta name="description" content="Molla - Bootstrap eCommerce Template">
@@ -76,6 +85,24 @@ session_start();
                 case 'checkout':
                     include './page/cart/checkout.php';
                     break;
+                case 'login':
+                    include './login/login_clinet.php';
+                    break;
+                case 'account':
+                    include './page/users/account.php';
+                    break;
+                case 'logout':
+                    include './login/logout_client.php';
+                    break;
+                case 'forgot':
+                    include './login/forgot_password.php';
+                    break;
+                case 'check':
+                    include './login/add_verification.php';
+                    break;
+                case 'create':
+                    include './login/create_account.php';
+                    break;
             }
         } else {
             include './page/home.php';
@@ -107,6 +134,7 @@ session_start();
 </body>
 
 
-<!-- molla/index-4.html  22 Nov 2019 09:54:18 GMT -->
+    <!-- molla/index-4.html  22 Nov 2019 09:54:18 GMT -->
 
-</html>
+    </html>
+<?php ob_end_flush(); ?>
