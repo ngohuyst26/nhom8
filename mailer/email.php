@@ -1,5 +1,4 @@
 <?php
-include_once 'components/header.php';
 
 use PHPMailer\PHPMailer\Exception;
 use PHPMailer\PHPMailer\PHPMailer;
