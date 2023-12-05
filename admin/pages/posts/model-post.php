@@ -107,6 +107,18 @@ class Posts extends connect
         return $a;
     }
 
+    public function countAllPostCate()
+    {
+        $connect = new connect();
+        $conn = $connect->pdo_get_connection();
+        $sql = "SELECT COUNT(*)
+        FROM post_categories";
+        $stmt = $conn->prepare($sql);
+        $stmt->execute();
+        $total_records = $stmt->fetchColumn();
+        return $total_records;
+    }
+
     public function getPostByID($id)
     {
         $sql = "SELECT * FROM posts WHERE id = ? ";
