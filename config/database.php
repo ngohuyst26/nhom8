@@ -103,6 +103,15 @@ class connect{
             unset($conn);
         }
     }
+
+    function alertify($message, $type)
+    {
+
+        echo "<script>
+                alertify.set('notifier', 'position', 'top-right');
+                alertify.$type('$message', 5);
+            </script>";
+    }
 }
 
 
