@@ -1,3 +1,7 @@
+<?php
+session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <!-- molla/index-4.html  22 Nov 2019 09:53:08 GMT -->
@@ -30,13 +34,14 @@
     <link rel="stylesheet" href="assets/css/plugins/jquery.countdown.css">
     <!-- Main CSS File -->
     <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/font.css">
     <link rel="stylesheet" href="assets/css/plugins/nouislider/nouislider.css">
     <link rel="stylesheet" href="assets/css/skins/skin-demo-4.css">
     <link rel="stylesheet" href="assets/css/demos/demo-4.css">
     <link rel="stylesheet" href="assets/css/skins/skin-demo-13.css">
     <!-- <link rel="stylesheet" href="assets/css/demos/demo-13.css">-->
-
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://kit.fontawesome.com/91f424987f.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -44,6 +49,7 @@
     <?php include './components/header.php'; ?>
     <main>
         <?php
+        include "config/database.php";
         if (isset($_GET['action'])) {
             switch ($_GET['action']) {
                 case 'home':
@@ -90,12 +96,14 @@
 <script src="assets/js/wNumb.js"></script>
 <script src="assets/js/bootstrap-input-spinner.js"></script>
 <script src="assets/js/jquery.plugin.min.js"></script>
-    <script src="assets/js/jquery.magnific-popup.min.js"></script>
-    <script src="assets/js/jquery.countdown.min.js"></script>
-    <script src="assets/js/nouislider.min.js"></script>
-    <!-- Main JS File -->
-    <script src="assets/js/main.js"></script>
-    <script src="assets/js/demos/demo-4.js"></script>
+<script src="assets/js/jquery.magnific-popup.min.js"></script>
+<script src="assets/js/jquery.countdown.min.js"></script>
+<script src="assets/js/nouislider.min.js"></script>
+<!-- Main JS File -->
+<script src="assets/js/main.js"></script>
+<script src="assets/js/demos/demo-4.js"></script>
+<script src="assets/isotop.js"></script>
+
 </body>
 
 

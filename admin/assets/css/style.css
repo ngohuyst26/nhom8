@@ -1,10 +1,13 @@
 /********** Template CSS **********/
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200;300;400;500;600;700&family=Roboto:wght@500&display=swap');
+
 :root {
     --primary: #EB1616;
     --secondary: #191C24;
     --light: #6C7293;
     --dark: #000000;
 }
+
 
 .back-to-top {
     position: fixed;
@@ -156,7 +159,7 @@
     right: 15px;
     border: none;
     content: "\f107";
-    font-family: "Font Awesome 5 Free";
+    font-family: 'Roboto', sans-serif;
     font-weight: 900;
     transition: .5s;
 }
@@ -213,7 +216,7 @@
     vertical-align: middle;
     border: none;
     content: "\f107";
-    font-family: "Font Awesome 5 Free";
+    font-family: 'Roboto', sans-serif;
     font-weight: 900;
     transition: .5s;
 }
