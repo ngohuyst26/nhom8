@@ -48,7 +48,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
     </form>
     <?php
     if (isset($_SESSION['tb']) && $_SESSION['tb'] == 1){
-        echo $thongbao = "<span style='color: blue'>Tạo tài khoản thành công</span>";
+        echo $thongbao = "<span style='color: blue'>Đăng ký tài khoản thành công</span>";
     } else if(isset($_SESSION['tb']) && $_SESSION['tb'] == 2){
         echo $thongbao = "<span style='color: red'>Vui Lòng nhập đầy đủ thông tin</span>";
     }
