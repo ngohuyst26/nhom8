@@ -32,7 +32,6 @@ function guimail($email,$title,$noidung){
         $mail->Body    = $noidung;
         $mail->AltBody = $noidung;
         $mail->send();
-        header('Location: ?action=check');
     } catch (Exception $e) {
         echo "Mail không gửi được. Lỗi gửi mail; {$mail->ErrorInfo}";
     }
