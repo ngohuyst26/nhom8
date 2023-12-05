@@ -8,39 +8,50 @@ if (!isset($_SESSION['admin'])) {
 }
 ?>
 
-    <!DOCTYPE html>
-    <html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 
-    <head>
-        <meta charset="utf-8">
-        <title>DarkPan - Bootstrap 5 Admin Template</title>
-        <meta content="width=device-width, initial-scale=1.0" name="viewport">
-        <meta content="" name="keywords">
-        <meta content="" name="description">
+<head>
+    <meta charset="utf-8">
+    <title>DarkPan - Bootstrap 5 Admin Template</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
 
-        <!-- Favicon -->
-        <link href="assets/img/favicon.ico" rel="icon">
-        <!-- Google Web Fonts -->
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link
-            href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Roboto:wght@500;700&display=swap"
-            rel="stylesheet">
-        <!-- Icon Font Stylesheet -->
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
-        <!-- Libraries Stylesheet -->
-        <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
-        <link href="lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet"/>
-        <!-- Customized Bootstrap Stylesheet -->
-        <link href="assets/css/bootstrap.min.css" rel="stylesheet">
-        <!-- Template Stylesheet -->
-        <link href="assets/css/style.css" rel="stylesheet">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-        <script src="https://kit.fontawesome.com/91f424987f.js" crossorigin="anonymous"></script>
-        <script src="../view/ckfinder/ckfinder.js"></script>
-    </head>
-    <body>
+    <!-- Favicon -->
+    <link href="assets/img/favicon.ico" rel="icon">
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Roboto:wght@500;700&display=swap" rel="stylesheet">
+    <!-- Icon Font Stylesheet -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- Libraries Stylesheet -->
+    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Template Stylesheet -->
+    <link href="assets/css/style.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://kit.fontawesome.com/91f424987f.js" crossorigin="anonymous"></script>
+    <script src="../view/ckfinder/ckfinder.js"></script>
+    <!-- 
+    |
+    ALERTIFYJS
+    |   
+    |-->
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css" />
+    <!-- <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/bootstrap.min.css"/> -->
+    <!-- JavaScript -->
+    <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+    <link rel="stylesheet" href="../assets/css/alerityjs/customNotiler.css">
+
+
+</head>
+
+<body>
     <div class="container-fluid position-relative d-flex p-0">
         <?php include './components/siderbar.php'; ?>
         <!-- Content Start -->
@@ -108,36 +119,34 @@ if (!isset($_SESSION['admin'])) {
 
     <!-- Template Javascript -->
     <script src="assets/js/main.js"></script>
-    </body>
-    <script>
+</body>
+<script>
+    var button2 = document.getElementById('ckfinder-popup-1');
+    button2.onclick = function() {
+        selectFileWithCKFinder('ckfinder-input-1');
+    };
 
-        var button2 = document.getElementById('ckfinder-popup-1');
-        button2.onclick = function () {
-            selectFileWithCKFinder('ckfinder-input-1');
-        };
+    function selectFileWithCKFinder(elementId) {
+        console.log("click");
+        CKFinder.modal({
+            chooseFiles: true,
+            width: 800,
+            height: 600,
+            onInit: function(finder) {
+                finder.on('files:choose', function(evt) {
+                    var file = evt.data.files.first();
+                    var output = document.getElementById(elementId);
+                    output.value = file.getUrl();
+                });
 
-        function selectFileWithCKFinder(elementId) {
-            console.log("click");
-            CKFinder.modal({
-                chooseFiles: true,
-                width: 800,
-                height: 600,
-                onInit: function (finder) {
-                    finder.on('files:choose', function (evt) {
-                        var file = evt.data.files.first();
-                        var output = document.getElementById(elementId);
-                        output.value = file.getUrl();
-                    });
+                finder.on('file:choose:resizedImage', function(evt) {
+                    var output = document.getElementById(elementId);
+                    output.value = evt.data.resizedUrl;
+                });
+            }
+        });
+    }
+</script>
 
-                    finder.on('file:choose:resizedImage', function (evt) {
-                        var output = document.getElementById(elementId);
-                        output.value = evt.data.resizedUrl;
-                    });
-                }
-            });
-        }
-
-
-    </script>
 </html>
 <?php ob_end_flush(); ?>

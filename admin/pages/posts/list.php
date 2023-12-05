@@ -1,6 +1,7 @@
 <?php
 
 require_once 'model-post.php';
+$con = new connect();
 $post = new Posts;
 
 $getPostCate = $post->getPostCate();
@@ -94,7 +95,7 @@ if (isset($_GET['f']) && $_GET['f'] == 'note') {
 
 
 if (isset($_GET['key'])) {
-    $keyword = $_GET['key'];
+    $keyword = trim($_GET['key']);
     $next_page_url = $base_url . '&key=' . $_GET['key'];
     $countPostSearch = $post->countSearchPost($keyword);
     $page = ceil($countPostSearch / $numberPag);
@@ -577,6 +578,15 @@ if (isset($_GET['key'])) {
         </div>
     </div>
 </div>
+
+
+<?php
+
+if (isset($_SESSION['notifier'])) {
+    $con->alertify($_SESSION['notifier'][0], $_SESSION['notifier'][1]);
+    unset($_SESSION['notifier']);
+}
+?>
 
 
 <script>
