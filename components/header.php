@@ -34,7 +34,11 @@
                                             </div><!-- End .header-menu -->
                                         </div>
                                     </li>
-                                    <li><a href="login_client.php" data-toggle="modal">Sign in / Sign up</a></li>
+                                    <li><?php
+                                        if (isset($_SESSION['name'])){
+                                            echo $_SESSION['name'];
+                                        }
+                                        ?></li>
                                 </ul>
                             </li>
                         </ul><!-- End .top-menu -->
