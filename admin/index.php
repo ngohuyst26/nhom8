@@ -36,6 +36,7 @@ if (!isset($_SESSION['admin'])) {
         <link href="assets/css/bootstrap.min.css" rel="stylesheet">
         <!-- Template Stylesheet -->
         <link href="assets/css/style.css" rel="stylesheet">
+        <link href="assets/css/font.css" rel="stylesheet">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
         <script src="https://kit.fontawesome.com/91f424987f.js" crossorigin="anonymous"></script>
         <script src="../view/ckfinder/ckfinder.js"></script>

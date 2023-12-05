@@ -101,6 +101,7 @@ if (isset($_GET['product'])) {
             $thumbnail = $data['thumbnail'];
         }
         $check = $pro->ValidateProductVariants($name, $description, $ckfinder, $thumbnail);
+        var_dump($check);
         if (!$check) {
             $pro->EditProductVariants($id_product, $name, $description, $category, $thumbnail);
         }

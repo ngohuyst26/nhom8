@@ -158,7 +158,6 @@ class  product
                p.name AS product_name,
                p.thumbnail,
                p.categori_id,
-               p.categori_id,
                (SELECT s.id FROM skus s WHERE s.product_id = p.id ORDER BY s.id LIMIT 1) AS sku_id,
                (SELECT s.sku FROM skus s WHERE s.product_id = p.id ORDER BY s.id LIMIT 1) AS sku,
                (SELECT s.price FROM skus s WHERE s.product_id = p.id ORDER BY s.id LIMIT 1) AS price
@@ -362,10 +361,10 @@ class  product
             $check = true;
         }
         //Bắt lỗi chưa chọn hình ảnh
-        if (empty($ckfinder) && $thumbnail == 0) {
-            $_SESSION['thumbnail'] = 1;
-            $check = true;
-        }
+//        if (empty($ckfinder) && $thumbnail == 0) {
+//            $_SESSION['thumbnail'] = 1;
+//            $check = true;
+//        }
         return $check;
     }
 
@@ -418,6 +417,90 @@ class  product
         $sql = "DELETE FROM skus WHERE product_id = ?;
                 DELETE FROM products WHERE id = ?";
         $db->pdo_execute($sql, $id_product, $id_product);
+    }
+
+    function GetOptionById($id_options)
+    {
+        $db = new connect();
+        $sql = "SELECT name
+                FROM product_variant_options
+                WHERE id IN ($id_options)";
+        return $db->pdo_query($sql);
+
+    }
+
+    function FistOptions($product_id)
+    {
+        $db = new connect();
+        $sql = "SELECT GROUP_CONCAT(spo.product_variant_options_id) AS option_ids
+                FROM skus_product_variant_options spo
+                JOIN skus s ON s.id = spo.sku_id
+                WHERE s.product_id = ?
+                GROUP BY spo.sku_id
+                ORDER BY spo.sku_id
+                LIMIT 1
+                ";
+        return $db->pdo_query_one($sql, $product_id);
+    }
+
+    function DeltaiProduct($options, $size)
+    {
+        $db = new connect();
+        $sql = "SELECT s.price, p.name as product_name, p.description as description , p.thumbnail, p.id as product_id
+            FROM products p
+            JOIN skus s ON p.id = s.product_id
+            JOIN skus_product_variant_options spo ON s.id = spo.sku_id
+            JOIN product_variant_options pvo ON spo.product_variant_options_id = pvo.id
+            WHERE pvo.id IN ($options)
+            GROUP BY s.id
+            HAVING COUNT(DISTINCT pvo.id) = ?
+            ";
+        return $db->pdo_query_one($sql, $size);
+    }
+
+    function GetProductNew()
+    {
+        $db = new connect();
+        $sql = "SELECT p.id AS product_id,
+               p.name AS product_name,
+               p.thumbnail,
+               p.categori_id,
+               p.categori_id,
+               (SELECT s.id FROM skus s WHERE s.product_id = p.id ORDER BY s.id LIMIT 1) AS sku_id,
+               (SELECT s.sku FROM skus s WHERE s.product_id = p.id ORDER BY s.id LIMIT 1) AS sku,
+               (SELECT s.price FROM skus s WHERE s.product_id = p.id ORDER BY s.id LIMIT 1) AS price
+        FROM products p
+        WHERE EXISTS (SELECT 1 FROM skus s WHERE s.product_id = p.id) AND del = 0
+        ORDER BY p.id
+        LIMIT 6;
+        ";
+        return $db->pdo_query($sql);
+    }
+
+    function GetProductByView()
+    {
+        $db = new connect();
+        $sql = "SELECT p.id AS product_id, p.name AS product_name, p.thumbnail, p.categori_id, p.view, 
+                (SELECT s.id FROM skus s WHERE s.product_id = p.id ORDER BY s.id LIMIT 1) AS sku_id, 
+                (SELECT s.sku FROM skus s WHERE s.product_id = p.id ORDER BY s.id LIMIT 1) AS sku, 
+                (SELECT s.price FROM skus s WHERE s.product_id = p.id ORDER BY s.id LIMIT 1) AS price 
+                FROM products p WHERE EXISTS (SELECT 1 FROM skus s WHERE s.product_id = p.id) AND del = 0
+                ORDER BY p.view
+                DESC LIMIT 6;";
+        return $db->pdo_query($sql);
+    }
+
+    function GetproductRan()
+    {
+        $db = new connect();
+        $sql = "SELECT p.id AS product_id, p.name AS product_name, p.thumbnail, p.categori_id, p.view, 
+                (SELECT s.id FROM skus s WHERE s.product_id = p.id ORDER BY s.id LIMIT 1) AS sku_id, 
+                (SELECT s.sku FROM skus s WHERE s.product_id = p.id ORDER BY s.id LIMIT 1) AS sku, 
+                (SELECT s.price FROM skus s WHERE s.product_id = p.id ORDER BY s.id LIMIT 1) AS price 
+                FROM products p WHERE EXISTS (SELECT 1 FROM skus s WHERE s.product_id = p.id) AND del = 0
+                ORDER BY RAND()
+                DESC LIMIT 8;";
+        return $db->pdo_query($sql);
     }
 
 }
