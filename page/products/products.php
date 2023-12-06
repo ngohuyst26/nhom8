@@ -148,7 +148,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                                         </figure><!-- End .product-media -->
                                         <div class="product-body">
                                             <div class="product-cat">
-                                                <a href="#">Women</a>
+                                                <a href="#"><?= $pro->GetNameCategoryById($product['categori_id']) ?></a>
                                             </div><!-- End .product-cat -->
                                             <h3 class="product-title"><a
                                                         href="?action=products-detail&product=<?= $product['product_id'] ?>"><?= $product['product_name'] ?>
