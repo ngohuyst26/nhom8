@@ -18,11 +18,19 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
     }
     if (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
         $email_error = "<span style='color:red; font-family: Roboto;'>Error: Email nhập chưa đúng định dạng<br/></span>";
-        $check == true;
+        $check = true;
     }
     $role = 8;
     $password = $_POST['password'];
-    $mahoa = password_hash($password, PASSWORD_DEFAULT);
+    $password_cf = $_POST['password_cf'];
+    if ($password == $password_cf){
+        $mahoa = password_hash($password, PASSWORD_DEFAULT);
+    } else {
+        $mahoa = password_hash($password, PASSWORD_DEFAULT);
+        $err = "<span style='color:red; font-family: Roboto;'>Error: Mật khẩu xác nhận không khớp!<br/>";
+        $check = true;
+    }
+
     if ($check == false) {
         $create = create($name, $email, $mahoa, $sex, $role);
     }
@@ -47,6 +55,13 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
         <label>Mật khẩu *</label>
         <input type="password" class="form-control" name="password" required>
 
+        <label>Xác nhận mật khẩu *</label>
+        <input type="password" class="form-control"  name="password_cf" required>
+            <?php
+            if (isset($err)){
+                echo $err;
+            }
+            ?>
         <button type="submit" class="btn btn-outline-primary">
             <span>Đăng Ký</span>
         </button>
