@@ -1,0 +1,38 @@
+
+.ajs-success::before, .ajs-error::before, .ajs-warning::before {
+    display: inline-block;
+    content: "";
+    width: 20px;
+    height: 20px;
+    background-size: cover !important;
+    margin-right: 6px;
+}
+
+.ajs-success::before {
+    background: url('../../images/icons/icon-success1.png') no-repeat;
+}
+.ajs-error::before {
+    background: url('../../images/icons/icon-error1.png') no-repeat;
+}
+.ajs-warning::before {
+    background: url('../../images/icons/icon-warning1.png') no-repeat;
+}
+
+.ajs-success {
+    background-color: #07bc0c !important;
+}
+.ajs-error, .ajs-warning, .ajs-success {
+    color: #fff !important;
+    border-radius: 6px;
+    display: flex;
+    align-items: center !important;
+}
+.ajs-error {
+    background-color: #e74c3c !important;
+
+}
+.ajs-warning {
+    background-color: #f1c40f !important;
+   
+}
+
