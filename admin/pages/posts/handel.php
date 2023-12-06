@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-
+require_once '../../../config/database.php';
 require_once 'model-post.php';
 $posts = new Posts;
 
@@ -131,8 +131,6 @@ if (isset($_POST['quick-update'])) {
 }
 
 if (isset($_POST['noteListID'])) {
-    echo "<pre>";
-    var_dump($_POST);
     $id = $_POST['check_list'];
     $posts->updateNotePost($id);
     $_SESSION['notifier'] = ['Đã Chuyển Vào Bản Nháp', 'success'];

@@ -4,7 +4,7 @@ use Symfony\Component\HttpFoundation\Session\Attribute\NamespacedAttributeBag;
 
 session_start();
 
-
+require_once '../../../config/database.php';
 require_once 'module-postCate.php';
 $posts = new PostCate;
 

@@ -1,12 +1,5 @@
 <?php
 
-if (isset($_GET['action'])) {
-    include_once '../config/database.php';
-} else {
-    require_once '../../../config/database.php';
-}
-
-
 class Posts extends connect
 {
 
@@ -121,13 +114,19 @@ class Posts extends connect
 
     public function getPostByID($id)
     {
-        $sql = "SELECT * FROM posts WHERE id = ? ";
+        $sql = "SELECT p.*, pc.name_category  as name_category, user.name as user_name
+        FROM posts AS p 
+        INNER JOIN post_categories AS pc 
+        ON p.category_id = pc.id 
+        INNER JOIN users AS user
+        ON p.user_id = user.id 
+        WHERE p.id = ? ";
         $conn = new connect();
         $a = $conn->pdo_query($sql, $id);
         return $a;
     }
 
-    public function getPostByCate($idCate, $status, $limit)
+    public function getPostByCate($idCate, $status,$offset , $limit)
     {
         $sql = "SELECT p.*, pc.name_category  as name_category, user.name as user_name
         FROM posts AS p 
@@ -138,7 +137,7 @@ class Posts extends connect
         WHERE p.category_id = $idCate 
         AND p.status = $status
         ORDER BY p.id DESC
-        LIMIT $limit, 3
+        LIMIT $offset,  $limit
         ";
         $conn = new connect();
         $a = $conn->pdo_query($sql, $idCate, $status);

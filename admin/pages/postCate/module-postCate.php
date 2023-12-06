@@ -4,13 +4,6 @@
 
 <?php
 
-if (isset($_GET['action'])) {
-    include_once '../config/database.php';
-} else {
-    require_once '../../../config/database.php';
-}
-
-
 class PostCate  extends connect
 {
 
