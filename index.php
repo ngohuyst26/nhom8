@@ -29,27 +29,27 @@ if (isset($_SESSION['email']) && isset($_SESSION['name'])) {
     <link rel="icon" type="image/png" sizes="16x16" href="assets/images/icons/favicon-16x16.png">
     <link rel="manifest" href="assets/images/icons/site.html">
     <link rel="mask-icon" href="assets/images/icons/safari-pinned-tab.svg" color="#666666">
-    <link rel="shortcut icon" href="assets/images/icons/favicon.ico">
-    <meta name="apple-mobile-web-app-title" content="Molla">
-    <meta name="application-name" content="Molla">
-    <meta name="msapplication-TileColor" content="#cc9966">
-    <meta name="msapplication-config" content="assets/images/icons/browserconfig.xml">
-    <meta name="theme-color" content="#ffffff">
-    <link rel="stylesheet" href="assets/vendor/line-awesome/line-awesome/line-awesome/css/line-awesome.min.css">
-    <!-- Plugins CSS File -->
-    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
-    <link rel="stylesheet" href="assets/css/plugins/owl-carousel/owl.carousel.css">
-    <link rel="stylesheet" href="assets/css/plugins/magnific-popup/magnific-popup.css">
-    <link rel="stylesheet" href="assets/css/plugins/jquery.countdown.css">
-    <!-- Main CSS File -->
-    <link rel="stylesheet" href="assets/css/style.css">
-    <link rel="stylesheet" href="assets/css/font.css">
-    <link rel="stylesheet" href="assets/css/plugins/nouislider/nouislider.css">
-    <link rel="stylesheet" href="assets/css/skins/skin-demo-4.css">
-    <link rel="stylesheet" href="assets/css/demos/demo-4.css">
-    <link rel="stylesheet" href="assets/css/skins/skin-demo-13.css">
-    <!-- <link rel="stylesheet" href="assets/css/demos/demo-13.css">-->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+        <link rel="shortcut icon" href="assets/images/icons/favicon.ico">
+        <meta name="apple-mobile-web-app-title" content="Molla">
+        <meta name="application-name" content="Molla">
+        <meta name="msapplication-TileColor" content="#cc9966">
+        <meta name="msapplication-config" content="assets/images/icons/browserconfig.xml">
+        <meta name="theme-color" content="#ffffff">
+        <link rel="stylesheet" href="assets/vendor/line-awesome/line-awesome/line-awesome/css/line-awesome.min.css">
+        <!-- Plugins CSS File -->
+        <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+        <link rel="stylesheet" href="assets/css/plugins/owl-carousel/owl.carousel.css">
+        <!--    <link rel="stylesheet" href="assets/css/plugins/magnific-popup/magnific-popup.css">-->
+        <link rel="stylesheet" href="assets/css/plugins/jquery.countdown.css">
+        <!-- Main CSS File -->
+        <link rel="stylesheet" href="assets/css/style.css">
+        <link rel="stylesheet" href="assets/css/font.css">
+        <link rel="stylesheet" href="assets/css/plugins/nouislider/nouislider.css">
+        <link rel="stylesheet" href="assets/css/skins/skin-demo-4.css">
+        <link rel="stylesheet" href="assets/css/demos/demo-4.css">
+        <link rel="stylesheet" href="assets/css/skins/skin-demo-13.css">
+        <!-- <link rel="stylesheet" href="assets/css/demos/demo-13.css">-->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://kit.fontawesome.com/91f424987f.js" crossorigin="anonymous"></script>
 </head>
 
@@ -59,6 +59,7 @@ if (isset($_SESSION['email']) && isset($_SESSION['name'])) {
     <main>
         <?php
         include "config/database.php";
+        include 'mailer/email.php';
         if (isset($_GET['action'])) {
             switch ($_GET['action']) {
                 case 'home':
@@ -123,7 +124,7 @@ if (isset($_SESSION['email']) && isset($_SESSION['name'])) {
 <script src="assets/js/wNumb.js"></script>
 <script src="assets/js/bootstrap-input-spinner.js"></script>
 <script src="assets/js/jquery.plugin.min.js"></script>
-<script src="assets/js/jquery.magnific-popup.min.js"></script>
+<!--<script src="assets/js/jquery.magnific-popup.min.js"></script>-->
 <script src="assets/js/jquery.countdown.min.js"></script>
 <script src="assets/js/nouislider.min.js"></script>
 <!-- Main JS File -->

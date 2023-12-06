@@ -3,10 +3,10 @@ include "classCart.php";
 $total_bill = 0;
 if (isset($_SESSION['cart'])) {
     if (isset($_POST['removecart'])) {
-        $id = $_POST['removecart'];
+        $cart_id = $_POST['removecart'];
         foreach ($_SESSION['cart'] as $productId) {
-            if ($id == $productId['id']) {
-                unset($_SESSION['cart']["$id"]);
+            if ($cart_id == $productId['cart_id']) {
+                unset($_SESSION['cart']["$cart_id"]);
                 // header('Location: cart.php') ;
                 break;
             }
@@ -17,11 +17,11 @@ if (isset($_SESSION['cart'])) {
 
 if (isset($_SESSION['cart'])) {
     if (isset($_POST['editcart'])) {
-        $id = $_POST['id'];
+        $cart_id = $_POST['id'];
         $leght = sizeof($_SESSION['cart']);
         $qtyedit = $_POST['editqty'];
         for ($i = 0; $i < $leght; $i++) {
-            $_SESSION['cart'][$id[$i]]['qty'] = $qtyedit[$i];
+            $_SESSION['cart'][$cart_id[$i]]['qty'] = $qtyedit[$i];
         }
     }
     // header('Location: cart.php');
@@ -86,14 +86,14 @@ if (isset($_SESSION['cart'])) {
                                             <input type="number" name="editqty[]" class="form-control"
                                                    value="<?= $cart['qty'] ?>" min="1" max="10" step="1"
                                                    data-decimals="0" required>
-                                            <input type="hidden" name="id[]" value="<?= $cart['id'] ?>">
+                                            <input type="hidden" name="id[]" value="<?= $cart['cart_id'] ?>">
                                         </div><!-- End .cart-product-quantity -->
                                     </td>
                                     <td class="total-col"><?= number_format(($cart['price'] * $cart['qty']), 0, ",", ".") ?>
                                         đ
                                     </td>
                                     <td class="remove-col">
-                                        <button class="btn-remove" name="removecart" value="<?= $cart['id'] ?>"><i
+                                        <button class="btn-remove" name="removecart" value="<?= $cart['cart_id'] ?>"><i
                                                     class="icon-close"></i></button>
                                     </td>
                                 </tr>

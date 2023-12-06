@@ -37,23 +37,23 @@ if (isset ($_POST['addcart'])) {
     if (!empty($variants_options)) {
         if (!empty($_SESSION['option_id'])) {
             $option_id = implode(',', $_SESSION['option_id']);
-            $id = str_replace(",", "", $option_id);
+            $cart_id = str_replace(",", "", $option_id);
         } else {
             $optionSelected = explode(',', $fistOption['option_ids']);
             $option_id = implode(',', $optionSelected);
-            $id = str_replace(",", "", $option_id);
+            $cart_id = str_replace(",", "", $option_id);
         }
     } else {
-        $id = $_POST['id'];
-        echo "hong";
+        $cart_id = $_POST['id'];
     }
-    var_dump($id);
-
+//    var_dump($id);
+    $id = $_POST['id'];
     $name = $_POST['name'];
     $thumbnail = $_POST['thumbnail'];
     $price = $_POST['price'];
     $qty = 1;
     $product = [
+        'cart_id' => $cart_id,
         'id' => $id,
         'name' => $name,
         'thumbnail' => $thumbnail,
@@ -63,19 +63,20 @@ if (isset ($_POST['addcart'])) {
     $found = false;
     if (isset ($_SESSION['cart'])) {
         foreach ($_SESSION['cart'] as $productId) {
-            if ($id == $productId['id']) {
-                $_SESSION['cart']["$id"]['qty']++;
+            if ($cart_id == $productId['cart_id']) {
+                $_SESSION['cart']["$cart_id"]['qty']++;
                 $found = true;
                 break;
             }
         }
     }
     if (!$found) {
-        $_SESSION['cart']["$id"] = $product;
+        $_SESSION['cart']["$cart_id"] = $product;
     }
     unset($_SESSION['option_id']);
 // header ('location: cart.php') ;
 }
+//unset($_SESSION['cart']);
 
 ?>
 <style>
