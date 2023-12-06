@@ -42,12 +42,6 @@ if (isset($_SESSION['role'])){
                 </h6>
                 </p>
                 <p class="card-text">
-                <h6>Chức Vụ:
-                    <?php
-                    if(isset($chucvu)){
-                        echo $chucvu;
-                    }?>
-                </h6>
                 </p>
                 <a href="?action=logout" class="card-link">ĐĂNG XUẤT</a>
                 </div>

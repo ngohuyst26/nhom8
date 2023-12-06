@@ -35,6 +35,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                             "\?page=order&action=edit&edit_order=\d+$",
                             "\?page=order&action=list&del_order=\d+$",
                             //Cho phép vào trang bài viết role = 2
+                            "\?page=posts&action=edit&id=\d+$",
                             "\?page=posts&action=add$",
                             "\?page=posts&action=list$",
                             "\?page=posts&action=list&f=trash$",

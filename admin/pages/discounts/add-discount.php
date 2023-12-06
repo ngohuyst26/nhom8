@@ -6,42 +6,43 @@ $_SESSION['description'] = 0;
 $_SESSION['number_use'] = 0;
 $_SESSION['date_end'] = 0;
 //Them ma uu dai
-if ($_SERVER["REQUEST_METHOD"] === "POST"){
-$code = $_POST["code"];
-$type = $_POST["type"];
-$discount = $_POST["discount"];
-$description = $_POST["description"];
-$number_use = $_POST["number_use"];
-$date_end = $_POST["date_end"];
-$connect = new connect();
-if (empty($code)) {
-    $_SESSION['code'] = 1;
-    $check = false;
-}
-if (empty($type)) {
-    $_SESSION['type'] = 1;
-    $check = false;
-}
-if (empty($discount)) {
-    $_SESSION['discount'] = 1;
-    $check = false;
-}
-if (empty($description)) {
-    $_SESSION['description'] = 1;
-    $check = false;
-}
-if (empty($number_use)) {
-    $_SESSION['number_use'] = 1;
-    $check = false;
-}
-if (empty($date_end)) {
-    $_SESSION['date_end'] = 1;
-    $check = false;
-}
-if ($check == true) {
-    $tryvan = "INSERT INTO discount (code , type, discount, description, number_use, date_end) 
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    $code = $_POST["code"];
+    $type = $_POST["type"];
+    $discount = $_POST["discount"];
+    $description = $_POST["description"];
+    $number_use = $_POST["number_use"];
+    $date_end = $_POST["date_end"];
+    $connect = new connect();
+    if (empty($code)) {
+        $_SESSION['code'] = 1;
+        $check = false;
+    }
+    if (empty($type)) {
+        $_SESSION['type'] = 1;
+        $check = false;
+    }
+    if (empty($discount)) {
+        $_SESSION['discount'] = 1;
+        $check = false;
+    }
+    if (empty($description)) {
+        $_SESSION['description'] = 1;
+        $check = false;
+    }
+    if (empty($number_use)) {
+        $_SESSION['number_use'] = 1;
+        $check = false;
+    }
+    if (empty($date_end)) {
+        $_SESSION['date_end'] = 1;
+        $check = false;
+    }
+    if ($check == true) {
+        $tryvan = "INSERT INTO discount (code , type, discount, description, number_use, date_end) 
                VALUES ('$code', '$type', '$discount', '$description', '$number_use', '$date_end')";
-    $connect->pdo_execute($tryvan);
+        $connect->pdo_execute($tryvan);
+    }
 }
 ?>
 <div class="col-1"></div>
@@ -114,4 +115,5 @@ if ($check == true) {
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>
     </div>
-    <div class="col-1"></div>
+</div>
+<div class="col-1"></div>
