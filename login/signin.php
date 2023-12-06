@@ -42,10 +42,14 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                             "\?page=categoriesPost&action=list$",
                             "\?page=categoriesPost&action=edit&id=\d+$",
                             "\?page=posts&action=list&offset=\d+$",
+                            "\?page=posts&action=list&category=\+\d+$",
+                            "\?page=posts&action=list&category=all$",
 //                        Chưa thấy cái xóa bài viết đâu
                             //Cho phép vào trang mã ưu đãi role = 6
                             "\?page=discounts&action=add-discount$",
                             "\?page=discounts&action=list-discount$",
+                            "\?page=discounts&action=edit-discount&id=\d+$",
+                            "\?page=discounts&action=list-discount&id=\d+$",
                             //Chưa thấy cái xóa đâu với edit
                             //Cho phép vào trang loại sản phẩm role = 7
                             "\?page=category&action=add$",
@@ -71,7 +75,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                         "\?page=categoriesPost&action=edit&id=\d+$",
                         "\?page=product&action=edit&product=\d+$",
                         "\?page=posts&action=list&offset=\d+$",
-//                        Chưa thấy cái xóa bài viết đâu
+                        "\?page=posts&action=list&category=\+\d+$",
+                        "\?page=posts&action=list&category=all$",
                     ) ;
                     $_SESSION['id'] = $info['id'];
                     $_SESSION['email'] = $email;
@@ -116,6 +121,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                     $info['check'] = array(
                         "\?page=discounts&action=add-discount$",
                         "\?page=discounts&action=list-discount$",
+                        "\?page=discounts&action=edit-discount&id=\d+$",
+                        "\?page=discounts&action=list-discount&id=\d+$",
                     );
                 } else if($info['check'] == 7){
                     //Cho phép vào trang loại sản phẩm
@@ -127,7 +134,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                         "\?page=category&action=edit&id=\d+$",
                     );
                 }
-
 //Lưu cooke
                 if(isset($_POST['ghinho']) && ($_POST['ghinho'])){
                     setcookie("email", $email, time()+(86400));
