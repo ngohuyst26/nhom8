@@ -75,7 +75,16 @@ if (isset($_SESSION['email']) && isset($_SESSION['name'])) {
                     include './page/about.php';
                     break;
                 case 'blog':
+                    include 'config/database.php';
+                    include 'admin/pages/posts/model-post.php';
+                    include 'admin/pages/postCate/module-postCate.php';
                     include './page/blog/blog.php';
+                    break;
+                case 'blog-detail':
+                    include 'config/database.php';
+                    include 'admin/pages/posts/model-post.php';
+                    include 'admin/pages/postCate/module-postCate.php';
+                    include './page/blog/single.php';
                     break;
                 case 'contact':
                     include './page/contact.php';
