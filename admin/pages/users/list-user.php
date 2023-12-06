@@ -42,17 +42,17 @@ $data = GetDataPage('users', $startFrom, $recordsPerPage);
         <div class="d-flex align-items-center justify-content-between mb-4">
             <h6 class="mb-0">Danh Sách Người Dùng</h6>
             <div class="row">
-                <input class="search form-control" type="text">
+                <input class="search form-control" placeholder="Tìm kiếm theo email..." type="text">
             </div>
         </div>
         <div class="table-responsive mb-0">
             <form action="" method="POST" enctype="multipart/form-data">
-            <table class="table text-start align-middle table-bordered table-hover mb-0">
-                <thead>
-                <tr class="text-white">
-                    <th scope="col"><input type="checkbox" id="checkAll" onclick="checkAllCheckboxes()"></th>
-                    <th scope="col">Tên</th>
-                    <th scope="col">Email</th>
+                <table class="table text-start align-middle table-bordered table-hover mb-0">
+                    <thead>
+                    <tr class="text-white">
+                        <th scope="col"><input type="checkbox" id="checkAll" onclick="checkAllCheckboxes()"></th>
+                        <th scope="col">Tên</th>
+                        <th scope="col">Email</th>
                     <th scope="col">Giới Tính</th>
                     <th scope="col">Hành Động</th>
                 </tr>
