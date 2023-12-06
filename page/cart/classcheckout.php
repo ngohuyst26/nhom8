@@ -3,6 +3,7 @@
 class CheckOut
 {
 
+
     function AddOder($customer_id, $customer_name, $customer_phone, $customer_email, $customer_address, $note, $total)
     {
         $db = new connect();
