@@ -3,6 +3,7 @@ include 'classcheckout.php';
 $ckout = new CheckOut();
 $total_bill = 0;
 if (isset($_POST['order'])) {
+
 //    $code = "";
 //    $discount = "";
 //    if(isset($_POST['code'])){
