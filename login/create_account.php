@@ -3,7 +3,7 @@ include_once 'config/database.php';
 include_once 'login/login_function.php';
 $_SESSION['tb'] = 0;
 $check = false;
-$email_check_error = '';
+$email_check_error = $email_error = '';
 if($_SERVER["REQUEST_METHOD"] == "POST") {
     $name = $_POST['name'];
     $email = $_POST['email'];
@@ -12,33 +12,40 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
     $connect = new connect();
     $data = "SELECT email FROM users WHERE email = ?";
     $check_email = $connect->pdo_query_one($data, $email);
-    if (!empty($check_email)){
+    if (!empty($check_email)) {
         $email_check_error = "<span style='color:red;'>Cảnh báo: Email đã được đăng ký tài khoản, vui lòng nhập email khác!</span><br>";
         $check = true;
+    }
+    if (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
+        $email_error = "<span style='color:red; font-family: Roboto;'>Error: Email nhập chưa đúng định dạng<br/></span>";
+        $check == true;
     }
     $role = 8;
     $password = $_POST['password'];
     $mahoa = password_hash($password, PASSWORD_DEFAULT);
     if ($check == false) {
-        $create = create($name, $email, $mahoa,$sex, $role);
+        $create = create($name, $email, $mahoa, $sex, $role);
     }
 }
 ?>
 <div class="col-6 container m-auto">
-    <form action="" method="post" enctype="multipart/form-data"> <br>
+    <form action="" method="post" enctype="multipart/form-data"><br>
         <h3 style="text-align: center; color: #0a90eb">TẠO TÀI KHOẢN</h3>
         <label for="singin-email">Tên *</label>
         <input type="text" class="form-control" name="name" required>
 
         <label for="singin-email">Email *</label>
-        <input type="text" class="form-control" name="email" required>
+        <input type="email" class="form-control" name="email" required>
         <?php
-        if (isset($email_check_error)){
+        if (isset($email_check_error)) {
             echo $email_check_error;
+        }
+        if (isset($email_error)) {
+            echo $email_error;
         }
         ?>
         <label>Mật khẩu *</label>
-        <input type="password" class="form-control"  name="password" required>
+        <input type="password" class="form-control" name="password" required>
 
         <button type="submit" class="btn btn-outline-primary">
             <span>Đăng Ký</span>
