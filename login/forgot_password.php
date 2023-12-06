@@ -7,8 +7,6 @@ $http = 'http://duanone.php/?action=check&verification=';
 $string = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHJIKLMNOPQRSTUVWXYZ';
 $_SESSION['code'] = substr(str_shuffle($string), 0 , 6);
 $http .= $_SESSION['code'];
-$tieude_phu = "<span>Mã OTP: </span>";
-$tieude_phu .= $_SESSION['code'];
 if($_SERVER["REQUEST_METHOD"] == "POST") {
     $check = false;
     if (isset($_POST['sm'])){
@@ -25,8 +23,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
                 $check = true;
             }
         }
-    $Verification = $tieude_phu;
-        $Verification .= "<br><span>Link thay đổi mật khẩu: </span>" ;
+        $Verification = "<br><span>Link thay đổi mật khẩu: </span>" ;
         $Verification .= $http;
     $connect = new connect();
     $data = "UPDATE users SET Verification = ? WHERE email = ?";
