@@ -91,7 +91,8 @@ if (!isset($_SESSION['admin'])) {
                                 break;
                         }
                     } else {
-                        include './pages/home.php';
+                        include './pages/home/module.php';
+                        include './pages/home/home.php';
                     }
                     ?>
                     <?php include './components/footer.php'; ?>
