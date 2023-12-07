@@ -2,7 +2,9 @@
 include 'classcheckout.php';
 $ckout = new CheckOut();
 $total_bill = 0;
-if (isset($_POST['order'])) {
+$_SESSION['nologin'] = 0;
+if (isset($_SESSION['id'])) {
+    if (isset($_POST['order'])) {
 
 //    $code = "";
 //    $discount = "";
@@ -13,17 +15,17 @@ if (isset($_POST['order'])) {
 //    if(isset($_POST['discount'])){
 //        $discount = $_POST['discount'];
 //    }
-    $name = $_POST['customer_name'];
-    $address = $_POST['customer_address'];
-    $phone = $_POST['customer_phone'];
-    $email = $_POST['customer_email'];
-    $total = $_POST['total'];
-    $note = $_POST['note'];
-    $customer_id = $_SESSION['id'];
-    $ckout->AddOder($customer_id, $name, $phone, $email, $address, $note, $total);
-    $last = $ckout->GetIdOrder($customer_id);
-    $title = "Đơn hàng #" . $last['last_id'] . " từ cửa hàng Chin Millk Tea";
-    $content = "
+        $name = $_POST['customer_name'];
+        $address = $_POST['customer_address'];
+        $phone = $_POST['customer_phone'];
+        $email = $_POST['customer_email'];
+        $total = $_POST['total'];
+        $note = $_POST['note'];
+        $customer_id = $_SESSION['id'];
+        $ckout->AddOder($customer_id, $name, $phone, $email, $address, $note, $total);
+        $last = $ckout->GetIdOrder($customer_id);
+        $title = "Đơn hàng #" . $last['last_id'] . " từ cửa hàng Chin Millk Tea";
+        $content = "
             <h3>Thông tin khách hàng</h3>
             <p><b>Tên:</b> " . $name . " </p>
             <p><b>Sđt:</b> " . $phone . " </p>
@@ -33,25 +35,27 @@ if (isset($_POST['order'])) {
             </hr>
             <h3> Giỏ hàng của bạn </h3>
             ";
-    foreach ($_SESSION['cart'] as $cart) {
-        $content .= "
+        foreach ($_SESSION['cart'] as $cart) {
+            $content .= "
         <p>" . $cart['name'] . "<b> x " . $cart['qty'] . "</b> " . number_format(($cart['price'] * $cart['qty']), 0, '.', ',') . " VNĐ</p> 
         ";
-        $tongprice = ($cart['price'] * $cart['qty']);
-        $ckout->AddOderDetail($last['last_id'], $cart['id'], $cart['name'], $cart['thumbnail'], $cart['qty'], $tongprice);
-    }
+            $tongprice = ($cart['price'] * $cart['qty']);
+            $ckout->AddOderDetail($last['last_id'], $cart['id'], $cart['name'], $cart['thumbnail'], $cart['qty'], $tongprice);
+        }
 //    if(isset($_POST['code']) && isset($_POST['discount']) ){
 //        $content_discount = "<h5>Đã áp dụng mã ".$code." giảm được ".number_format($discount)." VNĐ</h5>";
 //        $content .= $content_discount."
 //        <h4>Tổng thành tiền ".number_format($total)." VNĐ</h4>";
 //    }else{
-    $content .= "
+        $content .= "
         <h4>Tổng thành tiền " . number_format($total) . " VNĐ</h4>
         ";
-    GuiEmail($email, $title, $content);
-    $_SESSION['cart'] = [];
+        GuiEmail($email, $title, $content);
+        $_SESSION['cart'] = [];
+    }
+} else {
+    $_SESSION['nologin'] = 1;
 }
-
 ?>
 <div class="page-header text-center" style="background-image: url('assets/images/page-header-bg.jpg')">
     <div class="container">
@@ -80,6 +84,9 @@ if (isset($_POST['order'])) {
             <form action="#" method="post">
                 <div class="row">
                     <div class="col-lg-9">
+                        <?php if ($_SESSION['nologin'] == 1): ?>
+                            <h2 class="text-center">Vui lòng đăng nhập trước khi mua hàng</h2>
+                        <?php endif; ?>
                         <h2 class="checkout-title">Chi tiết đơn hàng</h2><!-- End .checkout-title -->
                         <label>Tên</label>
                         <input type="text" placeholder="Tên người nhận" name="customer_name" class="form-control"

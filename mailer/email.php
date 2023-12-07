@@ -38,4 +38,36 @@ function guimail($email, $title, $noidung)
     }
 }
 
+function GuiEmail($emailNguoiNhan, $tieuDe, $noiDung)
+{
+    $mail = new PHPMailer(true);
+    $mail->CharSet = 'UTF-8';
+    try {
+        $mail->isSMTP();
+        $mail->Host = 'smtp.gmail.com';
+        $mail->SMTPAuth = true;
+        $mail->Username = 'huynhpc05784@fpt.edu.vn';
+        $mail->Password = 'iumhxkntcpdnahjg';
+        $mail->SMTPSecure = 'ssl';
+        $mail->Port = 465;
+
+        // Thiết lập người gửi và người nhận
+        $mail->setFrom('huynhpc05784@fpt.edu.vn', 'Molla Shop');  // Thay đổi bằng địa chỉ email và tên của bạn
+        $mail->addAddress($emailNguoiNhan);  // Sử dụng địa chỉ email người nhận được truyền vào hàm
+        $mail->isHTML(true);
+
+        // Đặt tiêu đề và nội dung của email
+        $mail->Subject = $tieuDe;
+        $mail->Body = $noiDung;
+
+        // Gửi email
+        $mail->send();
+        return true;
+
+    } catch (Exception $e) {
+        echo "Lỗi khi gửi email: " . $mail->ErrorInfo;
+        return false;
+    }
+}
+
 ?>

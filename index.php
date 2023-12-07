@@ -59,6 +59,7 @@ if (isset($_SESSION['email']) && isset($_SESSION['name'])) {
     <main>
         <?php
         include "config/database.php";
+        include 'mailer/email.php';
         if (isset($_GET['action'])) {
             switch ($_GET['action']) {
                 case 'home':
