@@ -152,7 +152,7 @@ if (isset($_GET['key'])) {
 </style>
 
 
-<div class="container-fluid pt-4 px-4">
+<div class="container-fluid pt-4 px-4" style="min-height: 75vh;">
     <div class="bg-secondary text-center rounded p-4">
         <div class="d-flex align-items-center justify-content-between mb-4">
             <h6 class="mb-0">DANH SÁCH BÀI VIẾT</h6>
