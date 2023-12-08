@@ -2,13 +2,22 @@
 include_once 'pages/users/user-function.php';
 if (isset($_GET["id"])) {
     $id = $_GET['id'];
-    $data_delete = delete_user($id);
+    $check_admin = check_admin($id);
+    foreach ($check_admin as $check) {
+        $_SESSION['check_admin'] = $check['role'];
+    }
+    if ($_SESSION['role'] == 4 && $_SESSION['check_admin'] == 1) {
+        include_once 'pages/users/err_delete_user.php';
+        exit;
+    } else {
+        $data_delete = delete_user($id);
+    }
 }
 //Xóa all
-if(isset($_POST['xoa_all'])){
-    if (isset($_POST['checkbox'])){
+if (isset($_POST['xoa_all'])) {
+    if (isset($_POST['checkbox'])) {
         $arr = $_POST['checkbox'];
-        $del = implode(",",$arr);
+        $del = implode(",", $arr);
         $xoa_all = delete_all($del);
     }
 }
@@ -42,17 +51,18 @@ $data = GetDataPage('users', $startFrom, $recordsPerPage);
         <div class="d-flex align-items-center justify-content-between mb-4">
             <h6 class="mb-0">Danh Sách Người Dùng</h6>
             <div class="row">
-                <input class="search form-control" type="text">
+                <input class="search form-control" placeholder="Tìm kiếm theo email..." type="text">
             </div>
         </div>
         <div class="table-responsive mb-0">
             <form action="" method="POST" enctype="multipart/form-data">
-            <table class="table text-start align-middle table-bordered table-hover mb-0">
-                <thead>
-                <tr class="text-white">
-                    <th scope="col"><input type="checkbox" id="checkAll" onclick="checkAllCheckboxes()"></th>
-                    <th scope="col">Tên</th>
-                    <th scope="col">Email</th>
+                <table class="table text-start align-middle table-bordered table-hover mb-0">
+                    <thead>
+                    <tr class="text-white">
+                        <th scope="col"><input type="checkbox" id="checkAll" onclick="checkAllCheckboxes()"></th>
+                        <th scope="col">Tên</th>
+                        <th scope="col">Địa chỉ</th>
+                        <th scope="col">Email</th>
                     <th scope="col">Giới Tính</th>
                     <th scope="col">Hành Động</th>
                 </tr>
@@ -73,6 +83,7 @@ $data = GetDataPage('users', $startFrom, $recordsPerPage);
                         <tr>
                             <td><input class="form-check-input" id="checkAll" type="checkbox" name='checkbox[]' value='<?=$print['id'] ?>'></td>
                             <td><?= $print['name'] ?></td>
+                            <td><?= $print['address'] ?></td>
                             <td><?= $print['email'] ?></td>
                             <td><?= $sex_fr ?></td>
                             <td>

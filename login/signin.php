@@ -9,6 +9,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     $connect = new connect();
     $data = "SELECT * FROM users WHERE email = '$email'";
     $result = $connect->pdo_query($data);
+
 //Kiểm tra email với pass có đúng không
     foreach($result as $info){
         if(isset($_POST['email']) && isset($_POST['password'])){
@@ -59,6 +60,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                         $_SESSION['user'] =  $info['name'];
                         $_SESSION['pass'] =  $password;
                         $_SESSION['admin'] = $info;
+                    $_SESSION['role'] = $info['role'];
                     header('Location: /admin');
                 } else if($info['role'] == 2){
                     $info['check'] = array(
@@ -99,10 +101,17 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                     $info['check'] = array(
                         "\?page=users&action=list$",
                         "\?page=users&action=edit&id=\d+$",
-                        "\?page=users&action=list&id=\d+$",
                         "\?page=users&action=list&page-item=\d+$",
                         "\?page=users&action=add$",
+                        "\?page=users&action=list&id=\d+$",
                     );
+                    $_SESSION['role'] = $info['role'];
+                    $_SESSION['id'] = $info['id'];
+                    $_SESSION['email'] = $email;
+                    $_SESSION['user'] = $info['name'];
+                    $_SESSION['pass'] = $password;
+                    $_SESSION['admin'] = $info;
+                    header('Location: /admin');
                 } else if($info['check'] == 5){
                     //Cho phép vào trang đơn hàng
                     $info['check'] = array(
@@ -111,12 +120,23 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                         "\?page=order&action=edit&edit_order=\d+$",
                         "\?page=order&action=list&del_order=\d+$",
                     );
+                    $_SESSION['id'] = $info['id'];
+                    $_SESSION['email'] = $email;
+                    $_SESSION['user'] = $info['name'];
+                    $_SESSION['pass'] = $password;
+                    $_SESSION['admin'] = $info;
                 } else if($info['check'] == 6){
                     //Cho phép vào trang mã giảm giá
                     $info['check'] = array(
                         "\?page=discounts&action=add-discount$",
                         "\?page=discounts&action=list-discount$",
                     );
+                    $_SESSION['email'] = $email;
+                    $_SESSION['user'] = $info['name'];
+                    $_SESSION['pass'] = $password;
+                    $_SESSION['admin'] = $info;
+                    $_SESSION['role'] = $info['role'];
+                    header('Location: /admin');
                 } else if($info['check'] == 7){
                     //Cho phép vào trang loại sản phẩm
                     $info['check'] = array(
@@ -126,6 +146,12 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                         "\?page=category&action=list&id=\d+$",
                         "\?page=category&action=edit&id=\d+$",
                     );
+                    $_SESSION['email'] = $email;
+                    $_SESSION['user'] = $info['name'];
+                    $_SESSION['pass'] = $password;
+                    $_SESSION['admin'] = $info;
+                    $_SESSION['role'] = $info['role'];
+                    header('Location: /admin');
                 }
 
 //Lưu cooke
