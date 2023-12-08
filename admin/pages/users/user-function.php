@@ -1,8 +1,8 @@
 <?php
-function add_user($user, $email, $mahoa,$sex, $role){
+function add_user($user, $email, $mahoa,$sex, $role, $address){
     $connect = new connect();
-    $data = "INSERT INTO users(name,email ,password,sex,role) VALUES (?,?,?,?,?)";
-    $connect->pdo_execute($data, $user, $email, $mahoa, $sex,$role);
+    $data = "INSERT INTO users(name,email ,password,sex,role,address) VALUES (?,?,?,?,?,?)";
+    $connect->pdo_execute($data, $user, $email, $mahoa, $sex,$role,$address);
 }
 
 function get_all_user(){
@@ -18,11 +18,12 @@ function get_user_edit($id){
     return $result;
 }
 
-function edit_user($user, $email, $password, $sex, $role)
+function edit_user($user, $email, $password, $sex, $role,$address,$id)
 {
     $connect = new connect();
-    $data = "UPDATE users SET name = ?, email= ?, password= ?, sex= ?, role= ? WHERE email=  ?";
-    $connect->pdo_execute($data, $user,$email, $password,$sex,$role ,$email );
+    $data = "UPDATE users SET name = ?, email= ?, password= ?, sex= ?, role= ?, address =? WHERE id =  ?";
+    $connect->pdo_execute($data, $user,$email, $password,$sex,$role,$address ,$id );
+    header('Location, ?page=users&action=list');
     return $connect;
 }
 
@@ -70,6 +71,14 @@ function search($timkiem)
 {
     $connect = new connect();
     $data = "SELECT * FROM users WHERE email LIKE '%".$timkiem."%' ORDER BY id DESC LIMIT 3";
+    $connect = $connect->pdo_query($data);
+    return $connect;
+}
+
+function check_admin($id)
+{
+    $connect = new connect();
+    $data = "SELECT role FROM users WHERE id = '$id'";
     $connect = $connect->pdo_query($data);
     return $connect;
 }

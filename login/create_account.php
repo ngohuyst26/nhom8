@@ -3,10 +3,11 @@ include_once 'config/database.php';
 include_once 'login/login_function.php';
 $_SESSION['tb'] = 0;
 $check = false;
-$email_check_error = $email_error = '';
+$email_check_error = $email_error = $address_error = '';
 if($_SERVER["REQUEST_METHOD"] == "POST") {
     $name = $_POST['name'];
     $email = $_POST['email'];
+    $address = $_POST['address'];
     $sex = 3;
     //BẮT EMAIL ĐÃ TỒN TẠI
     $connect = new connect();
@@ -20,6 +21,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
         $email_error = "<span style='color:red; font-family: Roboto;'>Error: Email nhập chưa đúng định dạng<br/></span>";
         $check = true;
     }
+
     $role = 8;
     $password = $_POST['password'];
     $password_cf = $_POST['password_cf'];
@@ -32,7 +34,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     if ($check == false) {
-        $create = create($name, $email, $mahoa, $sex, $role);
+        $create = create($name, $email, $mahoa, $sex, $role,$address);
     }
 }
 ?>
@@ -41,6 +43,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
         <h3 style="text-align: center; color: #0a90eb">TẠO TÀI KHOẢN</h3>
         <label for="singin-email">Tên *</label>
         <input type="text" class="form-control" name="name" required>
+
+        <label for="singin-email">Địa chỉ *</label>
+        <input type="text" class="form-control" name="address" required>
 
         <label for="singin-email">Email *</label>
         <input type="email" class="form-control" name="email" required>

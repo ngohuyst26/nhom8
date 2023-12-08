@@ -17,11 +17,11 @@ function forgot($newpassword,$email){
     return $data;
 }
 
-function create($name,$email, $mahoa, $sex , $role){
+function create($name,$email, $mahoa, $sex , $role,$address){
     $connect = new connect();
-    $sql = "INSERT INTO users(name,email ,password,sex,role) VALUES (?,?,?,?,?)";
+    $sql = "INSERT INTO users(name,email ,password,sex,role,address) VALUES (?,?,?,?,?,?)";
         try{
-            $connect->pdo_execute($sql, $name, $email, $mahoa,$sex,$role);
+            $connect->pdo_execute($sql, $name, $email, $mahoa,$sex,$role,$address);
             $_SESSION['tb'] = 1;
         } catch (customException $e){
             $_SESSION['tb'] = 2;

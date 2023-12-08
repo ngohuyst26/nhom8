@@ -2,7 +2,7 @@
     include_once 'pages/users/user-function.php';
     // Tạo biến bắt validate
 //    $user = $email = $password = $sex = $role = "";
-    $user_error = $email_error = $password_error = $sex_error = $role_error = "";
+    $user_error = $email_error = $password_error = $sex_error = $role_error = $address_error = "";
     $check = false;
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -11,6 +11,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $user_error = "<span style='color:red;'>Error: Họ tên bắt buộc phải nhập.</span>";
     } else{
         $user = $_POST['user'];
+    }
+
+    if (empty($_POST['address'])){
+        $address_error ="<span style='color:red;'>Error: địa chỉ bắt buộc phải nhập.</span>";
+        $check = true;
+    } else{
+        $address = $_POST['address'];
     }
 
     if(empty($_POST["email"])){
@@ -56,7 +63,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     if ($check == false){
-        $data = add_user($user, $email, $mahoa,$sex, $role);
+        $data = add_user($user, $email, $mahoa,$sex, $role,$address);
     }
 }
 ?>
@@ -75,6 +82,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             }
             ?>
         </div>
+
+        <div class="form-floating mb-3">
+            <input type="text" name="address" class="form-control" id="floatingInput" placeholder=""  value="">
+            <label for="floatingInput">Địa chỉ</label>
+            <?php
+            if (isset($address_error)){
+                echo $address_error;
+            }
+            ?>
+        </div>
+
         <div class="form-floating mb-3">
             <input type="email" name="email" class="form-control" id="floatingInput" placeholder=""  value="">
             <label for="floatingInput">Email Người Dùng</label>

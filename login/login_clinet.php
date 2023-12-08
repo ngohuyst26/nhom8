@@ -23,6 +23,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     $_SESSION['email'] = $data['email'];
                     $_SESSION['role'] = $data['role'];
                     $_SESSION['id'] = $data['id'];
+                    $_SESSION['address'] = $data['address'];
                     if ($check == false) {
                         header('Location: ?action=home');
                     }
