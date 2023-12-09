@@ -28,7 +28,7 @@ if (isset($_SESSION['cart'])) {
 }
 
 //unset($_SESSION['cart']);
-//var_dump( $_SESSION['cart']);
+var_dump($_SESSION['cart']);
 ?>
 <div class="page-header text-center" style="background-image: url('assets/images/page-header-bg.jpg')">
     <div class="container">
