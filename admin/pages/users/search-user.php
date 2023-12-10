@@ -38,6 +38,7 @@ if (isset( $_POST['data'])) {
             <tr>
                 <td><input class="form-check-input" type="checkbox" name='checkbox[]' value='<?=$print['id'] ?>'></td>
                 <td><?= $print['name'] ?></td>
+                <td><?= $print['address'] ?></td>
                 <td><?= $print['email'] ?></td>
                 <td><?= $sex_fr ?></td>
                 <td>

@@ -30,6 +30,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                             "\?page=product&action=del$",
                             "\?page=product&action=draft$",
                             "\?page=product&action=edit-variants&product=\d+$",
+                            "\?page=product&action=edit&product=\d+$",
+                            "\?page=product&action=edit-variants&product=\d+&del_setoption=\d+$",
+                            "\?page=product&action=edit-variants&product=\d+&option_del=\d+$",
                             //Cho phép vào trang đơn hàng role = 5
                             "\?page=order&action=list$",
                             "\?page=order&action=order-detail&order=\d+$",
@@ -89,6 +92,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                         "\?page=product&action=del$",
                         "\?page=product&action=draft$",
                         "\?page=product&action=edit-variants&product=\d+$",
+                        "\?page=product&action=edit&product=\d+$",
+                        "\?page=product&action=edit-variants&product=\d+&del_setoption=\d+$",
+                        "\?page=product&action=edit-variants&product=\d+&option_del=\d+$",
                     );
                     $_SESSION['id'] = $info['id'];
                     $_SESSION['email'] = $email;

@@ -6,8 +6,9 @@ if (isset($_GET["id"])) {
     foreach ($check_admin as $check) {
         $_SESSION['check_admin'] = $check['role'];
     }
-    if ($_SESSION['role'] == 4 && $_SESSION['check_admin'] == 1) {
+    if (($_SESSION['role'] == 4 && $_SESSION['check_admin'] == 1) || ($_SESSION['role'] == 1 && $_SESSION['check_admin'] == 1)) {
         include_once 'pages/users/err_delete_user.php';
+        unset($_SESSION['check_admin']);
         exit;
     } else {
         $data_delete = delete_user($id);

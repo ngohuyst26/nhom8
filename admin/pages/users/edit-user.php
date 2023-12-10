@@ -9,6 +9,7 @@ $user_error = $email_error = $password_error = $sex_error = $role_error = $addre
 $check = false;
 if ($_SESSION['role'] == 4 && $_SESSION['role_edit'] == 1) {
     include_once 'pages/users/err_update_user.php';
+    unset($_SESSION['role_edit']);
     exit;
 } else {
     if ($_SERVER["REQUEST_METHOD"] === "POST") {
@@ -134,6 +135,9 @@ if ($_SESSION['role'] == 4 && $_SESSION['role_edit'] == 1) {
 
             <div class="form-floating mb-3">
                 <label for="exampleInputEmail1">Chức Vụ</label><br/><br/>
+                <input type="radio" name="role" id="" value="1"> Admin
+                <br/>
+
                 <input type="radio" name="role" id="" value="2"> Creators
                 <br/>
                 <input type="radio" name="role" id="" value="3"> Product Management
