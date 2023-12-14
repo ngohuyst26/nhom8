@@ -28,7 +28,13 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                             "\?page=product&action=list$",
                             "\?page=product&action=del$",
                             "\?page=product&action=draft$",
+                            "\?page=product&action=add-variants",
+                            "\?page=product&action=edit&product=\d+$",
+                            "\?page=product&action=variants&product=\d+$",
+                            "\?page=product&action=edit-variants&product=\d+&del_setoption=\d+$",
+                            "\?page=product&action=edit-variants&product=\d+&option_del=\d+$",
                             "\?page=product&action=edit-variants&product=\d+$",
+                            "\?page=product&action=edit-variants&product=\d+&variant_del=\d+$",
                             //Cho phép vào trang đơn hàng role = 5
                             "\?page=order&action=list$",
                             "\?page=order&action=order-detail&order=\d+$",

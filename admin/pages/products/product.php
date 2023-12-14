@@ -40,11 +40,11 @@ class  product
         $db->pdo_execute($sql, $name, $id);
     }
 
-    function EditSkus($id, $sku, $price)
+    function EditSkus($id, $sku, $price, $thumbnail)
     {
         $db = new connect();
-        $sql = "UPDATE skus SET sku = ?, price = ? WHERE id = ?";
-        $db->pdo_execute($sql, $sku, $price, $id);
+        $sql = "UPDATE skus SET sku = ?, price = ?, thumbnail = ? WHERE id = ?";
+        $db->pdo_execute($sql, $sku, $price, $thumbnail, $id);
     }
 
     function DeleteVariants($id)
@@ -93,12 +93,12 @@ class  product
     }
 
 
-    function AddOptionsSku($id_product, $sku, $price, $options, $variants)
+    function AddOptionsSku($id_product, $sku, $price, $options, $variants, $thumbnail)
     {
         $db = new connect();
 
-        $sql_sku = "INSERT INTO `skus` (`product_id`, `sku`, `price`) VALUES (?,?,?)";
-        $db->pdo_execute($sql_sku, $id_product, $sku, $price);
+        $sql_sku = "INSERT INTO skus (product_id, sku, price,thumbnail) VALUES (?,?,?,?)";
+        $db->pdo_execute($sql_sku, $id_product, $sku, $price, $thumbnail);
 
         $sql_last_sku = "SELECT id FROM skus ORDER BY id DESC LIMIT 1";
         $last_sku = $db->pdo_query_one($sql_last_sku);
@@ -117,7 +117,7 @@ class  product
     function GetSkuOptions($id_product)
     {
         $db = new connect();
-        $sql = "SELECT s.id, s.sku, s.price, GROUP_CONCAT(pvo.name) AS variant_option_names
+        $sql = "SELECT s.id, s.sku, s.price,s.thumbnail, GROUP_CONCAT(pvo.name) AS variant_option_names
         FROM skus_product_variant_options spvo
         JOIN product_variant_options pvo ON spvo.product_variant_options_id = pvo.id
         JOIN skus s ON spvo.sku_id = s.id
@@ -127,21 +127,21 @@ class  product
     }
 
 
-    function addProduct($name, $description, $category, $thumbanil)
+    function addProduct($name, $description, $category)
     {
         $db = new connect();
-        $sql = "INSERT INTO products (name ,description,categori_id,thumbnail) VALUES (?,?,?,?)";
-        $db->pdo_execute($sql, $name, $description, $category, $thumbanil);
+        $sql = "INSERT INTO products (name ,description,categori_id) VALUES (?,?,?)";
+        $db->pdo_execute($sql, $name, $description, $category);
     }
 
     function addProductDefault($name, $description, $category, $thumbnail, $sku, $price)
     {
         $db = new connect();
-        $sql = "INSERT INTO products (name ,description,categori_id,thumbnail) VALUES (?,?,?,?);
+        $sql = "INSERT INTO products (name ,description,categori_id) VALUES (?,?,?);
                 SET @product_id = LAST_INSERT_ID();
-                INSERT INTO `skus` (`product_id`, `sku`, `price`) VALUES (@product_id, ?,?);
+                INSERT INTO skus (product_id, sku, price,thumbnail) VALUES (@product_id,?,?,?);
                 ";
-        $db->pdo_execute($sql, $name, $description, $category, $thumbnail, $sku, $price);
+        $db->pdo_execute($sql, $name, $description, $category, $sku, $price, $thumbnail);
     }
 
     function LastProduct()
@@ -156,10 +156,10 @@ class  product
         $db = new connect();
         $sql = "SELECT p.id AS product_id,
                p.name AS product_name,
-               p.thumbnail,
                p.categori_id,
                (SELECT s.id FROM skus s WHERE s.product_id = p.id ORDER BY s.id LIMIT 1) AS sku_id,
                (SELECT s.sku FROM skus s WHERE s.product_id = p.id ORDER BY s.id LIMIT 1) AS sku,
+               (SELECT s.thumbnail FROM skus s WHERE s.product_id = p.id ORDER BY s.id LIMIT 1) AS thumbnail,
                (SELECT s.price FROM skus s WHERE s.product_id = p.id ORDER BY s.id LIMIT 1) AS price
         FROM products p
         WHERE EXISTS (SELECT 1 FROM skus s WHERE s.product_id = p.id) AND del = 0 ;
@@ -172,11 +172,11 @@ class  product
         $db = new connect();
         $sql = "SELECT p.id AS product_id,
                    p.name AS product_name,
-                   p.thumbnail,
                    p.categori_id,
                    p.categori_id,
                    (SELECT s.id FROM skus s WHERE s.product_id = p.id ORDER BY s.id LIMIT 1) AS sku_id,
                    (SELECT s.sku FROM skus s WHERE s.product_id = p.id ORDER BY s.id LIMIT 1) AS sku,
+                    (SELECT s.thumbnail FROM skus s WHERE s.product_id = p.id ORDER BY s.id LIMIT 1) AS thumbnail,
                    (SELECT s.price FROM skus s WHERE s.product_id = p.id ORDER BY s.id LIMIT 1) AS price
             FROM products p
             WHERE NOT EXISTS (SELECT 1 FROM skus s WHERE s.product_id = p.id) AND p.del = 0;
@@ -189,11 +189,11 @@ class  product
         $db = new connect();
         $sql = "SELECT p.id AS product_id,
                p.name AS product_name,
-               p.thumbnail,
                p.categori_id,
                p.categori_id,
                (SELECT s.id FROM skus s WHERE s.product_id = p.id ORDER BY s.id LIMIT 1) AS sku_id,
                (SELECT s.sku FROM skus s WHERE s.product_id = p.id ORDER BY s.id LIMIT 1) AS sku,
+                (SELECT s.thumbnail FROM skus s WHERE s.product_id = p.id ORDER BY s.id LIMIT 1) AS thumbnail,
                (SELECT s.price FROM skus s WHERE s.product_id = p.id ORDER BY s.id LIMIT 1) AS price
         FROM products p
         WHERE  del = 1 ;
@@ -244,18 +244,18 @@ class  product
     function EditProductDefault($id_product, $id_sku, $name, $description, $category, $thumbnail, $sku, $price)
     {
         $db = new connect();
-        $sql = "UPDATE products SET name=?, thumbnail=?, description=?, categori_id=? WHERE id=?;
-                UPDATE skus SET sku = ?, price= ? WHERE id = ?;
+        $sql = "UPDATE products SET name=?, description=?, categori_id=? WHERE id=?;
+                UPDATE skus SET sku = ?, price= ?, thumbnail= ? WHERE id = ?;
                 ";
-        $db->pdo_execute($sql, $name, $thumbnail, $description, $category, $id_product, $sku, $price, $id_sku);
+        $db->pdo_execute($sql, $name, $description, $category, $id_product, $sku, $price, $thumbnail, $id_sku);
     }
 
-    function EditProductVariants($id_product, $name, $description, $category, $thumbnail)
+    function EditProductVariants($id_product, $name, $description, $category)
     {
         $db = new connect();
-        $sql = "UPDATE products SET name=?, thumbnail=?, description=?, categori_id=? WHERE id=?;
+        $sql = "UPDATE products SET name=?, description=?, categori_id=? WHERE id=?;
                 ";
-        $db->pdo_execute($sql, $name, $thumbnail, $description, $category, $id_product);
+        $db->pdo_execute($sql, $name, $description, $category, $id_product);
     }
 
     function GetOneProduct($id_product)
@@ -263,11 +263,11 @@ class  product
         $db = new connect();
         $sql = "SELECT p.id AS product_id,
                p.name AS product_name,
-               p.thumbnail,
                 p.description,
                p.categori_id,
                (SELECT s.id FROM skus s WHERE s.product_id = p.id ORDER BY s.id LIMIT 1) AS sku_id,
                (SELECT s.sku FROM skus s WHERE s.product_id = p.id ORDER BY s.id LIMIT 1) AS sku,
+               (SELECT s.thumbnail FROM skus s WHERE s.product_id = p.id ORDER BY s.id LIMIT 1) AS thumbnail,
                (SELECT s.price FROM skus s WHERE s.product_id = p.id ORDER BY s.id LIMIT 1) AS price
         FROM products p
         WHERE p.id = ?";
@@ -340,14 +340,14 @@ class  product
             $check = true;
         }
         //Bắt lỗi chưa chọn hình ảnh
-        if (empty($ckfinder) && $thumbnail == 0) {
-            $_SESSION['thumbnail'] = 1;
-            $check = true;
-        }
+//        if (empty($ckfinder) && $thumbnail == 0) {
+//            $_SESSION['thumbnail'] = 1;
+//            $check = true;
+//        }
         return $check;
     }
 
-    function ValidateProductVariants($name, $description, $ckfinder, $thumbnail)
+    function ValidateProductVariants($name, $description)
     {
         $check = false;
         //Bắt lỗi rổng tên sản phẩm
@@ -446,7 +446,7 @@ class  product
     function DeltaiProduct($options, $size)
     {
         $db = new connect();
-        $sql = "SELECT s.price, p.name as product_name, p.description as description , p.thumbnail, p.id as product_id
+        $sql = "SELECT s.price, p.name as product_name, p.description as description , s.thumbnail, p.id as product_id
             FROM products p
             JOIN skus s ON p.id = s.product_id
             JOIN skus_product_variant_options spo ON s.id = spo.sku_id
@@ -463,11 +463,11 @@ class  product
         $db = new connect();
         $sql = "SELECT p.id AS product_id,
                p.name AS product_name,
-               p.thumbnail,
                p.categori_id,
                p.categori_id,
                (SELECT s.id FROM skus s WHERE s.product_id = p.id ORDER BY s.id LIMIT 1) AS sku_id,
                (SELECT s.sku FROM skus s WHERE s.product_id = p.id ORDER BY s.id LIMIT 1) AS sku,
+                (SELECT s.thumbnail FROM skus s WHERE s.product_id = p.id ORDER BY s.id LIMIT 1) AS thumbnail, 
                (SELECT s.price FROM skus s WHERE s.product_id = p.id ORDER BY s.id LIMIT 1) AS price
         FROM products p
         WHERE EXISTS (SELECT 1 FROM skus s WHERE s.product_id = p.id) AND del = 0
@@ -480,9 +480,10 @@ class  product
     function GetProductByView()
     {
         $db = new connect();
-        $sql = "SELECT p.id AS product_id, p.name AS product_name, p.thumbnail, p.categori_id, p.view, 
+        $sql = "SELECT p.id AS product_id, p.name AS product_name, p.categori_id, p.view, 
                 (SELECT s.id FROM skus s WHERE s.product_id = p.id ORDER BY s.id LIMIT 1) AS sku_id, 
                 (SELECT s.sku FROM skus s WHERE s.product_id = p.id ORDER BY s.id LIMIT 1) AS sku, 
+                (SELECT s.thumbnail FROM skus s WHERE s.product_id = p.id ORDER BY s.id LIMIT 1) AS thumbnail, 
                 (SELECT s.price FROM skus s WHERE s.product_id = p.id ORDER BY s.id LIMIT 1) AS price 
                 FROM products p WHERE EXISTS (SELECT 1 FROM skus s WHERE s.product_id = p.id) AND del = 0
                 ORDER BY p.view
@@ -493,9 +494,10 @@ class  product
     function GetproductRan()
     {
         $db = new connect();
-        $sql = "SELECT p.id AS product_id, p.name AS product_name, p.thumbnail, p.categori_id, p.view, 
+        $sql = "SELECT p.id AS product_id, p.name AS product_name, p.categori_id, p.view, 
                 (SELECT s.id FROM skus s WHERE s.product_id = p.id ORDER BY s.id LIMIT 1) AS sku_id, 
                 (SELECT s.sku FROM skus s WHERE s.product_id = p.id ORDER BY s.id LIMIT 1) AS sku, 
+                (SELECT s.thumbnail FROM skus s WHERE s.product_id = p.id ORDER BY s.id LIMIT 1) AS thumbnail, 
                 (SELECT s.price FROM skus s WHERE s.product_id = p.id ORDER BY s.id LIMIT 1) AS price 
                 FROM products p WHERE EXISTS (SELECT 1 FROM skus s WHERE s.product_id = p.id) AND del = 0
                 ORDER BY RAND()

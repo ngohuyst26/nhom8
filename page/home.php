@@ -120,21 +120,21 @@ $productRan = $pro->GetproductRan();
                 </div><!-- End .row -->
             </div><!-- End .container -->
 
-            <div class="mb-3"></div><!-- End .mb-5 -->
+<div class="mb-3"></div><!-- End .mb-5 -->
 
-            <div class="container new-arrivals">
-                <div class="heading heading-flex mb-3">
-                    <div class="heading-left">
-                        <h2 class="title">New Arrivals</h2><!-- End .title -->
-                    </div><!-- End .heading-left -->
+<div class="container new-arrivals">
+    <div class="heading heading-flex mb-3">
+        <div class="heading-left">
+            <h2 class="title">Sản phẩm mới</h2><!-- End .title -->
+        </div><!-- End .heading-left -->
 
 
-                </div><!-- End .heading -->
+    </div><!-- End .heading -->
 
-                <div class="tab-content tab-content-carousel just-action-icons-sm">
-                    <div class="tab-pane p-0 fade show active" id="new-all-tab" role="tabpanel" aria-labelledby="new-all-link">
-                        <div class="owl-carousel owl-full carousel-equal-height carousel-with-shadow" data-toggle="owl" 
-                            data-owl-options='{
+    <div class="tab-content tab-content-carousel just-action-icons-sm">
+        <div class="tab-pane p-0 fade show active" id="new-all-tab" role="tabpanel" aria-labelledby="new-all-link">
+            <div class="owl-carousel owl-full carousel-equal-height carousel-with-shadow" data-toggle="owl"
+                 data-owl-options='{
                                 "nav": true, 
                                 "dots": true,
                                 "margin": 20,
@@ -1272,7 +1272,7 @@ $productRan = $pro->GetproductRan();
     <div class="container trending-products">
         <div class="heading heading-flex mb-3">
             <div class="heading-left">
-                <h2 class="title">Trending Products</h2><!-- End .title -->
+                <h2 class="title">Sản phẩm xu hướng</h2><!-- End .title -->
             </div><!-- End .heading-left -->
 
             <!--                       <div class="heading-right">-->
@@ -1902,26 +1902,26 @@ $productRan = $pro->GetproductRan();
                                 </div><!-- .End .tab-pane -->
                             </div><!-- End .tab-content -->
                         </div><!-- End .col-xl-4-5col -->
-                    </div><!-- End .row -->
-                </div><!-- End .container -->
-            </div><!-- End .bg-light pt-5 pb-6 -->
+        </div><!-- End .row -->
+    </div><!-- End .container -->
+</div><!-- End .bg-light pt-5 pb-6 -->
 
-            <div class="mb-5"></div><!-- End .mb-5 -->
+<div class="mb-5"></div><!-- End .mb-5 -->
 
-            <div class="container for-you">
-                <div class="heading heading-flex mb-3">
-                    <div class="heading-left">
-                        <h2 class="title">Recommendation For You</h2><!-- End .title -->
-                    </div><!-- End .heading-left -->
+<div class="container for-you">
+    <div class="heading heading-flex mb-3">
+        <div class="heading-left">
+            <h2 class="title">Sản phẩm dành cho bạn</h2><!-- End .title -->
+        </div><!-- End .heading-left -->
 
-                    <div class="heading-right">
-                        <a href="#" class="title-link">View All Recommendadion <i class="icon-long-arrow-right"></i></a>
-                    </div><!-- End .heading-right -->
-                </div><!-- End .heading -->
+        <div class="heading-right">
+            <a href="#" class="title-link">View All Recommendadion <i class="icon-long-arrow-right"></i></a>
+        </div><!-- End .heading-right -->
+    </div><!-- End .heading -->
 
-                <div class="products">
-                    <div class="row justify-content-center">
-                        <?php foreach ($productRan as $ran): ?>
+    <div class="products">
+        <div class="row justify-content-center">
+            <?php foreach ($productRan as $ran): ?>
                             <div class="col-6 col-md-4 col-lg-3">
                                 <div class="product product-2">
                                     <figure class="product-media">

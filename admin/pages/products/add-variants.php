@@ -15,16 +15,11 @@ if (isset($_POST['add'])) {
     $description = $_POST['description'];
     $category = $_POST['category'];
     $ckfinder = $_POST['ckfinder'];
-    if ($_FILES['thumbnail']['size'] > 0) {
-        $thumbnail = $up->uploadImg($_FILES["thumbnail"]);
-    } else {
-        $thumbnail = $ckfinder;
-    }
-    $check = $pro->ValidateProductVariants($name, $description, $ckfinder, $thumbnail);
+    $check = $pro->ValidateProductVariants($name, $description);
     if (!$check) {
-        $pro->addProduct($name, $description, $category, $thumbnail);
+        $pro->addProduct($name, $description, $category);
         $id = $pro->LastProduct()['id'];
-        header("Location: ?page=product&action=variants&product=$id");
+        header("Location: ?page=product&action=edit-variants&product=$id");
     }
 }
 
@@ -59,26 +54,6 @@ if (isset($_POST['add'])) {
                     <?php endforeach; ?>
                 </select>
             </div>
-            <div class="mb-3">
-                <label for="formFile" class="form-label">Hình ảnh</label>
-                <input class="form-control" name="thumbnail" type="file" id="formFile">
-                <?php if ($_SESSION['thumbnail'] == 1): ?>
-                    <p class="text-danger">Vui lòng chọn ảnh tải lên hoặc ảnh có sẵn</p>
-                <?php endif; ?>
-            </div>
-            <div class="mb-3">
-                <lable class="form-label">Hình đã tải lên</lable>
-            </div>
-            <div class="input-group mb-3">
-                <button type="button" onclick="selectFileWithCKFinder('ckfinder-input-1')" class="input-group-text">Chọn
-                    hình
-                </button>
-                <input type="text" class="form-control" name="ckfinder" id="ckfinder-input-1"
-                       placeholder="Chưa hình nào được chọn" value="">
-            </div>
-            <?php if ($_SESSION['thumbnail'] == 1): ?>
-                <p class="text-danger">Vui lòng chọn ảnh tải lên hoặc ảnh có sẵn</p>
-            <?php endif; ?>
             <button type="submit" name="add" class="btn btn-primary">Thêm biến thể</button>
             <a href="?page=product&action=list" class="btn btn-primary">Danh sách sản phẩm</a>
             <a href="?page=product&action=add" class="btn btn-primary">Thêm sản phẩm thường</a>

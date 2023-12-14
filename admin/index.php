@@ -119,23 +119,28 @@ if (!isset($_SESSION['admin'])) {
 
     <!-- Template Javascript -->
     <script src="assets/js/main.js"></script>
-    </body>
-    <script>
+</body>
+<script>
 
-        var button2 = document.getElementById('ckfinder-popup-1');
-        button2.onclick = function () {
-            selectFileWithCKFinder('ckfinder-input-1');
-        };
+    var button2 = document.getElementById('ckfinder-popup-1');
+    button2.onclick = function () {
+        selectFileWithCKFinder('ckfinder-input-1');
+    };
 
-        function selectFileWithCKFinder(elementId) {
-            console.log("click");
-            CKFinder.modal({
-                chooseFiles: true,
-                width: 800,
-                height: 600,
-                onInit: function (finder) {
-                    finder.on('files:choose', function (evt) {
-                        var file = evt.data.files.first();
+    // var button3 = document.getElementById('ckfinder-popup-2');
+    // button3.onclick = function () {
+    //     selectFileWithCKFinder('ckfinder-input-2');
+    // };
+
+    function selectFileWithCKFinder(elementId) {
+        console.log("click");
+        CKFinder.modal({
+            chooseFiles: true,
+            width: 800,
+            height: 600,
+            onInit: function (finder) {
+                finder.on('files:choose', function (evt) {
+                    var file = evt.data.files.first();
                         var output = document.getElementById(elementId);
                         output.value = file.getUrl();
                     });

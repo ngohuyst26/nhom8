@@ -1,6 +1,7 @@
 <?php
 include 'product.php';
 $pro = new product();
+$up = new upLoad();
 
 
 //Thêm variants cho sản phẩm
@@ -24,8 +25,14 @@ if (isset($_POST['setoptions']) && isset($_GET['product'])) {
     $sku = $_POST['sku'];
     $price = $_POST['price'];
     $option_id = $_POST['id_option'];
+    $ckfinder = $_POST['ckfinder'];
+    if ($_FILES['thumb  nail']['size'] > 0) {
+        $thumbnail = $up->uploadImg($_FILES["thumbnail"]);
+    } else {
+        $thumbnail = $ckfinder;
+    }
     $variants_id = $pro->GetNameVariant($id_product);
-    $pro->AddOptionsSku($id_product, $sku, $price, $option_id, $variants_id);
+    $pro->AddOptionsSku($id_product, $sku, $price, $option_id, $variants_id, $thumbnail);
 }
 
 //Chỉnh sửa variants
@@ -491,7 +498,7 @@ if (isset($_GET['product'])) {
 <!-- Modal thêm tùy chọn biến thể -->
 <div class="modal fade" id="setoptionsModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog text-white">
-        <form action="" method="post">
+        <form action="" method="post" enctype="multipart/form-data">
             <div class="modal-content bg-light">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">THÊM CÁC TÙY CHỌN</h5>
@@ -518,6 +525,22 @@ if (isset($_GET['product'])) {
                     <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Giá</label>
                         <input type="text" placeholder="" name="price" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label for="formFile" class="form-label">Hình ảnh</label>
+                        <input class="form-control" name="thumbnail" type="file" id="formFile">
+
+                    </div>
+                    <div class="mb-3">
+                        <lable class="form-label">Hình đã tải lên</lable>
+                    </div>
+                    <div class="input-group mb-3">
+                        <button type="button" onclick="selectFileWithCKFinder('ckfinder-input-1')"
+                                class="input-group-text">Chọn
+                            hình
+                        </button>
+                        <input type="text" class="form-control" name="ckfinder" id="ckfinder-input-1"
+                               placeholder="Chưa hình nào được chọn" value="">
                     </div>
                 </div>
                 <div class="modal-footer">
