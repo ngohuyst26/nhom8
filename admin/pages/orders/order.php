@@ -30,13 +30,18 @@ class  order
         return $db->pdo_query_one($sql, $id_order);
     }
 
+    function GetOrderByUser($id_user)
+    {
+        $db = new connect();
+        $sql = "SELECT id, customer_name, customer_phone, shipping_address,customer_email, status, total, created_at FROM orders WHERE user_id = ?";
+        return $db->pdo_query($sql, $id_user);
+    }
+
     function GetDetailOrder($id_order)
     {
         $db = new connect();
-        $sql = "SELECT order_detail.qty, order_detail.price, products.name,products.thumbnail 
+        $sql = "SELECT order_detail.qty, order_detail.price, order_detail.product_name, order_detail.product_thumbnail
                 FROM order_detail
-                JOIN products ON order_detail.product_id = products.id
-                JOIN skus ON products.id = skus.product_id
                 WHERE order_detail.order_id = ?";
         return $db->pdo_query($sql, $id_order);
     }

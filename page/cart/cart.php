@@ -100,7 +100,6 @@ var_dump($_SESSION['cart']);
                             <?php endforeach; ?>
                             </tbody>
                         </table><!-- End .table table-wishlist -->
-
                         <div class="cart-bottom">
                             <div class="cart-discount">
                                 <form action="#">
@@ -121,7 +120,6 @@ var_dump($_SESSION['cart']);
                 <aside class="col-lg-3">
                     <div class="summary summary-cart">
                         <h3 class="summary-title">Cart Total</h3><!-- End .summary-title -->
-
                         <table class="table table-summary">
                             <tbody>
                             <tr class="summary-subtotal">
@@ -132,7 +130,6 @@ var_dump($_SESSION['cart']);
                                 <td>Shipping:</td>
                                 <td>&nbsp;</td>
                             </tr>
-
                             <tr class="summary-shipping-row">
                                 <td>
                                     <div class="custom-control custom-radio">
@@ -143,28 +140,26 @@ var_dump($_SESSION['cart']);
                                 </td>
                                 <td>$0.00</td>
                             </tr><!-- End .summary-shipping-row -->
-
                             <tr class="summary-shipping-row">
                                 <td>
                                     <div class="custom-control custom-radio">
-                                        <input type="radio" id="standart-shipping" name="shipping" class="custom-control-input">
+                                        <input type="radio" id="standart-shipping" name="shipping"
+                                               class="custom-control-input">
                                         <label class="custom-control-label" for="standart-shipping">Standart:</label>
                                     </div><!-- End .custom-control -->
                                 </td>
                                 <td>$10.00</td>
                             </tr><!-- End .summary-shipping-row -->
-
                             <tr class="summary-shipping-row">
                                 <td>
                                     <div class="custom-control custom-radio">
-                                        <input type="radio" id="express-shipping" name="shipping" class="custom-control-input">
+                                        <input type="radio" id="express-shipping" name="shipping"
+                                               class="custom-control-input">
                                         <label class="custom-control-label" for="express-shipping">Express:</label>
                                     </div><!-- End .custom-control -->
                                 </td>
                                 <td>$20.00</td>
                             </tr><!-- End .summary-shipping-row -->
-
-
                             <tr class="summary-total">
                                 <td>Total:</td>
                                 <td><?= number_format($total_bill, 0, ",", ".") ?>đ</td>
@@ -175,7 +170,6 @@ var_dump($_SESSION['cart']);
                         <a href="?action=checkout" class="btn btn-outline-primary-2 btn-order btn-block">PROCEED TO
                             CHECKOUT</a>
                     </div><!-- End .summary -->
-
                     <a href="http://duanone.php/?action=products" class="btn btn-outline-dark-2 btn-block mb-3"><span>CONTINUE SHOPPING</span><i
                                 class="icon-refresh"></i></a>
                 </aside><!-- End .col-lg-3 -->

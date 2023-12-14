@@ -33,7 +33,7 @@ if (isset($_POST['GetByCate']) && $_POST['GetByCate'] > 0) {
                            type="checkbox"></td>
                 <td style="min-width: 395px;"><?= $product['product_name'] ?></td>
                 <td><img style="object-fit: cover; border-radius: 10px" src="<?= $product['thumbnail'] ?>" alt=""
-                         width="120" height="80"></td>
+                         width="100" height="100"></td>
                 <td style="min-width: 170px;"><?= $pro->GetNameCategoryById($product['categori_id']) ?></td>
                 <td><?= number_format($product['price'], 0, ".", ",") ?> VNĐ</td>
                 <td>

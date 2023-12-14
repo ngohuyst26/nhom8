@@ -103,6 +103,7 @@ $exts = [
     'wmv' => ['audio/x-ms-wmv'],
     'xls' => ['application/vnd.ms-excel'],
     'zip' => ['application/zip'],
+    'webp' => ['image/webp'],
 ];
 
 // we merge the 2 maps (we never remove old mime types)

@@ -23,7 +23,7 @@ use CKSource\CKFinder\Exception\CKFinderException;
  */
 class Image
 {
-    protected static $supportedExtensions = ['jpg', 'jpeg', 'gif', 'png'];
+    protected static $supportedExtensions = ['jpg', 'jpeg', 'gif', 'png', 'webp'];
 
     /**
      * Image width.
@@ -121,6 +121,7 @@ class Image
             'image/jpeg' => $gdSupportedTypes & IMG_JPG,
             'image/png' => $gdSupportedTypes & IMG_PNG,
             'image/wbmp' => $gdSupportedTypes & IMG_WBMP,
+            'image/webp' => $gdSupportedTypes & IMG_WEBP,
             'image/bmp' => $bmpSupport && ($gdSupportedTypes & IMG_JPG),
             'image/x-ms-bmp' => $bmpSupport && ($gdSupportedTypes & IMG_JPG),
         ];
@@ -221,6 +222,7 @@ class Image
             'bmp' => 'image/bmp',
             'png' => 'image/png',
             'wbmp' => 'image/wbmp',
+            'webp' => 'image/webp',
         ];
 
         $extension = strtolower($extension);
@@ -634,6 +636,10 @@ class Image
                 break;
             case 'image/wbmp':
                 imagewbmp($this->gdImage);
+
+                break;
+            case 'image/webp':
+                imagewebp($this->gdImage);
 
                 break;
         }

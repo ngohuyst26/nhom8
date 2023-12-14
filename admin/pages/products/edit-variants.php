@@ -29,8 +29,16 @@ if (isset($_POST['setoptions']) && isset($_GET['product'])) {
     $sku = $_POST['sku'];
     $price = $_POST['price'];
     $option_id = $_POST['id_option'];
+    $ckfinder = $_POST['ckfinder'];
+    var_dump($ckfinder);
+    if (isset($_FILES['thumbnail']) && $_FILES['thumbnail']['size'] > 0) {
+        $thumbnail = $up->uploadImg($_FILES["thumbnail"]);
+    } else {
+        $thumbnail = $ckfinder;
+    }
+    var_dump($thumbnail);
     $variants_id = $pro->GetNameVariant($id_product);
-    $pro->AddOptionsSku($id_product, $sku, $price, $option_id, $variants_id);
+    $pro->AddOptionsSku($id_product, $sku, $price, $option_id, $variants_id, $thumbnail);
 }
 
 //Chỉnh sửa variants
@@ -52,7 +60,16 @@ if (isset($_POST['edit_setoption'])) {
     $id_sku = $_POST['id_sku'];
     $sku = $_POST['sku'];
     $price = $_POST['price'];
-    $pro->EditSkus($id_sku, $sku, $price);
+    $last_thumbnail = $_POST['last_thumbnail'];
+    $ckfinder = $_POST['ckfinder'];
+    if (isset($_FILES['thumbnail']) && $_FILES['thumbnail']['size'] > 0) {
+        $thumbnail = $up->uploadImg($_FILES["thumbnail"]);
+    } else if (!empty($ckfinder)) {
+        $thumbnail = $ckfinder;
+    } else {
+        $thumbnail = $last_thumbnail;
+    }
+    $pro->EditSkus($id_sku, $sku, $price, $thumbnail);
 }
 
 //Xóa variants
@@ -92,18 +109,9 @@ if (isset($_GET['product'])) {
         $name = $_POST['name'];
         $description = $_POST['description'];
         $category = $_POST['category'];
-        $ckfinder = $_POST['ckfinder'];
-        if ($_FILES['thumbnail']['size'] > 0) {
-            $thumbnail = $up->uploadImg($_FILES["thumbnail"]);
-        } else if (!empty($ckfinder)) {
-            $thumbnail = $ckfinder;
-        } else {
-            $thumbnail = $data['thumbnail'];
-        }
-        $check = $pro->ValidateProductVariants($name, $description, $ckfinder, $thumbnail);
-        var_dump($check);
+        $check = $pro->ValidateProductVariants($name, $description);
         if (!$check) {
-            $pro->EditProductVariants($id_product, $name, $description, $category, $thumbnail);
+            $pro->EditProductVariants($id_product, $name, $description, $category);
         }
 
     }
@@ -141,20 +149,6 @@ if (isset($_GET['product'])) {
                             <option value="<?= $cate['id'] ?>" <?= (($data['categori_id'] == $cate['id']) ? "selected" : "") ?> ><?= $cate['name_category'] ?></option>
                         <?php endforeach; ?>
                     </select>
-                </div>
-                <div class="mb-3">
-                    <label for="formFile" class="form-label">Hình ảnh</label>
-                    <input class="form-control" name="thumbnail" type="file" id="formFile">
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">Hình đã tải lên</label>
-                </div>
-                <div class="input-group mb-3">
-                    <button type="button" onclick="selectFileWithCKFinder('ckfinder-input-1')" class="input-group-text">
-                        Chọn hình
-                    </button>
-                    <input type="text" class="form-control" name="ckfinder" id="ckfinder-input-1"
-                           placeholder="Chưa hình nào được chọn" value="">
                 </div>
                 <button type="submit" name="edit" class="btn btn-primary">Lưu</button>
                 <a href="?page=product&action=list" class="btn btn-primary">Danh sách sản phẩm</a>
@@ -392,7 +386,7 @@ if (isset($_GET['product'])) {
             <table class="table table-bordered border-white text-white">
                 <thead>
                 <tr>
-                    <th>Tên sản phẩm</th>
+                    <th>Hình ảnh</th>
                     <th>Biến thể</th>
                     <th>Sku</th>
                     <th>Giá</th>
@@ -404,7 +398,8 @@ if (isset($_GET['product'])) {
                     $optionNamesArray = explode(',', $option['variant_option_names']);
                     ?>
                     <tr>
-                        <td><?= $name_product ?></td>
+                        <td><img style="object-fit: cover; border-radius: 10px" src="<?= $option['thumbnail'] ?>" alt=""
+                                 width="100" height="100"></td>
                         <td>
                             <ul class="list-inline">
                                 <?php foreach ($optionNamesArray as $name): ?>
@@ -423,7 +418,6 @@ if (isset($_GET['product'])) {
                                     data-bs-target="#DelSetOption<?= $option['id'] ?>">
                                 <i class="fa-solid fa-trash"></i>
                             </button>
-
 
                             <div class="modal fade" id="DelSetOption<?= $option['id'] ?>" tabindex="-1"
                                  aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -474,6 +468,28 @@ if (isset($_GET['product'])) {
                                                     <input type="text" name="price" value="<?= $option['price'] ?>"
                                                            class="form-control bg-white text-dark">
 
+                                                    <div class="mb-3">
+                                                        <label for="formFile" class="form-label">Hình ảnh</label>
+                                                        <input class="form-control" name="thumbnail" type="file"
+                                                               id="formFile">
+
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <lable class="form-label">Hình đã tải lên</lable>
+                                                    </div>
+                                                    <div class="input-group mb-3">
+                                                        <button type="button"
+                                                                onclick="selectFileWithCKFinder('ckfinder-input-<?= $option['id'] ?>')"
+                                                                class="input-group-text">Chọn
+                                                            hình
+                                                        </button>
+                                                        <input type="text" class="form-control" name="ckfinder"
+                                                               id="ckfinder-input-<?= $option['id'] ?>"
+                                                               placeholder="Chưa hình nào được chọn" value="">
+                                                    </div>
+
+                                                    <input type="hidden" name="last_thumbnail"
+                                                           value="<?= $option['thumbnail'] ?>">
                                                     <input type="hidden" name="id_sku"
                                                            value="<?= $option['id'] ?>">
                                                 </div>
@@ -482,21 +498,16 @@ if (isset($_GET['product'])) {
                                                 <button type="button" class="btn btn-secondary"
                                                         data-bs-dismiss="modal">Đóng
                                                 </button>
-                                                <button type="submit" name="edit_setoption"
-                                                        class="btn btn-primary">
-                                                    Lưu
+                                                <button type="submit" name="edit_setoption" class="btn btn-primary">Lưu
                                                 </button>
                                             </div>
                                         </div>
                                     </form>
                                 </div>
                             </div>
-
-
                         </td>
                     </tr>
                 <?php endforeach; ?>
-
                 </tbody>
             </table>
             <div>
@@ -568,7 +579,7 @@ if (isset($_GET['product'])) {
 <!-- Modal thêm tùy chọn biến thể -->
 <div class="modal fade" id="setoptionsModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog text-white">
-        <form action="" method="post">
+        <form action="" method="post" enctype="multipart/form-data">
             <div class="modal-content bg-light">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">THÊM CÁC TÙY CHỌN</h5>
@@ -593,8 +604,24 @@ if (isset($_GET['product'])) {
                         <input type="text" placeholder="" name="sku" class="form-control">
                     </div>
                     <div class="mb-3">
-                        <label for="exampleInputPassword1" class="form-label">Price</label>
+                        <label for="exampleInputPassword1" class="form-label">Giá</label>
                         <input type="text" placeholder="" name="price" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label for="formFile" class="form-label">Hình ảnh</label>
+                        <input class="form-control" name="thumbnail" type="file" id="formFile">
+
+                    </div>
+                    <div class="mb-3">
+                        <lable class="form-label">Hình đã tải lên</lable>
+                    </div>
+                    <div class="input-group mb-3">
+                        <button type="button" onclick="selectFileWithCKFinder('ckfinder-input-2')"
+                                class="input-group-text">Chọn
+                            hình
+                        </button>
+                        <input type="text" class="form-control" name="ckfinder" id="ckfinder-input-2"
+                               placeholder="Chưa hình nào được chọn" value="">
                     </div>
                 </div>
                 <div class="modal-footer">
