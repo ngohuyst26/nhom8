@@ -29,9 +29,6 @@ if (isset($_GET['categoryid'])) {
 </div>
 
 
-
-
-
 <nav aria-label="breadcrumb" class="breadcrumb-nav mb-3">
     <div class="container">
         <ol class="breadcrumb">
@@ -89,38 +86,9 @@ if (isset($_GET['categoryid'])) {
                 <?php endforeach ?>
 
 
-
-
-                <!-- <nav aria-label="Page navigation">
-                    <ul class="pagination">
-                        <li class="page-item disabled">
-                            <a class="page-link page-link-prev" href="#" aria-label="Previous" tabindex="-1" aria-disabled="true">
-                                <span aria-hidden="true"><i class="icon-long-arrow-left"></i></span>Prev
-                            </a>
-                        </li>
-                        <li class="page-item active" aria-current="page"><a class="page-link" href="#">1</a></li>
-                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                        <li class="page-item">
-                            <a class="page-link page-link-next" href="#" aria-label="Next">
-                                Next <span aria-hidden="true"><i class="icon-long-arrow-right"></i></span>
-                            </a>
-                        </li>
-                    </ul>
-                </nav> -->
             </div><!-- End .col-lg-9 -->
 
             <aside class="col-lg-3">
-                <!-- <div class="sidebar"> -->
-                    <!-- <div class="widget widget-search">
-                        <h3 class="widget-title">Search</h3>
-
-                        <form action="#">
-                            <label for="ws" class="sr-only">Search in blog</label>
-                            <input type="search" class="form-control" name="ws" id="ws" placeholder="Search in blog" required>
-                            <button type="submit" class="btn"><i class="icon-search"></i><span class="sr-only">Search</span></button>
-                        </form> -->
-                <!-- </div> -->
-
                 <div class="widget widget-cats">
                     <h3 class="widget-title">Danh Mục Bài Viết</h3><!-- End .widget-title -->
 
@@ -135,7 +103,7 @@ if (isset($_GET['categoryid'])) {
                 </div><!-- End .widget -->
 
                 <div class="widget">
-                    <h3 class="widget-title">Popular Posts</h3><!-- End .widget-title -->
+                    <h3 class="widget-title">Bài Viết Phổ Biến</h3><!-- End .widget-title -->
 
                     <ul class="posts-list">
 
@@ -156,43 +124,12 @@ if (isset($_GET['categoryid'])) {
                         </li>
 
                         <?php endforeach ?>
-                      
-                       
-                    </ul><!-- End .posts-list -->
-                </div><!-- End .widget -->
 
-                <!-- <div class="widget widget-banner-sidebar">
-                        <div class="banner-sidebar-title">ad box 280 x 280</div>
 
-                        <div class="banner-sidebar banner-overlay">
-                            <a href="#">
-                                <img src="assets/images/blog/sidebar/banner.jpg" alt="banner">
-                            </a>
-                        </div>
-                    </div> -->
-                <!-- End .widget -->
+                    </ul>
+                </div>
 
-                <!-- <div class="widget">
-                        <h3 class="widget-title">Browse Tags</h3>
 
-                        <div class="tagcloud">
-                            <a href="#">fashion</a>
-                            <a href="#">style</a>
-                            <a href="#">women</a>
-                            <a href="#">photography</a>
-                            <a href="#">travel</a>
-                            <a href="#">shopping</a>
-                            <a href="#">hobbies</a>
-                        </div>
-                    </div> -->
-
-                <!-- <div class="widget widget-text">
-                        <h3 class="widget-title">About Blog</h3>
-
-                        <div class="widget-text-content">
-                            <p>Vestibulum volutpat, lacus a ultrices sagittis, mi neque euismod dui, pulvinar nunc sapien ornare nisl.</p>
-                        </div>
-                    </div> -->
         </div><!-- End .sidebar -->
         </aside><!-- End .col-lg-3 -->
     </div><!-- End .row -->

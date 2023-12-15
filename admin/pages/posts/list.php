@@ -17,10 +17,6 @@ $numberPag = $limit;
 $base_url = (isset($_GET['offset'])) ? '?page=posts&action=list' : $_SERVER['REQUEST_URI'];
 $next_page_url = $base_url;
 
-if (isset($_GET['f'])) {
-    $next_page_url = $base_url . '&f=' . $_GET['f'];
-}
-
 
 if (isset($_GET['offset'])) {
     $offset = $_GET['offset'];
@@ -30,6 +26,8 @@ if (isset($_GET['offset'])) {
 
 
 if (isset($_GET['f'])) {
+    $next_page_url = $base_url . '&f=' . $_GET['f'];
+
     if ($_GET['f'] == 'trash') {
         $status = 2;
         $page = ceil($countTrashPost / $numberPag);
@@ -39,6 +37,7 @@ if (isset($_GET['f'])) {
         $status = 3;
         $page = ceil($countNotePost / $numberPag);
     }
+
 } else {
     $status = 1;
     $page = ceil($countPushPost / $numberPag);
@@ -46,7 +45,6 @@ if (isset($_GET['f'])) {
 
 if (isset($_GET['category'])) {
     $cate = $_GET['category'];
-
     if ($cate == 'all') {
         $getAllPost = $post->getAllPost($offset, $limit);
     } else {
@@ -83,7 +81,6 @@ if (isset($_GET['f']) && $_GET['f'] == 'note') {
             $getAllPost = $post->getNotePost($offset, $limit);
         } else {
             $next_page_url = $base_url . '&f=' . $_GET['f'] . '&category=' . $_GET['category'];
-
             $countPostCate = $post->countPostCate($cate, $status);
             $page = ceil($countPostCate / $numberPag);
             $getAllPost = $post->getPostByCate($cate, $status, $offset, $limit);
@@ -144,11 +141,11 @@ if (isset($_GET['key'])) {
         background-color: #0dcaf0 !important;
     }
 
-    @media (max-width: 768px) { 
-    .over-fl-mb {
-        overflow-x: auto;
+    @media (max-width: 768px) {
+        .over-fl-mb {
+            overflow-x: auto;
+        }
     }
-}
 </style>
 
 
@@ -297,7 +294,8 @@ if (isset($_GET['key'])) {
                                     ?>
                                     <div class=" d-flex align-items-center mb-3" style="width: 40px; height: 78px;">
                                         <input type="checkbox" class="list checkList form-check-input"
-                                               name="check_list[]" value="<?= $post['id'] ?>"></div>
+                                               name="check_list[]" value="<?= $post['id'] ?>">
+                                    </div>
 
                                 <?php
                                 endforeach;
@@ -342,6 +340,12 @@ if (isset($_GET['key'])) {
                                                 <i class="fa-solid fa-ellipsis-vertical"></i>
                                             </button>
                                             <ul class="dropdown-menu bg-secondary  border-light">
+                                                <li>
+                                                    <a class="btn dropdown-item text-light"
+                                                       href="?page=posts&action=view&id=<?= $post['id'] ?>"
+                                                       target="_blank" style="min-width:90px">Xem</a>
+
+                                                </li>
                                                 <li>
                                                     <a class="btn dropdown-item text-light"
                                                        href="?page=posts&action=edit&id=<?= $post['id'] ?>"
@@ -432,11 +436,10 @@ if (isset($_GET['key'])) {
                                                                                 <p class="mb-2"
                                                                                    style="font-size: 0.8rem;">Danh Mục
                                                                                     Bài Viết</p>
-                                                                                <select
-                                                                                        class="form-select quick_category"
+                                                                                <select class="form-select quick_category"
                                                                                         size="3 aria-label=" Size 3
-                                                                                        select
-                                                                                        example" name="category_id">
+                                                                                        select example"
+                                                                                name="category_id">
                                                                                 <?php foreach ($getPostCate as $category) : ?>
                                                                                     <?php
                                                                                     if ($post['category_id'] == $category['id']) :
@@ -447,8 +450,7 @@ if (isset($_GET['key'])) {
 
                                                                                     <?php else : ?>
 
-                                                                                        <option
-                                                                                                value=" <?= $category['id'] ?>"><?= $category['name_category'] ?></option>
+                                                                                        <option value=" <?= $category['id'] ?>"><?= $category['name_category'] ?></option>
 
                                                                                     <?php endif ?>
 
@@ -460,8 +462,7 @@ if (isset($_GET['key'])) {
                                                                         </div>
                                                                     </div>
 
-                                                                    <div
-                                                                            class="d-flex justify-content-between align-items-center">
+                                                                    <div class="d-flex justify-content-between align-items-center">
                                                                         <button type="button"
                                                                                 class="btn btn-sm btn-outline-info"
                                                                                 aria-expanded="false">Hủy
@@ -563,8 +564,10 @@ if (isset($_GET['key'])) {
         <div class="modal-content bg-secondary">
             <form action="/admin/pages/posts/handel.php" method="post">
                 <div class="modal-header">
-                    <h1 class="modal-title text-white fs-5" id="staticBackdropLabel">Bạn Có Chắc Chắn Muốn Xóa Bài Viết Này</h1>
-                    <button type="button" class="btn-close bg-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h1 class="modal-title text-white fs-5" id="staticBackdropLabel">Bạn Có Chắc Chắn Muốn Xóa Bài Viết
+                        Này</h1>
+                    <button type="button" class="btn-close bg-white" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
                 </div>
 
                 <div class="modal-footer">
@@ -581,7 +584,6 @@ if (isset($_GET['key'])) {
 
 
 <?php
-
 if (isset($_SESSION['notifier'])) {
     $con->alertify($_SESSION['notifier'][0], $_SESSION['notifier'][1]);
     unset($_SESSION['notifier']);

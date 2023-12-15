@@ -3,6 +3,10 @@
 <script src="https://cdn.ckeditor.com/4.22.1/standard/ckeditor.js"></script>
 
 <style>
+    .cke_inner, .cke_contents {
+        min-height: 950px;
+    }
+
     .cke_reset,
     .cke_top,
     .cke_bottom,
@@ -29,6 +33,9 @@ if (!$check) {
                 break;
             case 'list':
                 include 'pages/posts/list.php';
+                break;
+            case 'view':
+                include 'pages/posts/view.php';
                 break;
         }
     } else {
