@@ -13,10 +13,14 @@ $getPostByID = $post->getPostByID($id);
 
 ?>
 
+<style>
+    .w-900 {
+        width: 900px;
+        margin: 0 auto;
+    }
+</style>
 
 <div class="page-wrapper">
-
-
     <nav aria-label="breadcrumb" class="breadcrumb-nav mb-3">
         <div class="container">
             <ol class="breadcrumb">
@@ -28,11 +32,13 @@ $getPostByID = $post->getPostByID($id);
                     <li class="breadcrumb-item active" aria-current="page"><?= $post['name'] ?></li>
                 <?php endforeach ?>
             </ol>
-        </div><!-- End .container -->
-    </nav><!-- End .breadcrumb-nav -->
+        </div>
+    </nav>
 
     <div class="page-content">
         <div class="container">
+            <div class="w-900">
+
             <div class="row">
                 <div class="col-lg-12">
 
@@ -88,6 +94,9 @@ $getPostByID = $post->getPostByID($id);
                 </div>
 
             </div>
+
+            </div>
+
         </div>
     </div>
 

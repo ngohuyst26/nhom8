@@ -93,7 +93,7 @@
 
                     <div class="form-floating">
                         <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea"
-                                  name="content" style="height: 150px;">
+                                  name="content" >
                                     <?=
                                     $post['content']
                                     ?>
