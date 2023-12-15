@@ -1,18 +1,22 @@
 <?php
 include 'classcheckout.php';
 $ckout = new CheckOut();
+
+if (!isset ($_SESSION ['cart'])) {
+    $_SESSION ['cart'] = [];
+}
+
 $total_bill = 0;
 if (isset($_POST['order'])) {
-
-//    $code = "";
-//    $discount = "";
-//    if(isset($_POST['code'])){
-//        $code = $_POST['code'];
-//        reduceDiscount($code);
-//    }
-//    if(isset($_POST['discount'])){
-//        $discount = $_POST['discount'];
-//    }
+    $code = "";
+    $discount = "";
+    if (isset($_POST['code'])) {
+        $code = $_POST['code'];
+        $ckout->reduceDiscount($code);
+    }
+    if (isset($_POST['discount'])) {
+        $discount = $_POST['discount'];
+    }
     $name = $_POST['customer_name'];
     $address = $_POST['customer_address'];
     $phone = $_POST['customer_phone'];
@@ -40,14 +44,15 @@ if (isset($_POST['order'])) {
         $tongprice = ($cart['price'] * $cart['qty']);
         $ckout->AddOderDetail($last['last_id'], $cart['id'], $cart['name'], $cart['thumbnail'], $cart['qty'], $tongprice);
     }
-//    if(isset($_POST['code']) && isset($_POST['discount']) ){
-//        $content_discount = "<h5>Đã áp dụng mã ".$code." giảm được ".number_format($discount)." VNĐ</h5>";
-//        $content .= $content_discount."
-//        <h4>Tổng thành tiền ".number_format($total)." VNĐ</h4>";
-//    }else{
-    $content .= "
+    if (isset($_POST['code']) && isset($_POST['discount'])) {
+        $content_discount = "<h5>Đã áp dụng mã " . $code . " giảm được " . number_format($discount) . " VNĐ</h5>";
+        $content .= $content_discount . "
+        <h4>Tổng thành tiền " . number_format($total) . " VNĐ</h4>";
+    } else {
+        $content .= "
         <h4>Tổng thành tiền " . number_format($total) . " VNĐ</h4>
         ";
+    }
     GuiEmail($email, $title, $content);
     $_SESSION['cart'] = [];
 }
@@ -123,7 +128,17 @@ if (isset($_POST['order'])) {
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>
-
+                                <?php if (isset($_POST['discount']) && ($_POST['discount'] > 0)):
+                                    $total_bill = $total_bill - $_POST['discount'];
+                                    ?>
+                                    <tr class="summary-subtotal">
+                                        <td>Mã ưu đãi</td>
+                                        <td>
+                                            - <?= number_format($_POST['discount'], 0, ",", ".") ?> VNĐ từ mã
+                                            "<?= $_POST['code'] ?>"
+                                        </td>
+                                    </tr>
+                                <?php endif; ?>
                                 <tr class="summary-subtotal">
                                     <td>Tổng tiền:</td>
                                     <td><?= number_format($total_bill, 0, ",", ".") . "VNĐ" ?></td>
@@ -139,6 +154,13 @@ if (isset($_POST['order'])) {
                                 </tr><!-- End .summary-total -->
                                 </tbody>
                             </table><!-- End .table table-summary -->
+
+                            <?php if (isset($_POST['code'])): ?>
+                                <input type="hidden" name="code" value="<?= $_POST['code'] ?>">
+                            <?php endif; ?>
+                            <?php if (isset($_POST['discount'])): ?>
+                                <input type="hidden" name="discount" value="<?= $_POST['discount'] ?>">
+                            <?php endif; ?>
 
                             <div class="accordion-summary" id="accordion-payment">
                                 <div class="card">
@@ -158,7 +180,6 @@ if (isset($_POST['order'])) {
                                         </div><!-- End .card-body -->
                                     </div><!-- End .collapse -->
                                 </div><!-- End .card -->
-
                                 <div class="card">
                                     <div class="card-header" id="heading-2">
                                         <h2 class="card-title">
@@ -176,10 +197,7 @@ if (isset($_POST['order'])) {
                                         </div><!-- End .card-body -->
                                     </div><!-- End .collapse -->
                                 </div><!-- End .card -->
-
-
                             </div><!-- End .accordion -->
-
                             <button type="submit" name="order" class="btn btn-outline-primary-2 btn-order btn-block">
                                 <span class="btn-text">Place Order</span>
                                 <span class="btn-hover-text">Proceed to Checkout</span>

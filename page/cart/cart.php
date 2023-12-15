@@ -1,5 +1,43 @@
 <?php
 include "classCart.php";
+$car = new cart();
+
+if (!isset ($_SESSION ['cart'])) {
+    $_SESSION ['cart'] = [];
+}
+
+$_SESSION ['discount'] = 4;
+if (isset($_POST['apply'])) {
+    if (isset($_POST['discount'])) {
+        $code = $_POST['discount'];
+        $data = $car->CheckDiscount($code);
+        if ($data['check'] == 1) {
+            date_default_timezone_set('Asia/Ho_Chi_Minh');
+            $today = date('d-m-Y H:i:s');
+            if (strtotime($today) < strtotime($data['data']['date_end'])) {
+                $check_date = true;
+            } else {
+                $check_date = false;
+            }
+        }
+
+        if ($data['check'] == 1 && (($data['data']['number_use'] > 0) || ($data['data']['number_use'] == null))
+            && ($check_date == true || ($data['data']['date_end'] == null))) {
+            $discount = $data['data']['discount'];
+            $type = $data['data']['type'];
+            $code = $data['data']['code'];
+            $_SESSION ['discount'] = $data['check'];
+        } elseif ($data['check'] == 1 && ($data['data']['number_use'] == 0) && ($data['data']['number_use'] != null)) {
+            $_SESSION ['discount'] = 2;
+        } elseif ($data['check'] == 1 && ($check_date == false)) {
+            $_SESSION ['discount'] = 3;
+        } else {
+            $_SESSION ['discount'] = $data['check'];
+        }
+    }
+}
+
+
 $total_bill = 0;
 if (isset($_SESSION['cart'])) {
     if (isset($_POST['removecart'])) {
@@ -28,7 +66,7 @@ if (isset($_SESSION['cart'])) {
 }
 
 //unset($_SESSION['cart']);
-var_dump($_SESSION['cart']);
+//var_dump($_SESSION['cart']);
 ?>
 <div class="page-header text-center" style="background-image: url('assets/images/page-header-bg.jpg')">
     <div class="container">
@@ -38,7 +76,7 @@ var_dump($_SESSION['cart']);
 <nav aria-label="breadcrumb" class="breadcrumb-nav">
     <div class="container">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+            <li class="breadcrumb-item"><a href="/">Home</a></li>
             <li class="breadcrumb-item"><a href="#">Shop</a></li>
             <li class="breadcrumb-item active" aria-current="page">Shopping Cart</li>
         </ol>
@@ -98,15 +136,25 @@ var_dump($_SESSION['cart']);
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
+                            <?php
+                            if (isset($type) && $type == 1) {
+                                $discount = (($total_bill / 100) * $discount);
+                                $total_bill = $total_bill - $discount;
+                            } elseif (isset($type) && $type == 2 && $discount < $total_bill) {
+                                $total_bill = $total_bill - $discount;
+                            } elseif (isset($type) && $type == 2 && $discount > $total_bill) {
+                                $total_bill = 0;
+                            }
+                            ?>
                             </tbody>
                         </table><!-- End .table table-wishlist -->
                         <div class="cart-bottom">
                             <div class="cart-discount">
-                                <form action="#">
+                                <form action="#" method="post">
                                     <div class="input-group">
-                                        <input type="text" class="form-control" placeholder="coupon code">
+                                        <input type="text" class="form-control" name="discount" placeholder="Mã ưu đãi">
                                         <div class="input-group-append">
-                                            <button class="btn btn-outline-primary-2" type="submit"><i
+                                            <button class="btn btn-outline-primary-2" type="submit" name="apply"><i
                                                         class="icon-long-arrow-right"></i></button>
                                         </div><!-- .End .input-group-append -->
                                     </div><!-- End .input-group -->
@@ -116,6 +164,16 @@ var_dump($_SESSION['cart']);
                             <button type="submit" name="editcart" class="btn btn-outline-dark-2">
                                 <span>UPDATE CART</span><i class="icon-refresh"></i></button>
                         </div><!-- End .cart-bottom -->
+                        <?php if ($_SESSION['discount'] == 1): ?>
+                            <h6 class="text-success mt-5">Áp dụng thành công mã <?= $code ?> đã
+                                giảm: <?= number_format($discount, 0, ",", ".") ?>đ</h6>
+                        <?php elseif ($_SESSION['discount'] == 0): ?>
+                            <h6 class="text-danger mt-5">Mã giảm giá không tồn tại</h6>
+                        <?php elseif ($_SESSION['discount'] == 2): ?>
+                            <h6 class="text-danger mt-5">Mã giảm giá đã hết số lần sử dụng</h6>
+                        <?php elseif ($_SESSION['discount'] == 3): ?>
+                            <h6 class="text-danger mt-5">Mã giảm giá đã hết hạn sử dụng rồi</h6>
+                        <?php endif; ?>
                 </div><!-- End .col-lg-9 -->
                 <aside class="col-lg-3">
                     <div class="summary summary-cart">
@@ -167,8 +225,13 @@ var_dump($_SESSION['cart']);
                             </tbody>
                         </table><!-- End .table table-summary -->
                         </form>
-                        <a href="?action=checkout" class="btn btn-outline-primary-2 btn-order btn-block">PROCEED TO
-                            CHECKOUT</a>
+                        <form action="?action=checkout" method="post">
+                            <input type="hidden" name="discount" value="<?= $discount ?>">
+                            <input type="hidden" name="code" value="<?= $code ?>">
+                            <button class="btn btn-outline-primary-2 btn-order btn-block">PROCEED TO
+                                CHECKOUT
+                            </button>
+                        </form>
                     </div><!-- End .summary -->
                     <a href="http://duanone.php/?action=products" class="btn btn-outline-dark-2 btn-block mb-3"><span>CONTINUE SHOPPING</span><i
                                 class="icon-refresh"></i></a>

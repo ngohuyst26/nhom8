@@ -70,8 +70,9 @@ if (isset($_GET['order'])) {
                 <tbody>
                 <?php foreach ($order_detail as $order): ?>
                     <tr>
-                        <td style="min-width: 395px;"><?= $order['name'] ?></td>
-                        <td><img style="object-fit: cover; border-radius: 10px" src="<?= $order['thumbnail'] ?>" alt=""
+                        <td style="min-width: 395px;"><?= $order['product_name'] ?></td>
+                        <td><img style="object-fit: cover; border-radius: 10px" src="<?= $order['product_thumbnail'] ?>"
+                                 alt=""
                                  width="120" height="80"></td>
                         <td><?= $order['qty'] ?></td>
                         <td><?= $order['price'] ?></td>

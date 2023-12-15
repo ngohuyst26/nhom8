@@ -279,11 +279,11 @@ class  product
         $db = new connect();
         $sql = "SELECT p.id AS product_id,
                p.name AS product_name,
-               p.thumbnail,
                p.categori_id,
                p.categori_id,
                (SELECT s.id FROM skus s WHERE s.product_id = p.id ORDER BY s.id LIMIT 1) AS sku_id,
                (SELECT s.sku FROM skus s WHERE s.product_id = p.id ORDER BY s.id LIMIT 1) AS sku,
+               (SELECT s.thumbnail FROM skus s WHERE s.product_id = p.id ORDER BY s.id LIMIT 1) AS thumbnail,
                (SELECT s.price FROM skus s WHERE s.product_id = p.id ORDER BY s.id LIMIT 1) AS price
         FROM products p
         WHERE EXISTS (SELECT 1 FROM skus s WHERE s.product_id = p.id) AND p.name LIKE '%$search%' ";
@@ -295,11 +295,11 @@ class  product
         $db = new connect();
         $sql = "SELECT p.id AS product_id,
                p.name AS product_name,
-               p.thumbnail,
                p.categori_id,
                p.categori_id,
                (SELECT s.id FROM skus s WHERE s.product_id = p.id ORDER BY s.id LIMIT 1) AS sku_id,
                (SELECT s.sku FROM skus s WHERE s.product_id = p.id ORDER BY s.id LIMIT 1) AS sku,
+               (SELECT s.thumbnail FROM skus s WHERE s.product_id = p.id ORDER BY s.id LIMIT 1) AS thumbnail,
                (SELECT s.price FROM skus s WHERE s.product_id = p.id ORDER BY s.id LIMIT 1) AS price
         FROM products p
         WHERE EXISTS (SELECT 1 FROM skus s WHERE s.product_id = p.id) AND p.categori_id = ? ";
@@ -505,6 +505,26 @@ class  product
         return $db->pdo_query($sql);
     }
 
+    function AddReview($rating_msg, $rate_value, $content, $id_product, $user_id)
+    {
+        $db = new connect();
+        $sql = "INSERT INTO reviews(rating_msg,rate_value,content,product_id, user_id) VALUES (?, ?, ?, ?, ?)";
+        $db->pdo_execute($sql, $rating_msg, $rate_value, $content, $id_product, $user_id);
+    }
+
+    function GetAllReview($product_id)
+    {
+        $db = new connect();
+        $sql = "SELECT * FROM `reviews` WHERE product_id = ?";
+        return $db->pdo_query($sql, $product_id);
+    }
+
+    function GetNameUser($user_id)
+    {
+        $db = new connect();
+        $sql = "SELECT name FROM users WHERE id = ?";
+        return $db->pdo_query_one($sql, $user_id);
+    }
 }
 
 

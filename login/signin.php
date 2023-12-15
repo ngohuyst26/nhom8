@@ -52,6 +52,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                             //Cho phép vào trang mã ưu đãi role = 6
                             "\?page=discounts&action=add-discount$",
                             "\?page=discounts&action=list-discount$",
+                            "\?page=discounts&action=edit-discount&id=\d+$",
+                            "\?page=discounts&action=list-discount&id=\d+$",
                             //Chưa thấy cái xóa đâu với edit
                             //Cho phép vào trang loại sản phẩm role = 7
                             "\?page=category&action=add$",
