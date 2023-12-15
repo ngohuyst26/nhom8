@@ -29,9 +29,11 @@ class CheckOut
 
     function reduceDiscount($code)
     {
+        $db = new connect();
         $sql = "UPDATE discount SET number_use = number_use - 1 WHERE code LIKE ?";
-        pdo_execute($sql, $code);
+        $db->pdo_execute($sql, $code);
     }
+
 
 }
 

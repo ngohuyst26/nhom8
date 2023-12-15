@@ -3,13 +3,12 @@ $_SESSION['code'] = 0;
 $_SESSION['type'] = 0;
 $_SESSION['discount'] = 0;
 $_SESSION['description'] = 0;
-$_SESSION['number_use'] = 0;
-$_SESSION['date_end'] = 0;
 
+//Lấy id của mã ưu đãi trên đường dẫn
 $id = $_GET['id'];
 $connect = new connect();
 $tryvan = "SELECT * FROM discount WHERE id = $id";
-$data = $connect->pdo_query($tryvan);
+$data = $connect->pdo_query_one($tryvan);
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $code = $_POST['code'];
@@ -18,7 +17,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $description = $_POST["description"];
     $number_use = $_POST["number_use"];
     $date_end = $_POST["date_end"];
-    $connect = new connect();
+//    $date_end = date('Y-m-d H:i:s');
+//    var_dump($date_end);
     if (empty($code)) {
         $_SESSION['code'] = 1;
         $check = false;
@@ -35,92 +35,83 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $_SESSION['description'] = 1;
         $check = false;
     }
-    if (empty($number_use)) {
-        $_SESSION['number_use'] = 1;
-        $check = false;
+    if (empty($_POST["number_use"])) {
+        $number_use = 'null';
     }
-    if (empty($date_end)) {
-        $_SESSION['date_end'] = 1;
-        $check = false;
+    if (empty($_POST["date_end"])) {
+        $date_end = 'null';
     }
+    if (isset($_POST['type'])) {
+        if ($type == 0) {
+            if (isset($_POST['discount'])) {
+                $discount = substr($discount, 0, 2);
+            }
+        }
+    }
+    $connect = new connect();
     if ($check == true) {
-        $tryvan = "UPDATE discount SET code = '$code', type = '$type', discount ='$discount', description = '$description', number_use =  '$number_use', date_end = '$date_end' WHERE id = $id";
-        $connect->pdo_execute($tryvan);
+        $tryvan = "UPDATE discount SET code = ?, type = ?, discount =?, description = ?, `number_use` =  $number_use, `date_end` = ?  WHERE id = $id";
+        $connect->pdo_execute($tryvan, $code, $type, $discount, $description, `$date_end`);
     }
 }
 ?>
-<div class="bg-secondary rounded h-100 p-4">
-    <h6 class="mb-4">SỬA MÃ ƯU ĐÃI</h6>
-    <?php foreach ($data as $discounts): ?>
+<div class="col-1"></div>
+<div class="col-sm-12 col-xl-10 mt-3">
+    <div class="bg-secondary rounded h-100 p-4">
+        <h6 class="mb-4">MÃ ƯU ĐÃI</h6>
         <form method="post" enctype="multipart/form-data">
             <div class="row mb-3">
-                <label for="input" class="col-sm-2 col-form-label">Sửa mã ưu đãi</label>
-                <div class="col-sm-10">
-                    <input type="text" value="<?= $discounts['code'] ?>" name="code" class="form-control"
-                           id="inputEmail3">
-                </div>
+                <label for="input" class="col-sm-2 col-form-label">Nhập mã ưu đãi</label>
+                <input type="text" name="code" value="<?= $data['code'] ?>" class="form-control" id="inputEmail3">
                 <?php if ($_SESSION['code'] == 1): ?>
-                    <p>Không được để trống!!!</p>
+                    <p class="text-danger">Mã không được để trống</p>
                 <?php endif; ?>
-                <fieldset class="row mb-3">
-                    <div class="col-sm-10">
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="type" id="gridRadios1" value="0"
-                                   checked="">
-                            <label class="form-check-label" for="gridRadios1">
-                                Giảm theo phần trăm tổng đơn hàng
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="type" id="gridRadios2" value="1">
-                            <label class="form-check-label" for="gridRadios2">
-                                Giảm theo tổng tiền của đơn hàng
-                            </label>
-                        </div>
-                    </div>
-                </fieldset>
             </div>
             <div class="row mb-3">
-                <label for="input" class="col-sm-2 col-form-label">Ưu đãi</label>
-                <div class="col-sm-10">
-                    <input type="text" VALUE="<?= $discounts['discount'] ?>" name="discount" class="form-control"
-                           id="inputPassword3">
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="type" id="gridRadios1" value="1" checked="">
+                    <label class="form-check-label" for="gridRadios1">
+                        Giảm theo phần trăm tổng đơn hàng
+                    </label>
                 </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="type" id="gridRadios2" value="2">
+                    <label class="form-check-label" for="gridRadios2">
+                        Giảm theo tổng tiền của đơn hàng
+                    </label>
+                </div>
+                <?php if ($_SESSION['type'] == 1): ?>
+                    <p class="text-danger">Loại không được để trống</p>
+                <?php endif; ?>
+            </div>
+            <div class="row mb-3">
+                <label for="input" class="form-label">Ưu đãi</label>
+                <input type="text" name="discount" value="<?= $data['discount'] ?>" class="form-control"
+                       id="inputPassword3">
                 <?php if ($_SESSION['discount'] == 1): ?>
-                    <p>Không được để trống!!!</p>
+                    <p class="text-danger">Ưu đãi không được để trống</p>
                 <?php endif; ?>
             </div>
             <div class="row mb-3">
-                <label for="input" class="col-sm-2 col-form-label">Mô tả</label>
-                <div class="col-sm-10">
-                    <input type="text" value="<?= $discounts['description'] ?>" name="description" class="form-control"
-                           id="inputEmail3">
-                </div>
+                <label for="input" class="form-label">Mô tả</label>
+                <input type="text" name="description" value="<?= $data['description'] ?>" class="form-control"
+                       id="inputEmail3">
                 <?php if ($_SESSION['description'] == 1): ?>
-                    <p>Không được để trống!!!</p>
+                    <p class="text-danger">Mô tả không được để trống</p>
                 <?php endif; ?>
             </div>
             <div class="row mb-3">
-                <label for="input" class="col-sm-2 col-form-label">Số lần sử dụng</label>
-                <div class="col-sm-10">
-                    <input type="text" value="<?= $discounts['number_use'] ?>" name="number_use" class="form-control"
-                           id="inputEmail3">
-                </div>
-                <?php if ($_SESSION['number_use'] == 1): ?>
-                    <p>Không được để trống!!!</p>
-                <?php endif; ?>
+                <label for="input" class="form-label">Số lần sử dụng</label>
+                <input type="text" value="<?= $data['number_use'] ?>" name="number_use" class="form-control"
+                       id="inputEmail3">
             </div>
             <div class="row mb-3">
-                <label for="input" class="col-sm-2 col-form-label">Ngày hết hạn</label>
-                <div class="col-sm-10">
-                    <input type="date" value="<?= $discounts['date_end'] ?>" name="date_end" class="form-control"
-                           id="inputEmail3">
-                </div>
-                <?php if ($_SESSION['date_end'] == 1): ?>
-                    <p>Không được để trống!!!</p>
-                <?php endif; ?>
+                <label for="input" class="form-label">Ngày hết hạn</label>
+                <input type="datetime-local" name="date_end" value="<?= $data['date_end'] ?>" class="form-control"
+                       id="inputEmail3">
             </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" class="btn btn-primary">Thêm</button>
         </form>
-    <?php endforeach; ?>
+    </div>
 </div>
+<div class="col-1"></div>
