@@ -68,6 +68,9 @@ if (!isset($_SESSION['admin'])) {
                             case 'product':
                                 include './controller/products.php';
                                 break;
+                            case 'review':
+                                include './controller/review.php';
+                                break;
                             case 'users':
                                 include './controller/users.php';
                                 break;

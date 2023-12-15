@@ -6,17 +6,16 @@ if (!isset ($_SESSION ['cart'])) {
     $_SESSION ['cart'] = [];
 }
 $total_bill = 0;
-$_SESSION['nologin'] = 0;
-if (isset($_SESSION['id'])) {
+if (isset($_SESSION['id']) && !empty($_SESSION['id'])) {
     if (isset($_POST['order'])) {
         $code = "";
         $discount = "";
-        if (isset($_POST['code'])) {
-            $code = $_POST['code'];
+        if (isset($_POST['codee'])) {
+            $code = $_POST['codee'];
             $ckout->reduceDiscount($code);
         }
-        if (isset($_POST['discount'])) {
-            $discount = $_POST['discount'];
+        if (isset($_POST['discountt'])) {
+            $discount = $_POST['discountt'];
         }
         $name = $_POST['customer_name'];
         $address = $_POST['customer_address'];
@@ -45,7 +44,7 @@ if (isset($_SESSION['id'])) {
             $tongprice = ($cart['price'] * $cart['qty']);
             $ckout->AddOderDetail($last['last_id'], $cart['id'], $cart['name'], $cart['thumbnail'], $cart['qty'], $tongprice);
         }
-        if (isset($_POST['code']) && isset($_POST['discount'])) {
+        if (isset($_POST['codee']) && isset($_POST['discountt'])) {
             $content_discount = "<h5>Đã áp dụng mã " . $code . " giảm được " . number_format($discount) . " VNĐ</h5>";
             $content .= $content_discount . "
         <h4>Tổng thành tiền " . number_format($total) . " VNĐ</h4>";
@@ -60,6 +59,7 @@ if (isset($_SESSION['id'])) {
 } else {
     $_SESSION['nologin'] = 1;
 }
+
 ?>
 <div class="page-header text-center" style="background-image: url('assets/images/page-header-bg.jpg')">
     <div class="container">
@@ -162,10 +162,10 @@ if (isset($_SESSION['id'])) {
                             </table><!-- End .table table-summary -->
 
                             <?php if (isset($_POST['code'])): ?>
-                                <input type="hidden" name="code" value="<?= $_POST['code'] ?>">
+                                <input type="hidden" name="codee" value="<?= $_POST['code'] ?>">
                             <?php endif; ?>
                             <?php if (isset($_POST['discount'])): ?>
-                                <input type="hidden" name="discount" value="<?= $_POST['discount'] ?>">
+                                <input type="hidden" name="discountt" value="<?= $_POST['discount'] ?>">
                             <?php endif; ?>
 
                             <div class="accordion-summary" id="accordion-payment">
@@ -203,10 +203,7 @@ if (isset($_SESSION['id'])) {
                                         </div><!-- End .card-body -->
                                     </div><!-- End .collapse -->
                                 </div><!-- End .card -->
-
-
                             </div><!-- End .accordion -->
-
                             <button type="submit" name="order" class="btn btn-outline-primary-2 btn-order btn-block">
                                 <span class="btn-text">Place Order</span>
                                 <span class="btn-hover-text">Proceed to Checkout</span>

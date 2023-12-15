@@ -33,6 +33,16 @@
 
             <div class="nav-item dropdown">
                 <a href="#"
+                   class="nav-link dropdown-toggle <?= (isset($_GET['page']) && $_GET['page'] == 'review') ? 'active' : '' ?>"
+                   data-bs-toggle="dropdown"><i class="fa-solid fa-star"></i> Đánh giá</a>
+                <div class="dropdown-menu bg-transparent border-0">
+                    <a href="?page=review&action=list" class="dropdown-item">Danh sách đánh giá</a>
+                    <!--                    <a href="?page=statistical&action=products" class="dropdown-item">Thống Kê Sản Phẩm</a>-->
+                </div>
+            </div>
+
+            <div class="nav-item dropdown">
+                <a href="#"
                    class="nav-link dropdown-toggle <?= (isset($_GET['page']) && $_GET['page'] == 'order') ? 'active' : '' ?>"
                    data-bs-toggle="dropdown"><i class="fa-solid fa-cart-shopping"></i> Đơn hàng</a>
                 <div class="dropdown-menu bg-transparent border-0">
