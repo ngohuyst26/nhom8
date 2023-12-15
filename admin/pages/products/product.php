@@ -11,6 +11,13 @@ class  product
         return $db->pdo_query_one($sql, $id);
     }
 
+    function GetNameProductAll()
+    {
+        $db = new connect();
+        $sql = "SELECT name FROM products";
+        return $db->pdo_query($sql);
+    }
+
     function GetNameVariant($id)
     {
         $db = new connect();

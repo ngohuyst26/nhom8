@@ -32,9 +32,9 @@ if (isset($_SESSION['role'])) {
 <?php if (isset($_SESSION['id'])): ?>
     <div class="container">
         <div class="row">
-            <div class="col-m-4 m-3 justify-content-center">
-                <div class="col-4 col-md-4 all des">
-                    <div class="card" style="width: 40rem;">
+            <div class="col-m-3 m-2 justify-content-center">
+                <div class="col-3 col-md-3 all des">
+                    <div class="card" style="width: 30rem;">
                         <div class="card-body">
                             <h5 class="card-title">TÀI KHOẢN CỦA TÔI</h5>
                             <img src="https://hienthao.com/wp-content/uploads/2023/05/c6e56503cfdd87da299f72dc416023d4-736x620.jpg"
@@ -64,21 +64,22 @@ if (isset($_SESSION['role'])) {
                     </div>
                 </div>
 
-                <div class="col-lg-4 col-md-4 all des">
-                    <div class="card" style="width: 40rem;">
+                <div class="col-lg-3 col-md-3 all des">
+                    <div class="card" style="width: 30rem;">
                         <div class="card-body">
                             <a href="" class="card-link">CẬP NHẬT TÀI KHOẢN</a>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-7 col-md-7 ">
+            <div class="col-8 col-md-8 ">
                 <table class="table table-hover">
                     <thead>
                     <tr>
                         <th scope="col">Tên khách hàng</th>
                         <th scope="col">Số điện thoại</th>
                         <th scope="col">Ngày đặt hàng</th>
+                        <th scope="col">Tổng đơn hàng</th>
                         <th scope="col">Trạng thái</th>
                         <th scope="col">Hành động</th>
                     </tr>
@@ -89,6 +90,7 @@ if (isset($_SESSION['role'])) {
                             <td><?= $item['customer_name'] ?></td>
                             <td><?= $item['customer_phone'] ?></td>
                             <td><?= $item['created_at'] ?></td>
+                            <td><?= number_format($item['total'], 0, ",", ".") . "VNĐ" ?></td>
                             <td><?= $or->CheckStatus($item['status']) ?></td>
                             <td><a href="?action=order&order=<?= $item['id'] ?>" class="btn btn-primary">Xem chi
                                     tiết</a></td>
