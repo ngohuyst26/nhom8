@@ -57,7 +57,7 @@ class Posts extends connect
         return $a;
     }
 
-    public function getTrashPost($offset, $limit)
+    public function getPostByStatus($status, $offset, $limit)
     {
         $sql = "SELECT p.*, pc.name_category  as name_category, user.name as user_name
                 FROM posts AS p 
@@ -65,27 +65,10 @@ class Posts extends connect
                 ON p.category_id = pc.id 
                 INNER JOIN users AS user
                 ON p.user_id = user.id 
-                WHERE status = 2
+                WHERE status = $status
                 ORDER BY ID DESC
                 LIMIT $offset, $limit
 
-                ";
-        $conn = new connect();
-        $a = $conn->pdo_query($sql);
-        return $a;
-    }
-
-    public function getNotePost($offset, $limit)
-    {
-        $sql = "SELECT p.*, pc.name_category  as name_category, user.name as user_name
-                FROM posts AS p 
-                INNER JOIN post_categories AS pc 
-                ON p.category_id = pc.id 
-                INNER JOIN users AS user
-                ON p.user_id = user.id 
-                WHERE status = 3
-                ORDER BY ID DESC
-                LIMIT $offset, $limit
                 ";
         $conn = new connect();
         $a = $conn->pdo_query($sql);
@@ -169,50 +152,21 @@ class Posts extends connect
         return $total_records;
     }
 
-    public function updateTranshPost($user_id, $id)
+    public function updateStatusPost($status, $id)
     {
         $conn = new connect();
 
-        $sql = "UPDATE posts SET status=2, user_id=?, updated_at=NOW()  WHERE id=?";
+        $sql = "UPDATE posts SET status= ?, updated_at=NOW()  WHERE id=?";
 
         if (is_array($id)) {
             foreach ($id as $id) {
-                $conn->pdo_execute($sql, $user_id, $id);
+                $conn->pdo_execute($sql, $status, $id);
             }
         } else {
-            $conn->pdo_execute($sql, $user_id, $id);
+            $conn->pdo_execute($sql, $status, $id);
         }
     }
 
-    public function updateNotePost($id)
-    {
-        $conn = new connect();
-
-        $sql = "UPDATE posts SET status=3, updated_at=NOW()  WHERE id=?";
-
-        if (is_array($id)) {
-            foreach ($id as $id) {
-                $conn->pdo_execute($sql, $id);
-            }
-        } else {
-            $conn->pdo_execute($sql, $id);
-        }
-    }
-
-    public function restorePost($id)
-    {
-        $conn = new connect();
-
-        $sql = "UPDATE posts SET status=1, updated_at=NOW()  WHERE id=?";
-
-        if (is_array($id)) {
-            foreach ($id as $id) {
-                $conn->pdo_execute($sql, $id);
-            }
-        } else {
-            $conn->pdo_execute($sql, $id);
-        }
-    }
 
     public function countPostCate($idCate, $status)
     {

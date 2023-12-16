@@ -132,7 +132,7 @@ if (isset($_POST['quick-update'])) {
 
 if (isset($_POST['noteListID'])) {
     $id = $_POST['check_list'];
-    $posts->updateNotePost($id);
+    $posts->updateStatusPost(3, $id);
     $_SESSION['notifier'] = ['Đã Chuyển Vào Bản Nháp', 'success'];
 
     header('location: ' . $_SERVER['HTTP_REFERER']);
@@ -140,7 +140,7 @@ if (isset($_POST['noteListID'])) {
 
 if (isset($_POST['trashListID'])) {
     $id = $_POST['check_list'];
-    $posts->updateTranshPost($userid, $id);
+    $posts->updateStatusPost(2, $id);
     $_SESSION['notifier'] = ['Đã Chuyển Vào Thùng Rác', 'success'];
 
     header('location: ' . $_SERVER['HTTP_REFERER']);
@@ -148,7 +148,7 @@ if (isset($_POST['trashListID'])) {
 
 if (isset($_POST['restore'])) {
     $id = $_POST['check_list'];
-    $posts->restorePost($id);
+    $posts->updateStatusPost(1, $id);
     $_SESSION['notifier'] = ['Đã Khôi Phục', 'success'];
 
     header('location: /admin/?page=posts&action=list');
@@ -156,7 +156,7 @@ if (isset($_POST['restore'])) {
 
 if (isset($_POST['publishPost'])) {
     $id = $_POST['check_list'];
-    $posts->restorePost($id);
+    $posts->updateStatusPost(1, $id);
     $_SESSION['notifier'] = ['Đã Công Khai', 'success'];
 
     header('location: /admin/?page=posts&action=list');
