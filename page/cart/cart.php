@@ -70,15 +70,15 @@ if (isset($_SESSION['cart'])) {
 ?>
 <div class="page-header text-center" style="background-image: url('assets/images/page-header-bg.jpg')">
     <div class="container">
-        <h1 class="page-title">Shopping Cart<span>Shop</span></h1>
+        <h1 class="page-title">Giỏ Hàng</h1>
     </div><!-- End .container -->
 </div><!-- End .page-header -->
 <nav aria-label="breadcrumb" class="breadcrumb-nav">
     <div class="container">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="/">Home</a></li>
-            <li class="breadcrumb-item"><a href="#">Shop</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Shopping Cart</li>
+            <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
+            <li class="breadcrumb-item"><a href="#">Sản phẩm</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Giỏ hàng</li>
         </ol>
     </div><!-- End .container -->
 </nav><!-- End .breadcrumb-nav -->
@@ -92,10 +92,10 @@ if (isset($_SESSION['cart'])) {
                         <table class="table table-cart table-mobile">
                             <thead>
                             <tr>
-                                <th>Product</th>
-                                <th>Price</th>
-                                <th>Quantity</th>
-                                <th>Total</th>
+                                <th>Tên sản phẩm</th>
+                                <th>Giá</th>
+                                <th>Số lượng</th>
+                                <th>Tổng giá</th>
                                 <th></th>
                             </tr>
                             </thead>
@@ -181,11 +181,11 @@ if (isset($_SESSION['cart'])) {
                         <table class="table table-summary">
                             <tbody>
                             <tr class="summary-subtotal">
-                                <td>Subtotal:</td>
+                                <td>Tổng:</td>
                                 <td><?= number_format($total_bill, 0, ",", ".") ?>đ</td>
                             </tr><!-- End .summary-subtotal -->
                             <tr class="summary-shipping">
-                                <td>Shipping:</td>
+                                <td>Vận chuyển:</td>
                                 <td>&nbsp;</td>
                             </tr>
                             <tr class="summary-shipping-row">
@@ -193,33 +193,23 @@ if (isset($_SESSION['cart'])) {
                                     <div class="custom-control custom-radio">
                                         <input type="radio" id="free-shipping" name="shipping"
                                                class="custom-control-input">
-                                        <label class="custom-control-label" for="free-shipping">Free Shipping</label>
+                                        <label class="custom-control-label" for="free-shipping">Nhanh</label>
                                     </div><!-- End .custom-control -->
                                 </td>
-                                <td>$0.00</td>
+                                <td>30.000đ</td>
                             </tr><!-- End .summary-shipping-row -->
                             <tr class="summary-shipping-row">
                                 <td>
                                     <div class="custom-control custom-radio">
                                         <input type="radio" id="standart-shipping" name="shipping"
                                                class="custom-control-input">
-                                        <label class="custom-control-label" for="standart-shipping">Standart:</label>
+                                        <label class="custom-control-label" for="standart-shipping">Chậm</label>
                                     </div><!-- End .custom-control -->
                                 </td>
-                                <td>$10.00</td>
-                            </tr><!-- End .summary-shipping-row -->
-                            <tr class="summary-shipping-row">
-                                <td>
-                                    <div class="custom-control custom-radio">
-                                        <input type="radio" id="express-shipping" name="shipping"
-                                               class="custom-control-input">
-                                        <label class="custom-control-label" for="express-shipping">Express:</label>
-                                    </div><!-- End .custom-control -->
-                                </td>
-                                <td>$20.00</td>
+                                <td>10.000đ</td>
                             </tr><!-- End .summary-shipping-row -->
                             <tr class="summary-total">
-                                <td>Total:</td>
+                                <td>Tổng giỏ hàng:</td>
                                 <td><?= number_format($total_bill, 0, ",", ".") ?>đ</td>
                             </tr><!-- End .summary-total -->
                             </tbody>
@@ -228,12 +218,11 @@ if (isset($_SESSION['cart'])) {
                         <form action="?action=checkout" method="post">
                             <input type="hidden" name="discount" value="<?= $discount ?>">
                             <input type="hidden" name="code" value="<?= $code ?>">
-                            <button class="btn btn-outline-primary-2 btn-order btn-block">PROCEED TO
-                                CHECKOUT
+                            <button class="btn btn-outline-primary-2 btn-order btn-block">TIẾP TỤC THANH TOÁN
                             </button>
                         </form>
                     </div><!-- End .summary -->
-                    <a href="http://duanone.php/?action=products" class="btn btn-outline-dark-2 btn-block mb-3"><span>CONTINUE SHOPPING</span><i
+                    <a href="http://duanone.php/?action=products" class="btn btn-outline-dark-2 btn-block mb-3"><span>TIẾP TỤC MUA HÀNG</span><i
                                 class="icon-refresh"></i></a>
                 </aside><!-- End .col-lg-3 -->
             </div><!-- End .row -->

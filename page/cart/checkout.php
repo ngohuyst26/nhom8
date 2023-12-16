@@ -2,6 +2,7 @@
 include 'classcheckout.php';
 $ckout = new CheckOut();
 
+$_SESSION['nologin'] = 0;
 if (!isset ($_SESSION ['cart'])) {
     $_SESSION ['cart'] = [];
 }

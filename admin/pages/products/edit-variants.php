@@ -30,13 +30,11 @@ if (isset($_POST['setoptions']) && isset($_GET['product'])) {
     $price = $_POST['price'];
     $option_id = $_POST['id_option'];
     $ckfinder = $_POST['ckfinder'];
-    var_dump($ckfinder);
     if (isset($_FILES['thumbnail']) && $_FILES['thumbnail']['size'] > 0) {
         $thumbnail = $up->uploadImg($_FILES["thumbnail"]);
     } else {
         $thumbnail = $ckfinder;
     }
-    var_dump($thumbnail);
     $variants_id = $pro->GetNameVariant($id_product);
     $pro->AddOptionsSku($id_product, $sku, $price, $option_id, $variants_id, $thumbnail);
 }

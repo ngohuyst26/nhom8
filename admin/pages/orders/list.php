@@ -3,6 +3,11 @@ include 'order.php';
 $or = new order();
 
 $value = $or->GetAllOrder();
+if (isset($_GET['del_order'])) {
+    $del_order = $_GET['del_order'];
+    $or->DelOrder($del_order);
+}
+
 
 ?>
 <div class="container-fluid pt-4 px-4">

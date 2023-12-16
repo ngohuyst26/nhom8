@@ -33,7 +33,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             }
         }
     }
-    var_dump($found);
     if (!$found) {
         $_SESSION['cart']["$id"] = $product;
     }
@@ -42,8 +41,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 //var_dump( $_SESSION['cart']);
 
 ?>
-<div id="value">
-</div>
+
 <main class="main">
     <div class="page-header text-center" style="background-image: url('assets/images/page-header-bg.jpg')">
         <div class="container">
@@ -85,8 +83,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                         </div><!-- End .toolbox-right -->
                     </div><!-- End .toolbox -->
 
-                    <div class="products mb-3 content">
-                        <div class="row justify-content-center">
+                    <div class="products mb-3 content ">
+                        <div class="row" id="product-search">
                             <?php foreach ($value as $product):
                                 $fistOption = $pro->FistOptions($product['product_id']);
                                 if (!empty($fistOption)) {
@@ -164,7 +162,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                                 </div><!-- End .col-sm-6 col-lg-4 -->
 
                             <?php endforeach; ?>
-
                         </div><!-- End .row -->
                     </div><!-- End .products -->
 
@@ -288,4 +285,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $grid.isotope({filter: filterValue});
         });
     });
+
+
 </script>

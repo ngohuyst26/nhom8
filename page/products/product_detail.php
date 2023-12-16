@@ -59,8 +59,6 @@ if (isset ($_POST['addcart'])) {
         $id = $_POST['id'];
         echo "hong";
     }
-    var_dump($id);
-
     $name = $_POST['name'];
     $thumbnail = $_POST['thumbnail'];
     $price = $_POST['price'];

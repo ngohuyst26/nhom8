@@ -101,5 +101,5 @@ if (isset($_SESSION['role'])){
             </div>
         </div>
     </div>
-</div>
-
+    </div>
+<?php endif; ?>

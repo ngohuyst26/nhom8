@@ -55,6 +55,14 @@ class  order
         return $db->pdo_execute($sql, $customer_name, $customer_phone, $shipping_address, $total, $status, $id_order);
     }
 
+    function DelOrder($order_id)
+    {
+        $db = new connect();
+        $sql = "DELETE FROM orders WHERE id = ?;
+                DELETE FROM order_detail WHERE order_id = ?";
+        return $db->pdo_execute($sql, $order_id, $order_id);
+    }
+
 }
 
 ?>
