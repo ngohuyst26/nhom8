@@ -1,121 +1,100 @@
 <?php
 
-require_once 'model-post.php';
-$con = new connect();
-$post = new Posts;
+    require_once 'model-post.php';
+    $con = new connect();
+    $post = new Posts;
+    $getPostCate = $post->getPostCate();
+    $countAllPost = $post->countAllPost();
+    $countTrashPost = $post->countPostByStatus(2);
+    $countPushPost = $post->countPostByStatus(1);
+    $countNotePost = $post->countPostByStatus(3);
 
-$getPostCate = $post->getPostCate();
-
-$countAllPost = $post->countAllPost();
-$countTrashPost = $post->countPostByStatus(2);
-$countPushPost = $post->countPostByStatus(1);
-$countNotePost = $post->countPostByStatus(3);
-
-$limit = 5;
-$numberPag = $limit;
-
-$base_url = (isset($_GET['offset'])) ? '?page=posts&action=list' : $_SERVER['REQUEST_URI'];
-$next_page_url = $base_url;
-
-
-if (isset($_GET['offset'])) {
-    $offset = $_GET['offset'];
-} else {
-    $offset = 0;
-}
-
-
-if (isset($_GET['f'])) {
-    $next_page_url = $base_url . '&f=' . $_GET['f'];
-
-    if ($_GET['f'] == 'trash') {
-        $status = 2;
-        $page = ceil($countTrashPost / $numberPag);
-    }
-
-    if ($_GET['f'] == 'note') {
-        $status = 3;
-        $page = ceil($countNotePost / $numberPag);
-    }
-
-} else {
+    $limit = 5;
+    $numberPag = $limit;
     $status = 1;
-    $page = ceil($countPushPost / $numberPag);
-}
 
-if (isset($_GET['category'])) {
-    $cate = $_GET['category'];
-    if ($cate == 'all') {
+    $base_url = (isset($_GET['offset'])) ? '?page=posts&action=list' : $_SERVER['REQUEST_URI'];
+    $next_page_url = $base_url;
+
+    if (isset($_GET['offset'])) {
+        $offset = $_GET['offset'];
+    } else {
+        $offset = 0;
+    }
+
+    // PL post 
+    if (isset($_GET['category'])) {
+        $cate = $_GET['category'];
+        if ($cate == 'all') {
+            $getAllPost = $post->getAllPost($offset, $limit);
+            $page = ceil($countPushPost / $numberPag);
+        } else {
+            $next_page_url = $base_url . '&category=' . $_GET['category'];
+            $countPostCate = $post->countPostCate($cate, $status);
+            $page = ceil($countPostCate / $numberPag);
+            $getAllPost = $post->getPostByCate($cate, $status, $offset, $limit);
+        }
+    } else {
+        $cate = 'all';
         $getAllPost = $post->getAllPost($offset, $limit);
-    } else {
-        $next_page_url = $base_url . '&category=' . $_GET['category'];
-        $countPostCate = $post->countPostCate($cate, $status);
-        $page = ceil($countPostCate / $numberPag);
-        $getAllPost = $post->getPostByCate($cate, $status, $offset, $limit);
+        $page = ceil($countPushPost / $numberPag);
     }
-} else {
-    $cate = 'all';
-    $getAllPost = $post->getAllPost($offset, $limit);
-}
 
-if (isset($_GET['f']) && $_GET['f'] == 'trash') {
-    if (isset($_GET['category'])) {
-        $cate = $_GET['category'];
-        if ($cate == 'all') {
-            $getAllPost = $post->getTrashPost($offset, $limit);
-        } else {
-            $next_page_url = $base_url . '&f=' . $_GET['f'] . '&category=' . $_GET['category'];
-            $countPostCate = $post->countPostCate($cate, $status);
-            $page = ceil($countPostCate / $numberPag);
-            $getAllPost = $post->getPostByCate($cate, $status, $offset, $limit);
+    //  F = 
+    if (isset($_GET['f'])) {
+        $next_page_url = $base_url . '&f=' . $_GET['f'];
+
+        if ($_GET['f'] == 'trash') {
+            $status = 2;
+            $page = ceil($countTrashPost / $numberPag);
         }
-    } else {
-        $getAllPost = $post->getTrashPost($offset, $limit);
-    }
-}
 
-if (isset($_GET['f']) && $_GET['f'] == 'note') {
-    if (isset($_GET['category'])) {
-        $cate = $_GET['category'];
-        if ($cate == 'all') {
-            $getAllPost = $post->getNotePost($offset, $limit);
-        } else {
-            $next_page_url = $base_url . '&f=' . $_GET['f'] . '&category=' . $_GET['category'];
-            $countPostCate = $post->countPostCate($cate, $status);
-            $page = ceil($countPostCate / $numberPag);
-            $getAllPost = $post->getPostByCate($cate, $status, $offset, $limit);
+        if ($_GET['f'] == 'note') {
+            $status = 3;
+            $page = ceil($countNotePost / $numberPag);
         }
-    } else {
-        $getAllPost = $post->getNotePost($offset, $limit);
-    }
-}
 
+        $getAllPost = $post->getPostByStatus($status, $offset, $limit);
 
-if (isset($_GET['key'])) {
-    $keyword = trim($_GET['key']);
-    $next_page_url = $base_url . '&key=' . $_GET['key'];
-    $countPostSearch = $post->countSearchPost($keyword);
-    $page = ceil($countPostSearch / $numberPag);
-
-    if (isset($_GET['category'])) {
-        $cate = $_GET['category'];
-
-        if ($cate == 'all') {
-
-            $getAllPost = $post->getNotePost($offset, $limit);
-        } else {
-
-            $next_page_url = $base_url . '&key=' . $_GET['key'] . '&category=' . $_GET['category'];
-
-            $countPostCate = $post->countSearchPostCate($keyword, $cate);
-            $page = ceil($countPostCate / $numberPag);
-            $getAllPost = $post->getSearchPostCate($keyword, $cate, $offset, $limit);
+        if (isset($_GET['category'])) {
+            $cate = $_GET['category'];
+            if ($cate == 'all') {
+                $getAllPost = $post->getPostByStatus($status, $offset, $limit);
+            } else {
+                $next_page_url = $base_url . '&f=' . $_GET['f'] . '&category=' . $_GET['category'];
+                $countPostCate = $post->countPostCate($cate, $status);
+                $page = ceil($countPostCate / $numberPag);
+                $getAllPost = $post->getPostByCate($cate, $status, $offset, $limit);
+            }
         }
-    } else {
-        $getAllPost = $post->getSearchPost($keyword, $offset, $limit);
     }
-}
 
+
+    // SEARCH 
+    if (isset($_GET['key'])) {
+        $keyword = trim($_GET['key']);
+        $next_page_url = $base_url . '&key=' . $_GET['key'];
+        $countPostSearch = $post->countSearchPost($keyword);
+        $page = ceil($countPostSearch / $numberPag);
+
+        if (isset($_GET['category'])) {
+            $cate = $_GET['category'];
+
+            if ($cate == 'all') {
+
+                $getAllPost = $post->getAllPost($offset, $limit);
+            } else {
+
+                $next_page_url = $base_url . '&key=' . $_GET['key'] . '&category=' . $_GET['category'];
+
+                $countPostCate = $post->countSearchPostCate($keyword, $cate);
+                $page = ceil($countPostCate / $numberPag);
+                $getAllPost = $post->getSearchPostCate($keyword, $cate, $offset, $limit);
+            }
+        } else {
+            $getAllPost = $post->getSearchPost($keyword, $offset, $limit);
+        }
+    }
 
 ?>
 
@@ -156,7 +135,7 @@ if (isset($_GET['key'])) {
         </div>
         <div class="text-start d-lg-flex mb-3">
             <p class="me-3 text-warning">Tất Cả (<?= $countAllPost; ?>) </p>
-            <p class="me-3"><a href="/admin/?page=posts&action=list" class="<?= (!isset($_GET['f'])) ? 'text-white' : 'text-light' ?>">Công Khai (<?= $countPushPost; ?>) </a></p>
+            <p class="me-3"><a href="/admin/?page=posts&action=list" class="<?= (!isset($_GET['f']) && !isset($_GET['key'])) ? 'text-white' : 'text-light' ?>">Công Khai (<?= $countPushPost; ?>) </a></p>
             <p class="me-3"><a href="/admin/?page=posts&action=list&f=trash" class="<?= (isset($_GET['f']) && $_GET['f'] == 'trash') ? 'text-white' : 'text-light' ?>">Thùng rác (<?= $countTrashPost; ?>)</a></p>
             <p class="me-3"><a href="/admin/?page=posts&action=list&f=note" class="<?= (isset($_GET['f']) && $_GET['f'] == 'note') ? 'text-white' : 'text-light' ?>">Nháp (<?= $countNotePost ?>)</a></p>
 
@@ -318,7 +297,7 @@ if (isset($_GET['key'])) {
                                     <div>
 
                                         <div class="dropdown">
-                                            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" data-bs-auto-close='outside' aria-expanded="false">
+                                            <button class=" btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" data-bs-auto-close='outside' aria-expanded="false">
                                                 <i class="fa-solid fa-ellipsis-vertical"></i>
                                             </button>
                                             <ul class="dropdown-menu bg-secondary  border-light">
@@ -362,11 +341,11 @@ if (isset($_GET['key'])) {
                                                     else :;
                                                     ?>
 
-                                                        <button class="btn dropdown-item text-light" type="button" data-bs-toggle="dropdown" data-bs-auto-close='outside' aria-expanded="false">
+                                                        <button class="item-btn btn dropdown-item text-light" type="button" data-bs-toggle="dropdown" data-bs-auto-close='outside' aria-expanded="false">
                                                             Sửa Nhanh
                                                         </button>
 
-                                                        <ul class="dropdown-menu bg-secondary update-quick border-light">
+                                                        <ul class=" dropdown-menu bg-secondary update-quick border-light">
                                                             <li>
                                                                 <form action="/admin/pages/posts/handel.php" class="p-2" method="post">
                                                                     <div class="row">
@@ -378,7 +357,7 @@ if (isset($_GET['key'])) {
                                                                                 <label for="quick-name" class="col-sm-3 col-form-label">Tiêu
                                                                                     Đề</label>
                                                                                 <div class="col-sm-9">
-                                                                                    <input type="text" class="form-control" id="quick-name" name="name" value="<?= $post['name'] ?>">
+                                                                                    <input type="text" class="form-control quick-name" id="quick-name" name="name" value="<?= $post['name'] ?>">
                                                                                 </div>
                                                                             </div>
                                                                             <div class="mb-3 row">
@@ -430,7 +409,6 @@ if (isset($_GET['key'])) {
                                                     <?php
                                                     endif;
                                                     ?>
-
 
                                                 </li>
                                             </ul>
@@ -528,10 +506,10 @@ if (isset($_GET['key'])) {
 
 
 <?php
-    if (isset($_SESSION['notifier'])) {
-        $con->alertify($_SESSION['notifier'][0], $_SESSION['notifier'][1]);
-        unset($_SESSION['notifier']);
-    }
+if (isset($_SESSION['notifier'])) {
+    $con->alertify($_SESSION['notifier'][0], $_SESSION['notifier'][1]);
+    unset($_SESSION['notifier']);
+}
 ?>
 
 
