@@ -1,7 +1,7 @@
 <?php
-if (isset($_GET['action'])){
+if (isset($_GET['action'])) {
     $action = $_GET['action'];
-    switch($action){
+    switch ($action) {
         case 'orders':
             include 'pages/statistical/statisticalOrder.php';
             break;
@@ -12,7 +12,7 @@ if (isset($_GET['action'])){
             include 'pages/statistical/chart.php';
             break;
     }
-}else{
+} else {
     include 'pages/404.php';
 }
 ?>

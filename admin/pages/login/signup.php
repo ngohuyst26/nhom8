@@ -230,6 +230,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             <h5>Sign in to your account</h5>
             <input type="text" name="email" placeholder="Email" autocomplete="off">
             <input type="password" id="password" name="password" placeholder="Passsword">
+
             <label>
                 <input type="checkbox">
                 <span></span>
@@ -239,6 +240,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             <input type="submit" value="Sign in" class="btn1">
         </form>
         <a href="#" class="dnthave">Don’t have an account? Sign up</a>
+
     </div>
 
 </div>

@@ -1,4 +1,5 @@
 <?php
+<<<<<<< HEAD
 session_start();
 
 
@@ -6,6 +7,15 @@ session_start();
     ini_set('display_startup_errors', '1');
     error_reporting(E_ALL);
 
+=======
+ob_start();
+session_start();
+if (!isset($_SESSION['admin'])) {
+    header("Location: /login/signin.php");
+} else {
+    $user = $_SESSION['user'][1];
+}
+>>>>>>> 02755d18b81aed5b01e036cb90360e00e11bf24a
 ?>
 
 <!DOCTYPE html>
@@ -18,6 +28,11 @@ session_start();
     <meta content="" name="keywords">
     <meta content="" name="description">
 
+<<<<<<< HEAD
+=======
+    <!-- Favicon -->
+    <link href="assets/img/favicon.ico" rel="icon">
+>>>>>>> 02755d18b81aed5b01e036cb90360e00e11bf24a
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -32,9 +47,27 @@ session_start();
     <link href="assets/css/bootstrap.min.css" rel="stylesheet">
     <!-- Template Stylesheet -->
     <link href="assets/css/style.css" rel="stylesheet">
+<<<<<<< HEAD
     
     <!-- FONT awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+=======
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://kit.fontawesome.com/91f424987f.js" crossorigin="anonymous"></script>
+    <script src="../view/ckfinder/ckfinder.js"></script>
+    <!--
+    |
+    ALERTIFYJS
+    |
+    |-->
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css" />
+    <!-- <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/bootstrap.min.css"/> -->
+    <!-- JavaScript -->
+    <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+    <link rel="stylesheet" href="../assets/css/alerityjs/customNotiler.css">
+
+
+>>>>>>> 02755d18b81aed5b01e036cb90360e00e11bf24a
 </head>
 
 <body>
@@ -46,12 +79,23 @@ session_start();
             <div class="container">
                 <div class="row">
                     <?php
+<<<<<<< HEAD
+=======
+                    include_once '../config/database.php';
+                    include_once '../config/upLoad.php';
+>>>>>>> 02755d18b81aed5b01e036cb90360e00e11bf24a
                     if (isset($_GET['page'])) {
                         $page = $_GET['page'];
                         switch ($page) {
                             case 'product':
                                 include './controller/products.php';
                                 break;
+<<<<<<< HEAD
+=======
+                            case 'review':
+                                include './controller/review.php';
+                                break;
+>>>>>>> 02755d18b81aed5b01e036cb90360e00e11bf24a
                             case 'users':
                                 include './controller/users.php';
                                 break;
@@ -64,9 +108,25 @@ session_start();
                             case 'statistical':
                                 include './controller/statistical.php';
                                 break;
+<<<<<<< HEAD
                         }
                     } else {
                         include './pages/home.php';
+=======
+                            case 'discounts':
+                                include './controller/discounts.php';
+                                break;
+                            case 'category':
+                                include './controller/category.php';
+                                break;
+                            case 'order':
+                                include './controller/order.php';
+                                break;
+                        }
+                    } else {
+                        include './pages/home/module.php';
+                        include './pages/home/home.php';
+>>>>>>> 02755d18b81aed5b01e036cb90360e00e11bf24a
                     }
                     ?>
                     <?php include './components/footer.php'; ?>
@@ -95,5 +155,45 @@ session_start();
     <!-- Template Javascript -->
     <script src="assets/js/main.js"></script>
 </body>
+<<<<<<< HEAD
 
 </html>
+=======
+<script>
+
+    var button2 = document.getElementById('ckfinder-popup-1');
+    button2.onclick = function () {
+        selectFileWithCKFinder('ckfinder-input-1');
+    };
+
+    // var button3 = document.getElementById('ckfinder-popup-2');
+    // button3.onclick = function () {
+    //     selectFileWithCKFinder('ckfinder-input-2');
+    // };
+
+    function selectFileWithCKFinder(elementId) {
+        console.log("click");
+        CKFinder.modal({
+            chooseFiles: true,
+            width: 800,
+            height: 600,
+            onInit: function (finder) {
+                finder.on('files:choose', function (evt) {
+                    var file = evt.data.files.first();
+                        var output = document.getElementById(elementId);
+                        output.value = file.getUrl();
+                    });
+
+                    finder.on('file:choose:resizedImage', function (evt) {
+                        var output = document.getElementById(elementId);
+                        output.value = evt.data.resizedUrl;
+                    });
+                }
+            });
+        }
+
+
+    </script>
+</html>
+<?php ob_end_flush(); ?>
+>>>>>>> 02755d18b81aed5b01e036cb90360e00e11bf24a

@@ -1,17 +1,22 @@
+
+
 <?php
-require_once 'module-postCate.php';
-$post = new PostCate;
+    $con = new connect();
+    require_once 'module-postCate.php';
+    $post = new PostCate;
 
-$data = $post->getAllPostCate();
+    $data = $post->getAllPostCate();
 
-$countAllPostCate = $post->countAllPostCate();
+    $countAllPostCate = $post->countAllPostCate();
 
-if(isset($_GET['key']))  {
-    $keyword = $_GET['key'];
-    $data = $post->getSearchPostCate($keyword);
-}
+    if (isset($_GET['key'])) {
+        $keyword = $_GET['key'];
+        $data = $post->getSearchPostCate($keyword);
+    }
 
 ?>
+
+
 
 
 <style>
@@ -27,6 +32,8 @@ if(isset($_GET['key']))  {
     .dropdown-toggle::after {
         border: none !important;
     }
+
+
 </style>
 
 
@@ -66,7 +73,6 @@ if(isset($_GET['key']))  {
                                                 </select>
                                             </div>
                                             <label for="listID" id="labelListID" class="btn btn-sm  btn-outline-light">Thực Hiện</label>
-                                            
                                         </div>
 
                                     </div>
@@ -94,45 +100,45 @@ if(isset($_GET['key']))  {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                <form action="/admin/pages/postCate/handel.php" method="post">
+                                    <form action="/admin/pages/postCate/handel.php" method="post">
 
-                                    <?php
-                                    if (isset($data)) :;
-                                        foreach ($data as $item) :;
-                                    ?>
+                                        <?php
+                                        if (isset($data)) :;
+                                            foreach ($data as $item) :;
+                                        ?>
 
-                                            <tr>
-                                                <td class="align-middle"><input type="checkbox" class="checkList"  name="check_list[]" value="<?= $item['id']?> "></td>
-                                                <td class="align-middle"><?= $item['name_category'] ?></td>
+                                                <tr>
+                                                    <td class="align-middle"><input type="checkbox" class="checkList" name="check_list[]" value="<?= $item['id'] ?> "></td>
+                                                    <td class="align-middle"><?= $item['name_category'] ?></td>
 
-                                                <td class="align-middle" class="align-middle">
-                                                    <p><?= $item['slug'] ?> </p>
-                                                </td>
-                                                </td>
-                                                <td class="align-middle">
-                                                    <div class="dropdown">
-                                                        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" data-bs-auto-close='outside' aria-expanded="false">
-                                                            <i class="fa-solid fa-ellipsis-vertical"></i>
-                                                        </button>
-                                                        <ul class="dropdown-menu bg-secondary  border-light">
-                                                            <li>
-                                                                <a class="btn dropdown-item text-light" href="?page=categoriesPost&action=edit&id=<?= $item['id'] ?>" style="min-width:90px">Chỉnh Sửa</a>
+                                                    <td class="align-middle" class="align-middle">
+                                                        <p><?= $item['slug'] ?> </p>
+                                                    </td>
+                                                    </td>
+                                                    <td class="align-middle">
+                                                        <div class="dropdown">
+                                                            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" data-bs-auto-close='outside' aria-expanded="false">
+                                                                <i class="fa-solid fa-ellipsis-vertical"></i>
+                                                            </button>
+                                                            <ul class="dropdown-menu bg-secondary  border-light">
+                                                                <li>
+                                                                    <a class="btn dropdown-item text-light" href="?page=categoriesPost&action=edit&id=<?= $item['id'] ?>" style="min-width:90px">Chỉnh Sửa</a>
 
-                                                            </li>
-                                                            <li>
-                                                                <button type="button" value="<?= $item['id'] ?>" class="LISTID btn dropdown-item text-light" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                                                                    Xóa
-                                                                </button>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        <?php endforeach ?>
-                                    <?php endif; ?>
+                                                                </li>
+                                                                <li>
+                                                                    <button type="button" value="<?= $item['id'] ?>" class="LISTID btn dropdown-item text-light" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                                                                        Xóa
+                                                                    </button>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            <?php endforeach ?>
+                                        <?php endif; ?>
 
 
-                                    <input type="submit" hidden name="delListID" id="listID">
+                                        <input type="submit" hidden name="delListID" id="listID">
                                     </form>
                                 </tbody>
                             </table>
@@ -154,16 +160,16 @@ if(isset($_GET['key']))  {
 <!-- Modal -->
 <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog">
-        <div class="modal-content">
+        <div class="modal-content bg-secondary">
             <form action="/admin/pages/postCate/handel.php" method="post">
                 <div class="modal-header">
-                    <h1 class="modal-title text-dark fs-5" id="staticBackdropLabel">Bạn Có Chắc Chắn Muốn Xóa Bài Viết Này</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h1 class="modal-title text-ưhite fs-5" id="staticBackdropLabel">Bạn Có Chắc Chắn Muốn Xóa Bài Viết Này</h1>
+                    <button type="button" class="btn-close bg-light" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
 
                 <div class="modal-footer">
                     <input type="text" name="check_list" value="" id="formDel" hidden>
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Hủy</button>
                     <button class="btn text-light" type="submit" name="delListID">Xóa</button>
 
                 </div>
@@ -172,6 +178,17 @@ if(isset($_GET['key']))  {
         </div>
     </div>
 </div>
+
+
+
+<?php
+
+if (isset($_SESSION['notifier'])) {
+    $con->alertify($_SESSION['notifier'][0], $_SESSION['notifier'][1]);
+    unset($_SESSION['notifier']);
+}
+?>
+
 
 
 <script>

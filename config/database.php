@@ -7,7 +7,7 @@ class connect{
         $username = "root";
         $password = "mysql";
         try {
-            $conn = new PDO("mysql:host=$servername;dbname=php1", $username, $password);
+            $conn = new PDO("mysql:host=$servername;dbname=product_opstionn", $username, $password);
             // set the PDO error mode to exception
             $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             // echo "Connected successfully";
@@ -17,6 +17,14 @@ class connect{
         return $conn;
     }
 
+
+
+//Hàm dùng để thêm xóa sửa
+//Thêm $sql = "INSERT INTO loai(ten_loai) VALUES(?)";
+//Cập nhật $sql = "UPDATE loai SET ten_loai=? WHERE ma_loai=?";
+//Xóa $sql = "DELETE FROM loai WHERE ma_loai=?";
+//Ví dụ $sql = "INSERT INTO users (name,email,password) VALUES(?,?,?)";
+// pdo_execute($sql, "testpdo", "pdo@gmail.com", "12345pdo");
     function pdo_execute($sql){
         $sql_args = array_slice(func_get_args(), 1);
         try{
@@ -94,6 +102,15 @@ class connect{
         finally{
             unset($conn);
         }
+    }
+
+    function alertify($message, $type)
+    {
+
+        echo "<script>
+                alertify.set('notifier', 'position', 'top-right');
+                alertify.$type('$message', 5);
+            </script>";
     }
 }
 

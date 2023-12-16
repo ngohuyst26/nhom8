@@ -1,70 +1,72 @@
+<?php
+include "product.php";
+$pro = new product();
+
+if (isset($_POST['del_product'])) {
+    $id_product = $_POST['id_product'];
+    $pro->DelProduct($id_product);
+}
+$categoryName = $pro->GetCategory();
+
+?>
+
+
 <div class="container-fluid pt-4 px-4">
-                <div class="bg-secondary text-center rounded p-4">
-                    <div class="d-flex align-items-center justify-content-between mb-4">
-                        <h6 class="mb-0">Recent Salse</h6>
-                        <a href="">Show All</a>
-                    </div>
-                    <div class="table-responsive">
-                        <table class="table text-start align-middle table-bordered table-hover mb-0">
-                            <thead>
-                                <tr class="text-white">
-                                    <th scope="col"><input class="form-check-input" type="checkbox"></th>
-                                    <th scope="col">Date</th>
-                                    <th scope="col">Invoice</th>
-                                    <th scope="col">Customer</th>
-                                    <th scope="col">Amount</th>
-                                    <th scope="col">Status</th>
-                                    <th scope="col">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td><input class="form-check-input" type="checkbox"></td>
-                                    <td>01 Jan 2045</td>
-                                    <td>INV-0123</td>
-                                    <td>Jhon Doe</td>
-                                    <td>$123</td>
-                                    <td>Paid</td>
-                                    <td><a class="btn btn-sm btn-primary" href="">Detail</a></td>
-                                </tr>
-                                <tr>
-                                    <td><input class="form-check-input" type="checkbox"></td>
-                                    <td>01 Jan 2045</td>
-                                    <td>INV-0123</td>
-                                    <td>Jhon Doe</td>
-                                    <td>$123</td>
-                                    <td>Paid</td>
-                                    <td><a class="btn btn-sm btn-primary" href="">Detail</a></td>
-                                </tr>
-                                <tr>
-                                    <td><input class="form-check-input" type="checkbox"></td>
-                                    <td>01 Jan 2045</td>
-                                    <td>INV-0123</td>
-                                    <td>Jhon Doe</td>
-                                    <td>$123</td>
-                                    <td>Paid</td>
-                                    <td><a class="btn btn-sm btn-primary" href="">Detail</a></td>
-                                </tr>
-                                <tr>
-                                    <td><input class="form-check-input" type="checkbox"></td>
-                                    <td>01 Jan 2045</td>
-                                    <td>INV-0123</td>
-                                    <td>Jhon Doe</td>
-                                    <td>$123</td>
-                                    <td>Paid</td>
-                                    <td><a class="btn btn-sm btn-primary" href="">Detail</a></td>
-                                </tr>
-                                <tr>
-                                    <td><input class="form-check-input" type="checkbox"></td>
-                                    <td>01 Jan 2045</td>
-                                    <td>INV-0123</td>
-                                    <td>Jhon Doe</td>
-                                    <td>$123</td>
-                                    <td>Paid</td>
-                                    <td><a class="btn btn-sm btn-primary" href="">Detail</a></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+    <div class="bg-secondary text-center rounded p-4">
+        <div class="d-flex align-items-center gap-3 mb-4">
+            <h6 class="mb-0">DANH SÁCH SẢN PHẨM</h6>
+            <div class="col-3">
+                <select class="form-select" id="category" aria-label="Default select example">
+                    <option value="0">Tất cả</option>
+                    <?php foreach ($categoryName as $cate): ?>
+                        <option value="<?= $cate['id'] ?>"><?= $cate['name_category'] ?></option>
+                    <?php endforeach; ?>
+                </select>
             </div>
+            <div>
+                <input type="text" id="search" class="form-control" placeholder="Tìm kiếm theo tên...">
+            </div>
+        </div>
+        <div class="table-responsive" id="value">
+            <?php include "table-list.php"; ?>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+
+        $('#search').on('keyup', function (e) {
+            e.preventDefault();
+            console.log($(this).val());
+            $.ajax({
+                url: 'pages/products/search.php',
+                type: 'POST',
+                data: {
+                    search: $(this).val()
+                }
+            }).done(function (ketqua) {
+                $('#value').html(ketqua);
+            });
+
+        });
+    });
+
+    $(document).ready(function () {
+
+        $('#category').on('change', function (e) {
+            e.preventDefault();
+            console.log($(this).val());
+            $.ajax({
+                url: 'pages/products/ProductsCategory.php',
+                type: 'POST',
+                data: {
+                    GetByCate: $(this).val()
+                }
+            }).done(function (ketqua) {
+                $('#value').html(ketqua);
+            });
+
+        });
+    });
+</script>

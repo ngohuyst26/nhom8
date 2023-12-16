@@ -1,20 +1,9 @@
-
-
-
-
 <?php
 
-if (isset($_GET['action'])) {
-    include_once '../config/database.php';
-} else {
-    require_once '../../../config/database.php';
-}
-
-
-class Posts  extends connect
+class Posts extends connect
 {
 
-    public function cretePost($name, $slug, $thumbnail, $content, $status,  $user_id, $category_id)
+    public function cretePost($name, $slug, $thumbnail, $content, $status, $user_id, $category_id)
     {
         $time = new DateTime();
         $time = $time->format('Y-m-d H:i:s');
@@ -27,14 +16,14 @@ class Posts  extends connect
     {
         $sql = "UPDATE posts SET name=?, slug=?, content=?, thumbnail=?, category_id=?, user_id = ?, updated_at=NOW()  WHERE id=?";
         $conn = new connect();
-        $conn->pdo_execute($sql, $name, $slug,  $content,  $thumbnail, $category_id, $user_id, $id);
+        $conn->pdo_execute($sql, $name, $slug, $content, $thumbnail, $category_id, $user_id, $id);
     }
 
     public function updateQuick($name, $slug, $id, $category_id, $user_id)
     {
         $sql = "UPDATE posts SET name=?, slug=?, category_id=?, user_id = ?, updated_at=NOW()  WHERE id=?";
         $conn = new connect();
-        $conn->pdo_execute($sql, $name, $slug,  $category_id, $user_id, $id);
+        $conn->pdo_execute($sql, $name, $slug, $category_id, $user_id, $id);
     }
 
     public function delPost($id)
@@ -67,8 +56,8 @@ class Posts  extends connect
         $a = $conn->pdo_query($sql);
         return $a;
     }
-
-    public function getTrashPost($offset, $limit)
+   
+    public function getPostByStatus( $status ,$offset, $limit)
     {
         $sql = "SELECT p.*, pc.name_category  as name_category, user.name as user_name
                 FROM posts AS p 
@@ -76,27 +65,10 @@ class Posts  extends connect
                 ON p.category_id = pc.id 
                 INNER JOIN users AS user
                 ON p.user_id = user.id 
-                WHERE status = 2
+                WHERE status = $status
                 ORDER BY ID DESC
                 LIMIT $offset, $limit
 
-                ";
-        $conn = new connect();
-        $a = $conn->pdo_query($sql);
-        return $a;
-    }
-
-    public function getNotePost($offset , $limit)
-    {
-        $sql = "SELECT p.*, pc.name_category  as name_category, user.name as user_name
-                FROM posts AS p 
-                INNER JOIN post_categories AS pc 
-                ON p.category_id = pc.id 
-                INNER JOIN users AS user
-                ON p.user_id = user.id 
-                WHERE status = 3
-                ORDER BY ID DESC
-                LIMIT $offset, $limit
                 ";
         $conn = new connect();
         $a = $conn->pdo_query($sql);
@@ -111,15 +83,33 @@ class Posts  extends connect
         return $a;
     }
 
+    public function countAllPostCate()
+    {
+        $connect = new connect();
+        $conn = $connect->pdo_get_connection();
+        $sql = "SELECT COUNT(*)
+        FROM post_categories";
+        $stmt = $conn->prepare($sql);
+        $stmt->execute();
+        $total_records = $stmt->fetchColumn();
+        return $total_records;
+    }
+
     public function getPostByID($id)
     {
-        $sql = "SELECT * FROM posts WHERE id = ? ";
+        $sql = "SELECT p.*, pc.name_category  as name_category, user.name as user_name
+        FROM posts AS p 
+        INNER JOIN post_categories AS pc 
+        ON p.category_id = pc.id 
+        INNER JOIN users AS user
+        ON p.user_id = user.id 
+        WHERE p.id = ? ";
         $conn = new connect();
         $a = $conn->pdo_query($sql, $id);
         return $a;
     }
 
-    public function getPostByCate($idCate, $status, $offset, $limit)
+    public function getPostByCate($idCate, $status,$offset , $limit)
     {
         $sql = "SELECT p.*, pc.name_category  as name_category, user.name as user_name
         FROM posts AS p 
@@ -130,7 +120,7 @@ class Posts  extends connect
         WHERE p.category_id = $idCate 
         AND p.status = $status
         ORDER BY p.id DESC
-        LIMIT $offset, $limit
+        LIMIT $offset,  $limit
         ";
         $conn = new connect();
         $a = $conn->pdo_query($sql, $idCate, $status);
@@ -161,50 +151,22 @@ class Posts  extends connect
         $total_records = $stmt->fetchColumn();
         return $total_records;
     }
-
-    public function updateTranshPost($user_id, $id)
+    
+    public function updateStatusPost($status, $id)
     {
         $conn = new connect();
 
-        $sql = "UPDATE posts SET status=2, user_id=?, updated_at=NOW()  WHERE id=?";
+        $sql = "UPDATE posts SET status= ?, updated_at=NOW()  WHERE id=?";
 
         if (is_array($id)) {
             foreach ($id as $id) {
-                $conn->pdo_execute($sql, $user_id, $id);
+                $conn->pdo_execute($sql, $status, $id);
             }
         } else {
-            $conn->pdo_execute($sql, $user_id, $id);
-        }
-    }
-    public function updateNotePost($id)
-    {
-        $conn = new connect();
-
-        $sql = "UPDATE posts SET status=3, updated_at=NOW()  WHERE id=?";
-
-        if (is_array($id)) {
-            foreach ($id as $id) {
-                $conn->pdo_execute($sql, $id);
-            }
-        } else {
-            $conn->pdo_execute($sql, $id);
+            $conn->pdo_execute($sql, $status, $id);
         }
     }
 
-    public function restorePost($id)
-    {
-        $conn = new connect();
-
-        $sql = "UPDATE posts SET status=1, updated_at=NOW()  WHERE id=?";
-
-        if (is_array($id)) {
-            foreach ($id as $id) {
-                $conn->pdo_execute($sql, $id);
-            }
-        } else {
-            $conn->pdo_execute($sql, $id);
-        }
-    }
 
     public function countPostCate($idCate, $status)
     {
@@ -246,6 +208,7 @@ class Posts  extends connect
         $a = $conn->pdo_query($sql);
         return $a;
     }
+
     public function getSearchPostCate($keyword, $idCate, $offset, $limit)
     {
         $sql = "SELECT p.*, pc.name_category  as name_category, user.name as user_name
@@ -283,6 +246,7 @@ class Posts  extends connect
         $total_records = $stmt->fetchColumn();
         return $total_records;
     }
+
     public function countSearchPostCate($keyword, $idCate)
     {
         $connect = new connect();
@@ -305,6 +269,4 @@ class Posts  extends connect
 }
 
 
-
 ?>
-

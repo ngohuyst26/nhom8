@@ -16,7 +16,11 @@
         <h6 class="h6 fw-bold">Mô Tả</h6>
         <textarea class="form-control" placeholder="Mô tả..." name="content" id="floatingTextarea" style="height: 150px;"></textarea>
       </div>
+<<<<<<< HEAD
       <input type="submit" name="add" id="" value="Thêm Mới" class="btn btn-light mt-2 w-100">
+=======
+      <input type="submit" name="add" id="" value="Thêm Mới" class="btn btn-primary mt-2 w-100">
+>>>>>>> 02755d18b81aed5b01e036cb90360e00e11bf24a
     </form>
   </div>
 </div>

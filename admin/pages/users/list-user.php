@@ -1,31 +1,180 @@
+<?php
+include_once 'pages/users/user-function.php';
+if (isset($_GET["id"])) {
+    $id = $_GET['id'];
+    $check_admin = check_admin($id);
+    foreach ($check_admin as $check){
+        $_SESSION['check_admin'] = $check['role'];
+    }
+    if ($_SESSION['role'] == 4 && $_SESSION['check_admin'] == 1 ){
+        include_once 'pages/users/err_delete_user.php';
+        exit;
+    } else{
+        $data_delete = delete_user($id);
+    }
+}
+//Xóa all
+    if (isset($_POST['xoa_all'])) {
+        if (isset($_POST['checkbox'])) {
+            $arr = $_POST['checkbox'];
+            $del = implode(",", $arr);
+            $xoa_all = delete_all($del);
+        }
+    }
+
+$count = GetCount('users');
+$totalRecords = $count;
+$recordsPerPage = 3;
+// Trang hiện tại (nếu không được xác định, mặc định là trang 1)
+$current_page = isset($_GET['page-item']) ? $_GET['page-item'] : 1;
+// Tính số lượng trang cần hiển thị
+$totalPages = ceil($totalRecords / $recordsPerPage);
+// Giới hạn giá trị trang hiện tại trong khoảng từ 1 đến tổng số trang
+$current_page = max(1, min($current_page, $totalPages));
+// Tính vị trí bắt đầu lấy dữ liệu từ CSDL
+$startFrom = ($current_page - 1) * $recordsPerPage;
+$data = GetDataPage('users', $startFrom, $recordsPerPage);
+?>
+<script type="text/javascript">
+    $(document).ready(function () {
+        // Này là ajax
+        $('.search').keyup(function () {
+            var txt = $('.search').val();
+            $.post('pages/users/search-user.php', {data: txt}, function(data) {
+                $('.list').html(data);
+            })
+        })
+    })
+</script>
 <div class="container-fluid pt-4 px-4">
     <div class="bg-secondary text-center rounded p-4">
         <div class="d-flex align-items-center justify-content-between mb-4">
             <h6 class="mb-0">Danh Sách Người Dùng</h6>
-            <a href="">Show All</a>
+            <div class="row">
+                <input class="search form-control" placeholder="Tìm kiếm theo email..." type="text">
+            </div>
         </div>
-        <div class="table-responsive">
-            <table class="table text-start align-middle table-bordered table-hover mb-0">
-                <thead>
-                <tr class="text-white">
-                    <th scope="col"><input class="form-check-input" type="checkbox"></th>
-                    <th scope="col">ID</th>
-                    <th scope="col">Tên</th>
-                    <th scope="col">Email</th>
+        <div class="table-responsive mb-0">
+            <form action="" method="POST" enctype="multipart/form-data">
+                <table class="table text-start align-middle table-bordered table-hover mb-0">
+                    <thead>
+                    <tr class="text-white">
+                        <th scope="col"><input type="checkbox" id="checkAll" onclick="checkAllCheckboxes()"></th>
+                        <th scope="col">Tên</th>
+                        <th scope="col">Địa chỉ</th>
+                        <th scope="col">Email</th>
+                    <th scope="col">Giới Tính</th>
                     <th scope="col">Hành Động</th>
                 </tr>
                 </thead>
-                <tbody>
-                <tr>
-                    <td><input class="form-check-input" type="checkbox"></td>
-                    <td>01 Jan 2045</td>
-                    <td>INV-0123</td>
-                    <td>Jhon Doe</td>
-                    <td><a class="btn btn-sm btn-primary" href="">Detail</a></td>
-                </tr>
 
-                </tbody>
+                        <tbody class="list">
+                        <?php if (isset($data)):?>
+                        <?php foreach ($data as $print):
+                        $sex_fr = '';
+                        if ($print['sex'] == 1){
+                            $sex_fr = 'Nam';
+                        } else if($print['sex'] == 2){
+                            $sex_fr = 'Nữ';
+                        } else{
+                            $sex_fr = 'Khác';
+                        }
+                        ?>
+                        <tr>
+                            <td><input class="form-check-input" id="checkAll" type="checkbox" name='checkbox[]' value='<?=$print['id'] ?>'></td>
+                            <td><?= $print['name'] ?></td>
+                            <td><?=$print['address']?></td>
+                            <td><?= $print['email'] ?></td>
+                            <td><?= $sex_fr ?></td>
+                            <td>
+                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#mddeleteuser">Xóa</button>
+                                <a href="?page=users&action=edit&id=<?= $print['id'] ?>">
+                                    <button type="button" class="btn btn-success">Sửa</button>
+                                </a>
+                            </td>
+                        </tr>
+
+                                <div class="modal fade" id="mddeleteuser" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel" style="color: red">Xác nhận xóa người dùng</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                Bạn có chắc muốn xóa người dùng này?
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                                                <a href="?page=users&action=list&id=<?= $print['id'] ?>">
+                                                <button type="button" class="btn btn-primary">Xác nhận xóa</button>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
+                        </tbody>
+
             </table>
         </div>
     </div>
+    <br>
+    <button type="submit" name="xoa_all"
+            class="btn btn-outline-danger" width="200">Xóa người dùng đã chọn</button>
+    </form>
 </div>
+<script type="text/javascript">
+            function checkAllCheckboxes() {
+                var checkboxes = document.getElementsByName('checkbox[]');
+                var checkAllCheckbox = document.getElementById('checkAll');
+                for (var i = 0; i < checkboxes.length; i++) {
+                    checkboxes[i].checked = checkAllCheckbox.checked;
+                }
+            }
+</script>
+
+
+
+<nav aria-label="Page navigation example">
+    <br/>
+    <ul class="pagination justify-content-center">
+        <?php if ($current_page > 1): ?>
+            <li class="page-item">
+                <a class="page-link" href="?page=users&action=list" tabindex="-1" aria-disabled="true">Trang Đầu</a>
+            </li>
+        <?php endif; ?>
+        <?php if ($current_page >= 1): ?>
+            <?php $next = $current_page - 1 ?>
+            <li class="page-item">
+                <a class="page-link" href="?page=users&action=list&page-item=<?= $next ?>">Trang Trước</a>
+            </li>
+        <?php endif; ?>
+
+        <?php for ($i = max(1, $current_page - 2); $i <= min($current_page + 2, $totalPages); $i++): ?>
+            <?php if ($i == $current_page): ?>
+                <li class="page-item">
+                    <strong> <a class="page-link" href="#"><?= $i ?></a></strong>
+                </li>
+            <?php else: ?>
+                <li class="page-item">
+                    <a class="page-link" href="?page=users&action=list&page-item=<?= $i ?>"><?= $i ?></a>
+                </li>
+            <?php endif ?>
+        <?php endfor; ?>
+
+        <?php if ($current_page >= 1): ?>
+            <?php $next = $current_page + 1 ?>
+            <li class="page-item">
+                <a class="page-link" href="?page=users&action=list&page-item=<?= $next ?>">Trang Sau</a>
+            </li>
+        <?php endif; ?>
+        <?php if ($current_page < $totalPages): ?>
+            <li class="page-item">
+                <a class="page-link" href="?page=users&action=list&page-item=<?= $totalPages ?>" tabindex="-1"
+                   aria-disabled="true">Trang cuối</a>
+            </li>
+        <?php endif; ?>
+    </ul>
+</nav>

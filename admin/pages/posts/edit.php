@@ -5,7 +5,7 @@
             <form action="/admin/pages/posts/handel.php" method="post" enctype="multipart/form-data">
                 <div class="d-flex align-items-center justify-content-between mb-4">
                     <h6 class="">CHỈNH SỬA BÀI VIẾT</h6>
-                    <button type="submit" name="edit" class="btn btn-light">Cập Nhật</button>
+                    <button type="submit" name="edit" class="btn btn-primary">Cập Nhật</button>
                 </div>
 
                 <?php
@@ -21,22 +21,29 @@
 
                     <div class=" mb-3">
                         <label for="name" class="mb-2">Tiêu Đề Bài Viết</label>
-                        <input type="text" class="form-control" id="name" name="name" placeholder="Tiêu Đề Bài Viết" value="<?= $post['name'] ?>">
+                        <input type="text" class="form-control" id="name" name="name" placeholder="Tiêu Đề Bài Viết"
+                               value="<?= $post['name'] ?>">
                     </div>
                     <div class=" mb-3">
                         <label for="slug" class="mb-2">Slug</label>
-                        <input type="text" class="form-control" id="slug" name="slug" placeholder="Tiêu Đề Bài Viết" value="<?= $post['slug'] ?>">
+                        <input type="text" class="form-control" id="slug" name="slug" placeholder="Tiêu Đề Bài Viết"
+                               value="<?= $post['slug'] ?>">
                     </div>
 
                     <div class="">
                         <div class="row">
                             <div class="col-8">
                                 <div class=" mb-5">
-                                    <label for="img-post" class="btn-primary p-2 rounded" style="min-width: 120px; text-align : center ;cursor: pointer;">Hình ảnh + </label>
+                                    <label for="img-post" class="btn-primary p-2 rounded"
+                                           style="min-width: 120px; text-align : center ;cursor: pointer;">Hình ảnh
+                                        + </label>
 
-                                    <input class="form-control form-control-sm border mb-3" id="img-post" type="file" name="thumbnail" hidden onchange="readURL(this);">
+                                    <input class="form-control form-control-sm border mb-3" id="img-post" type="file"
+                                           name="thumbnail" hidden onchange="readURL(this);">
                                     <div style="width: 100%" class="p-4 border rounded mt-3 border-light ">
-                                        <img src="<?php echo !empty($post['thumbnail']) ? $post['thumbnail']  : "https://cdn11.bigcommerce.com/s-1812kprzl2/images/stencil/original/products/582/5042/no-image__63632.1665666729.jpg?c=2" ?>" alt="" id="img" class="d-block p-3 " style="min-height: 240px; width: 100%; ">
+                                        <img src="<?php echo !empty($post['thumbnail']) ? $post['thumbnail'] : "https://cdn11.bigcommerce.com/s-1812kprzl2/images/stencil/original/products/582/5042/no-image__63632.1665666729.jpg?c=2" ?>"
+                                             alt="" id="img" class="d-block p-3 "
+                                             style="min-height: 240px; width: 100%; ">
                                     </div>
 
                                     <script>
@@ -44,7 +51,7 @@
                                             if (input.files && input.files[0]) {
                                                 var reader = new FileReader();
 
-                                                reader.onload = function(e) {
+                                                reader.onload = function (e) {
                                                     $('#img').attr('src', e.target.result);
                                                 }
                                                 reader.readAsDataURL(input.files[0]);
@@ -60,12 +67,13 @@
                                     <label for="" class="mb-2">Danh Mục Bài Viết</label>
 
                                     <select class="form-select" aria-label="select example" name="category_id">
-                                        <?php foreach ($getPostCate as $category) :  ?>
+                                        <?php foreach ($getPostCate as $category) : ?>
                                             <?php
                                             if ($post['category_id'] == $category['id']) :
-                                            ?>
+                                                ?>
 
-                                                <option selected value=" <?= $category['id'] ?>"><?= $category['name_category'] ?></option>
+                                                <option selected
+                                                        value=" <?= $category['id'] ?>"><?= $category['name_category'] ?></option>
 
                                             <?php else : ?>
 
@@ -84,7 +92,8 @@
 
 
                     <div class="form-floating">
-                        <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea" name="content" style="height: 150px;">
+                        <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea"
+                                  name="content" >
                                     <?=
                                     $post['content']
                                     ?>

@@ -1,8 +1,15 @@
 <?php
+session_start();
 
-
+require_once '../../../config/database.php';
 require_once 'model-post.php';
 $posts = new Posts;
+
+if(isset($_SESSION['id']))  {
+    $userid = $_SESSION['id'];
+}else {
+    $userid = 1;
+}
 
 
 function upload_image($file)
@@ -49,10 +56,12 @@ if (isset($_POST['add'])) {
         $name = $_POST['name'];
         $slug = str_replace(" ", "-", $name);
         $category_id = $_POST['category_id'];
-
         $thumbnail = upload_image($_FILES['thumbnail']);
         $content = $_POST['content'];
-        $posts->cretePost($name, $thumbnail, $slug, $content, 1, 2, $category_id);
+        $posts->cretePost($name, $thumbnail, $slug, $content, 1, $userid, $category_id);
+
+        $_SESSION['notifier'] = ['Thành Công', 'success'];
+
     }
 
 
@@ -67,16 +76,19 @@ if (isset($_POST['addNote'])) {
 
         $thumbnail = upload_image($_FILES['thumbnail']);
         $content = $_POST['content'];
-        $posts->cretePost($name, $thumbnail, $slug, $content, 3, 1, $category_id);
+        $posts->cretePost($name, $thumbnail, $slug, $content, 3, $userid, $category_id);
+        $_SESSION['notifier'] = ['Đã Thêm Vào Bản Nháp', 'success'];
+
     }
 
-
-    header('location: ' . $_SERVER['HTTP_REFERER']);
+    header('location: /admin/?page=posts&action=list');
 }
 
 if (isset($_POST['delListID'])) {
     $id = $_POST['check_list'];
     $posts->delPost($id);
+    $_SESSION['notifier'] = ['Đã Xóa', 'success'];
+
     header('location: ' . $_SERVER['HTTP_REFERER']);
 }
 
@@ -95,7 +107,9 @@ if (isset($_POST['edit'])) {
         }
         $content = $_POST['content'];
         $category_id = $_POST['category_id'];
-        $posts->updatePost($name, $slug, $content, $thumbnail, $id, $category_id, 1);
+        $posts->updatePost($name, $slug, $content, $thumbnail, $id, $category_id, $userid);
+        $_SESSION['notifier'] = ['Đã Chỉnh Sửa', 'success'];
+
     }
 
     header('location: /admin/?page=posts&action=list');
@@ -108,34 +122,42 @@ if (isset($_POST['quick-update'])) {
         $slug = $_POST['slug'];
         $category_id = $_POST['category_id'];
         $id = $_POST['id'];
-        $posts->updateQuick($name, $slug, $id, $category_id, 1);
+        $posts->updateQuick($name, $slug, $id, $category_id, $userid);
+        $_SESSION['notifier'] = ['Đã Chỉnh Sửa', 'success'];
+
     }
 
     header('location: ' . $_SERVER['HTTP_REFERER']);
 }
 
 if (isset($_POST['noteListID'])) {
-    echo "<pre>";
-    var_dump($_POST);
     $id = $_POST['check_list'];
-    $posts->updateNotePost($id);
+    $posts->updateStatusPost(3, $id);
+    $_SESSION['notifier'] = ['Đã Chuyển Vào Bản Nháp', 'success'];
+
     header('location: ' . $_SERVER['HTTP_REFERER']);
 }
 
 if (isset($_POST['trashListID'])) {
     $id = $_POST['check_list'];
-    $posts->updateTranshPost(1, $id);
+    $posts->updateStatusPost(2, $id);
+    $_SESSION['notifier'] = ['Đã Chuyển Vào Thùng Rác', 'success'];
+
     header('location: ' . $_SERVER['HTTP_REFERER']);
 }
 
 if (isset($_POST['restore'])) {
     $id = $_POST['check_list'];
-    $posts->restorePost($id);
+    $posts->updateStatusPost(1, $id);
+    $_SESSION['notifier'] = ['Đã Khôi Phục', 'success'];
+
     header('location: /admin/?page=posts&action=list');
 }
 
 if (isset($_POST['publishPost'])) {
     $id = $_POST['check_list'];
-    $posts->restorePost($id);
+    $posts->updateStatusPost(1, $id);
+    $_SESSION['notifier'] = ['Đã Công Khai', 'success'];
+
     header('location: /admin/?page=posts&action=list');
 }

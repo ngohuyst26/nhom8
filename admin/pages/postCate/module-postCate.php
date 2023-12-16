@@ -4,13 +4,6 @@
 
 <?php
 
-if (isset($_GET['action'])) {
-    include_once '../config/database.php';
-} else {
-    require_once '../../../config/database.php';
-}
-
-
 class PostCate  extends connect
 {
 
@@ -30,11 +23,36 @@ class PostCate  extends connect
         $conn->pdo_execute($sql, $name, $slug,  $content, $id);
     }
 
+    public function ccate($id)
+    {
+        $connect = new connect();
+        $conn = $connect->pdo_get_connection();
+        $sql = "SELECT COUNT(*) 
+        FROM post_categories as pc
+        JOIN posts as p
+        ON pc.id  = p.category_id 
+        WHERE pc.id = ?";
+        $stmt = $conn->prepare($sql);
+        if (is_array($id)) {
+            $total_records = 0;
+            foreach ($id as $id) {
+                $stmt->bindParam(1, $id);
+                $stmt->execute();
+                $total_records += $stmt->fetchColumn();
+            }
+            return $total_records;
+        } else {
+            $stmt->bindParam(1, $id);
+            $stmt->execute();
+            return $stmt->fetchColumn();
+        }
+    }
+
+
 
     public function delPostCate($id)
     {
         $conn = new connect();
-
         $sql = "DELETE FROM post_categories WHERE  id=?";
         if (is_array($id)) {
             foreach ($id as $id) {
@@ -73,9 +91,9 @@ class PostCate  extends connect
         return $total_records;
     }
 
-   
 
-  
+
+
     public function getSearchPostCate($keyword)
     {
         $sql = "SELECT *
@@ -123,7 +141,6 @@ class PostCate  extends connect
         $total_records = $stmt->fetchColumn();
         return $total_records;
     }
-
 }
 
 

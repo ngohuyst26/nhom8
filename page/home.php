@@ -1,7 +1,22 @@
+<<<<<<< HEAD
 
             <div class="intro-slider-container mb-5">
                 <div class="intro-slider owl-carousel owl-theme owl-nav-inside owl-light" data-toggle="owl" 
                     data-owl-options='{
+=======
+<?php
+include "admin/pages/products/product.php";
+$pro = new product();
+$db = new connect();
+$value = $pro->GetAllProduct();
+$productNew = $pro->GetProductNew();
+$productView = $pro->GetProductByView();
+$productRan = $pro->GetproductRan();
+?>
+<div class="intro-slider-container mb-5">
+    <div class="intro-slider owl-carousel owl-theme owl-nav-inside owl-light" data-toggle="owl"
+         data-owl-options='{
+>>>>>>> 02755d18b81aed5b01e036cb90360e00e11bf24a
                         "dots": true,
                         "nav": false, 
                         "responsive": {
@@ -62,6 +77,7 @@
                 <span class="slider-loader"></span><!-- End .slider-loader -->
             </div><!-- End .intro-slider-container -->
 
+<<<<<<< HEAD
             <div class="container">
                 <h2 class="title text-center mb-4">Explore Popular Categories</h2><!-- End .title text-center -->
                 
@@ -141,6 +157,9 @@
                     </div><!-- End .row -->
                 </div><!-- End .cat-blocks-container -->
             </div><!-- End .container -->
+=======
+
+>>>>>>> 02755d18b81aed5b01e036cb90360e00e11bf24a
 
             <div class="mb-4"></div><!-- End .mb-4 -->
 
@@ -190,6 +209,7 @@
                 </div><!-- End .row -->
             </div><!-- End .container -->
 
+<<<<<<< HEAD
             <div class="mb-3"></div><!-- End .mb-5 -->
 
             <div class="container new-arrivals">
@@ -226,6 +246,23 @@
                     <div class="tab-pane p-0 fade show active" id="new-all-tab" role="tabpanel" aria-labelledby="new-all-link">
                         <div class="owl-carousel owl-full carousel-equal-height carousel-with-shadow" data-toggle="owl" 
                             data-owl-options='{
+=======
+<div class="mb-3"></div><!-- End .mb-5 -->
+
+<div class="container new-arrivals">
+    <div class="heading heading-flex mb-3">
+        <div class="heading-left">
+            <h2 class="title">Sản phẩm mới</h2><!-- End .title -->
+        </div><!-- End .heading-left -->
+
+
+    </div><!-- End .heading -->
+
+    <div class="tab-content tab-content-carousel just-action-icons-sm">
+        <div class="tab-pane p-0 fade show active" id="new-all-tab" role="tabpanel" aria-labelledby="new-all-link">
+            <div class="owl-carousel owl-full carousel-equal-height carousel-with-shadow" data-toggle="owl"
+                 data-owl-options='{
+>>>>>>> 02755d18b81aed5b01e036cb90360e00e11bf24a
                                 "nav": true, 
                                 "dots": true,
                                 "margin": 20,
@@ -248,6 +285,7 @@
                                     }
                                 }
                             }'>
+<<<<<<< HEAD
                             <div class="product product-2">
                                 <figure class="product-media">
                                     <span class="product-label label-circle label-top">Top</span>
@@ -469,6 +507,52 @@
                     <div class="tab-pane p-0 fade" id="new-tv-tab" role="tabpanel" aria-labelledby="new-tv-link">
                         <div class="owl-carousel owl-full carousel-equal-height carousel-with-shadow" data-toggle="owl" 
                             data-owl-options='{
+=======
+                            <?php foreach ($productNew as $new): ?>
+                                <div class="product product-2">
+                                    <figure class="product-media">
+                                        <span class="product-label label-circle label-top">Top</span>
+                                        <a href="?action=products-detail&product=<?= $new['product_id'] ?>">
+                                            <img src="<?= $new['thumbnail'] ?>" alt="Product image"
+                                                 class="product-image">
+                                        </a>
+                                        <div class="product-action-vertical">
+                                            <a href="#" class="btn-product-icon btn-wishlist"
+                                               title="Add to wishlist"></a>
+                                        </div><!-- End .product-action -->
+
+                                        <div class="product-action">
+                                            <a href="#" class="btn-product btn-cart" title="Add to cart"><span>add to cart</span></a>
+                                        </div><!-- End .product-action -->
+                                    </figure><!-- End .product-media -->
+
+                                    <div class="product-body">
+                                        <div class="product-cat">
+                                            <a href="#">Laptops</a>
+                                        </div><!-- End .product-cat -->
+                                        <h3 class="product-title"><a
+                                                    href="?action=products-detail&product=<?= $new['product_id'] ?>"><?= $new['product_name'] ?></a>
+                                        </h3><!-- End .product-title -->
+                                        <div class="product-price">
+                                            <?= number_format($new['price'], 0, ",", ".") ?> VNĐ
+                                        </div><!-- End .product-price -->
+                                        <div class="ratings-container">
+                                            <div class="ratings">
+                                                <div class="ratings-val" style="width: 100%;"></div>
+                                                <!-- End .ratings-val -->
+                                            </div><!-- End .ratings -->
+                                            <span class="ratings-text">( 4 Reviews )</span>
+                                        </div><!-- End .rating-container -->
+                                    </div><!-- End .product-body -->
+                                </div><!-- End .product -->
+                            <?php endforeach; ?>
+
+                        </div><!-- End .owl-carousel -->
+                    </div><!-- .End .tab-pane -->
+                    <div class="tab-pane p-0 fade" id="new-tv-tab" role="tabpanel" aria-labelledby="new-tv-link">
+                        <div class="owl-carousel owl-full carousel-equal-height carousel-with-shadow" data-toggle="owl"
+                             data-owl-options='{
+>>>>>>> 02755d18b81aed5b01e036cb90360e00e11bf24a
                                 "nav": true, 
                                 "dots": true,
                                 "margin": 20,
@@ -491,6 +575,7 @@
                                     }
                                 }
                             }'>
+<<<<<<< HEAD
                             <div class="product product-2">
                                 <figure class="product-media">
                                     <span class="product-label label-circle label-new">New</span>
@@ -530,6 +615,8 @@
                                     </div><!-- End .product-nav -->
                                 </div><!-- End .product-body -->
                             </div><!-- End .product -->
+=======
+>>>>>>> 02755d18b81aed5b01e036cb90360e00e11bf24a
 
                             <div class="product product-2">
                                 <figure class="product-media">
@@ -1523,6 +1610,7 @@
                     </div><!-- End .row -->
                 </div><!-- End .cta -->
             </div><!-- End .container -->
+<<<<<<< HEAD
 
             <div class="container">
                 <div class="heading text-center mb-3">
@@ -1584,6 +1672,8 @@
                 </div><!-- End .more-container -->
             </div><!-- End .container -->
 
+=======
+>>>>>>> 02755d18b81aed5b01e036cb90360e00e11bf24a
             <div class="container">
                 <hr class="mb-0">
                 <div class="owl-carousel mt-5 mb-5 owl-simple" data-toggle="owl" 
@@ -1636,6 +1726,7 @@
                 </div><!-- End .owl-carousel -->
             </div><!-- End .container -->
 
+<<<<<<< HEAD
             <div class="bg-light pt-5 pb-6">
                 <div class="container trending-products">
                     <div class="heading heading-flex mb-3">
@@ -1666,6 +1757,39 @@
                                 </a>
                             </div><!-- End .banner -->
                         </div><!-- End .col-xl-5col -->
+=======
+<div class="bg-light pt-5 pb-6">
+    <div class="container trending-products">
+        <div class="heading heading-flex mb-3">
+            <div class="heading-left">
+                <h2 class="title">Sản phẩm xu hướng</h2><!-- End .title -->
+            </div><!-- End .heading-left -->
+
+            <!--                       <div class="heading-right">-->
+            <!--                            <ul class="nav nav-pills nav-border-anim justify-content-center" role="tablist">-->
+            <!--                                <li class="nav-item">-->
+            <!--                                    <a class="nav-link active" id="trending-top-link" data-toggle="tab" href="#trending-top-tab" role="tab" aria-controls="trending-top-tab" aria-selected="true">Top Rated</a>-->
+            <!--                                </li>-->
+            <!--                                <li class="nav-item">-->
+            <!--                                    <a class="nav-link" id="trending-best-link" data-toggle="tab" href="#trending-best-tab" role="tab" aria-controls="trending-best-tab" aria-selected="false">Best Selling</a>-->
+            <!--                                </li>-->
+            <!--                                <li class="nav-item">-->
+            <!--                                    <a class="nav-link" id="trending-sale-link" data-toggle="tab" href="#trending-sale-tab" role="tab" aria-controls="trending-sale-tab" aria-selected="false">On Sale</a>-->
+            <!--                                </li>-->
+            <!--                            </ul>-->
+            <!--                       </div>-->
+            <!-- End .heading-right -->
+        </div><!-- End .heading -->
+
+        <div class="row">
+            <div class="col-xl-5col d-none d-xl-block">
+                <div class="banner">
+                    <a href="#">
+                        <img src="assets/images/demos/demo-4/banners/banner-4.jpg" alt="banner">
+                    </a>
+                </div><!-- End .banner -->
+            </div><!-- End .col-xl-5col -->
+>>>>>>> 02755d18b81aed5b01e036cb90360e00e11bf24a
 
                         <div class="col-xl-4-5col">
                             <div class="tab-content tab-content-carousel just-action-icons-sm">
@@ -1691,6 +1815,7 @@
                                                 }
                                             }
                                         }'>
+<<<<<<< HEAD
                                         <div class="product product-2">
                                             <figure class="product-media">
                                                 <span class="product-label label-circle label-top">Top</span>
@@ -1730,15 +1855,68 @@
                                                 </div><!-- End .product-nav -->
                                             </div><!-- End .product-body -->
                                         </div><!-- End .product -->
+=======
+                                        < <?php foreach ($productView as $view): ?>
+                                            <div class="product product-2">
+                                                <figure class="product-media">
+                                                    <span class="product-label label-circle label-sale">Sale</span>
+
+                                                    <a href="?action=products-detail&product=<?= $view['product_id'] ?>">
+                                                        <img src="<?= $view['thumbnail'] ?>" alt="Product image"
+                                                             class="product-image">
+                                                    </a>
+                                                    <div class="product-action-vertical">
+                                                        <a href="#" class="btn-product-icon btn-wishlist"
+                                                           title="Add to wishlist"></a>
+                                                    </div><!-- End .product-action -->
+
+                                                    <div class="product-action">
+                                                        <a href="#" class="btn-product btn-cart"
+                                                           title="Add to cart"><span>add to cart</span></a>
+                                                    </div><!-- End .product-action -->
+                                                </figure><!-- End .product-media -->
+
+                                                <div class="product-body">
+                                                    <div class="product-cat">
+                                                        <a href="#">Laptops</a>
+                                                    </div><!-- End .product-cat -->
+                                                    <h3 class="product-title"><a
+                                                                href="?action=products-detail&product=<?= $view['product_id'] ?>"><?= $view['product_name'] ?></a>
+                                                    </h3><!-- End .product-title -->
+                                                    <div class="product-price">
+                                                        <?= number_format($view['price'], 0, ",", ".") ?> VNĐ
+                                                    </div><!-- End .product-price -->
+                                                    <div class="ratings-container">
+                                                        <div class="ratings">
+                                                            <div class="ratings-val" style="width: 100%;"></div>
+                                                            <!-- End .ratings-val -->
+                                                        </div><!-- End .ratings -->
+                                                        <span class="ratings-text">( 4 Reviews )</span>
+                                                    </div><!-- End .rating-container -->
+                                                </div><!-- End .product-body -->
+                                            </div><!-- End .product -->
+                                        <?php endforeach; ?>
+
+>>>>>>> 02755d18b81aed5b01e036cb90360e00e11bf24a
 
                                         <div class="product product-2">
                                             <figure class="product-media">
                                                 <a href="product.html">
+<<<<<<< HEAD
                                                     <img src="assets/images/demos/demo-4/products/product-7.jpg" alt="Product image" class="product-image">
                                                 </a>
 
                                                 <div class="product-action-vertical">
                                                     <a href="#" class="btn-product-icon btn-wishlist" title="Add to wishlist"></a>
+=======
+                                                    <img src="assets/images/demos/demo-4/products/product-7.jpg"
+                                                         alt="Product image" class="product-image">
+                                                </a>
+
+                                                <div class="product-action-vertical">
+                                                    <a href="#" class="btn-product-icon btn-wishlist"
+                                                       title="Add to wishlist"></a>
+>>>>>>> 02755d18b81aed5b01e036cb90360e00e11bf24a
                                                 </div><!-- End .product-action -->
 
                                                 <div class="product-action">
@@ -2265,6 +2443,7 @@
                                 </div><!-- .End .tab-pane -->
                             </div><!-- End .tab-content -->
                         </div><!-- End .col-xl-4-5col -->
+<<<<<<< HEAD
                     </div><!-- End .row -->
                 </div><!-- End .container -->
             </div><!-- End .bg-light pt-5 pb-6 -->
@@ -2598,15 +2777,87 @@
                                 </div><!-- End .product-body -->
                             </div><!-- End .product -->
                         </div><!-- End .col-sm-6 col-md-4 col-lg-3 -->
+=======
+        </div><!-- End .row -->
+    </div><!-- End .container -->
+</div><!-- End .bg-light pt-5 pb-6 -->
+
+<div class="mb-5"></div><!-- End .mb-5 -->
+
+<div class="container for-you">
+    <div class="heading heading-flex mb-3">
+        <div class="heading-left">
+            <h2 class="title">Sản phẩm dành cho bạn</h2><!-- End .title -->
+        </div><!-- End .heading-left -->
+
+        <div class="heading-right">
+            <a href="#" class="title-link">View All Recommendadion <i class="icon-long-arrow-right"></i></a>
+        </div><!-- End .heading-right -->
+    </div><!-- End .heading -->
+
+    <div class="products">
+        <div class="row justify-content-center">
+            <?php foreach ($productRan as $ran): ?>
+                            <div class="col-6 col-md-4 col-lg-3">
+                                <div class="product product-2">
+                                    <figure class="product-media">
+                                        <span class="product-label label-circle label-new">New</span>
+                                        <a href="?action=products-detail&product=<?= $ran['product_id'] ?>">
+                                            <img src="<?= $ran['thumbnail'] ?>" alt="Product image"
+                                                 class="product-image">
+                                        </a>
+
+                                        <div class="product-action-vertical">
+                                            <a href="#" class="btn-product-icon btn-wishlist"
+                                               title="Add to wishlist"></a>
+                                        </div><!-- End .product-action -->
+
+                                        <div class="product-action">
+                                            <a href="#" class="btn-product btn-cart" title="Add to cart"><span>add to cart</span></a>
+                                        </div><!-- End .product-action -->
+                                    </figure><!-- End .product-media -->
+
+                                    <div class="product-body">
+                                        <div class="product-cat">
+                                            <a href="#">Phone</a>
+                                        </div><!-- End .product-cat -->
+                                        <h3 class="product-title"><a
+                                                    href="?action=products-detail&product=<?= $ran['product_id'] ?>"><?= $ran['product_name'] ?></a>
+                                        </h3><!-- End .product-title -->
+                                        <div class="product-price">
+                                            <span class="new-price"><?= number_format($ran['price'], 0, ",", ".") ?> VNĐ</span>
+                                        </div><!-- End .product-price -->
+                                        <div class="ratings-container">
+                                            <div class="ratings">
+                                                <div class="ratings-val" style="width: 40%;"></div>
+                                                <!-- End .ratings-val -->
+                                            </div><!-- End .ratings -->
+                                            <span class="ratings-text">( 4 Reviews )</span>
+                                        </div><!-- End .rating-container -->
+
+
+                                    </div><!-- End .product-body -->
+                                </div><!-- End .product -->
+                            </div><!-- End .col-sm-6 col-md-4 col-lg-3 -->
+                        <?php endforeach; ?>
+>>>>>>> 02755d18b81aed5b01e036cb90360e00e11bf24a
                     </div><!-- End .row -->
                 </div><!-- End .products -->
             </div><!-- End .container -->
 
+<<<<<<< HEAD
             <div class="mb-4"></div><!-- End .mb-4 -->
 
             <div class="container">
                 <hr class="mb-0">
             </div><!-- End .container -->
+=======
+<div class="mb-4"></div><!-- End .mb-4 -->
+
+<div class="container">
+    <hr class="mb-0">
+</div><!-- End .container -->
+>>>>>>> 02755d18b81aed5b01e036cb90360e00e11bf24a
 
             <div class="icon-boxes-container bg-transparent">
                 <div class="container">

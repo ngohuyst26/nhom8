@@ -1,4 +1,9 @@
 /********** Template CSS **********/
+<<<<<<< HEAD
+=======
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200;300;400;500;600;700&family=Roboto:wght@500&display=swap');
+
+>>>>>>> 02755d18b81aed5b01e036cb90360e00e11bf24a
 :root {
     --primary: #EB1616;
     --secondary: #191C24;
@@ -6,6 +11,10 @@
     --dark: #000000;
 }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 02755d18b81aed5b01e036cb90360e00e11bf24a
 .back-to-top {
     position: fixed;
     display: none;
@@ -156,7 +165,11 @@
     right: 15px;
     border: none;
     content: "\f107";
+<<<<<<< HEAD
     font-family: "Font Awesome 5 Free";
+=======
+    font-family: 'Roboto', sans-serif;
+>>>>>>> 02755d18b81aed5b01e036cb90360e00e11bf24a
     font-weight: 900;
     transition: .5s;
 }
@@ -213,7 +226,11 @@
     vertical-align: middle;
     border: none;
     content: "\f107";
+<<<<<<< HEAD
     font-family: "Font Awesome 5 Free";
+=======
+    font-family: 'Roboto', sans-serif;
+>>>>>>> 02755d18b81aed5b01e036cb90360e00e11bf24a
     font-weight: 900;
     transition: .5s;
 }
