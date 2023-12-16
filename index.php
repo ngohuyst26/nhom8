@@ -58,8 +58,6 @@ if (isset($_SESSION['email']) && isset($_SESSION['name'])) {
     <?php include './components/header.php'; ?>
     <main>
         <?php
-        include "config/database.php";
-        include 'mailer/email.php';
         if (isset($_GET['action'])) {
             switch ($_GET['action']) {
                 case 'home':
@@ -113,6 +111,9 @@ if (isset($_SESSION['email']) && isset($_SESSION['name'])) {
                     break;
                 case 'order':
                     include './page/users/order.php';
+                    break;
+                case 'update':
+                    include './page/users/update_account.php';
                     break;
             }
         } else {

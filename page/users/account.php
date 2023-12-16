@@ -67,7 +67,7 @@ if (isset($_SESSION['role'])){
                 <div class="col-lg-3 col-md-3 all des">
                     <div class="card" style="width: 30rem;">
                         <div class="card-body">
-                            <a href="" class="card-link">CẬP NHẬT TÀI KHOẢN</a>
+                            <a href="?action=update" class="card-link">CẬP NHẬT TÀI KHOẢN</a>
                         </div>
                     </div>
                 </div>
@@ -101,5 +101,5 @@ if (isset($_SESSION['role'])){
             </div>
         </div>
     </div>
-<?php endif; ?>
+</div>
 

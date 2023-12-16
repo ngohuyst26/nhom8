@@ -2,28 +2,28 @@
     include_once 'pages/users/user-function.php';
     // Tạo biến bắt validate
 //    $user = $email = $password = $sex = $role = "";
-    $user_error = $email_error = $password_error = $sex_error = $role_error = $address_error = "";
-    $check = false;
+$user_error = $email_error = $password_error = $sex_error = $role_error = $address_error = "";
+$check = false;
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (empty($_POST["user"])) {
         $check = true;
         $user_error = "<span style='color:red;'>Error: Họ tên bắt buộc phải nhập.</span>";
-    } else{
+    } else {
         $user = $_POST['user'];
     }
 
-    if (empty($_POST['address'])){
-        $address_error ="<span style='color:red;'>Error: địa chỉ bắt buộc phải nhập.</span>";
+    if (empty($_POST['address'])) {
+        $address_error = "<span style='color:red;'>Error: địa chỉ bắt buộc phải nhập.</span>";
         $check = true;
-    } else{
+    } else {
         $address = $_POST['address'];
     }
 
-    if(empty($_POST["email"])){
+    if (empty($_POST["email"])) {
         $email_error = "<span style='color:red;'>Error: Email bắt buộc phải nhập.</span>";
         $check == true;
-    } else{
+    } else {
         if (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
             $email_error = "<span style='color:red;'>Error: Email nhập chưa đúng.</span>";
             $check == true;
@@ -62,8 +62,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $role = $_POST['role'];
     }
 
-    if ($check == false){
-        $data = add_user($user, $email, $mahoa,$sex, $role,$address);
+    if ($check == false) {
+        $data = add_user($user, $email, $mahoa, $sex, $role, $address);
+        header('Location: ?page=users&action=list');
     }
 }
 ?>
@@ -84,10 +85,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
 
         <div class="form-floating mb-3">
-            <input type="text" name="address" class="form-control" id="floatingInput" placeholder=""  value="">
+            <input type="text" name="address" class="form-control" id="floatingInput" placeholder="" value="">
             <label for="floatingInput">Địa chỉ</label>
             <?php
-            if (isset($address_error)){
+            if (isset($address_error)) {
                 echo $address_error;
             }
             ?>

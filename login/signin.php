@@ -3,19 +3,21 @@ session_start();
 include_once '../login/login_function.php';
 include_once '../config/database.php';
 //Lấy thông tin email
-if($_SERVER["REQUEST_METHOD"] == "POST"){
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST['email'];
     $password = $_POST['password'];
     $connect = new connect();
     $data = "SELECT * FROM users WHERE email = '$email'";
     $result = $connect->pdo_query($data);
-
+    if ($result == null) {
+        $thongbao = "Thông tin đăng nhập không hợp lệ";
+    } else {
 //Kiểm tra email với pass có đúng không
-    foreach($result as $info){
-        if(isset($_POST['email']) && isset($_POST['password'])){
-            if($info['email'] == $email && password_verify($password,$info['password']) && ($info['role'] == '1' || $info['role'] == '2' ||  $info['role'] == '3'
-                    ||  $info['role'] == '4' ||  $info['role'] == '5' ||  $info['role'] == '6' ||  $info['role'] == '7' )){
-                if($info['role'] == 1){
+        foreach ($result as $info) {
+            if (isset($_POST['email']) && isset($_POST['password'])) {
+                if ($info['email'] == $email && password_verify($password, $info['password']) && ($info['role'] == '1' || $info['role'] == '2' || $info['role'] == '3'
+                        || $info['role'] == '4' || $info['role'] == '5' || $info['role'] == '6' || $info['role'] == '7')) {
+                    if ($info['role'] == 1) {
                         //Phân quyền khi đăng nhập luôn
                         $info['check'] = array(
                             //Cho phép vào trang quản lý người dùng role = 4
@@ -65,116 +67,120 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                             "\?page=category&action=edit&id\d+$",
                             "\?page=category&action=list&id=\d+$",
                             "\?page=category&action=edit&id=\d+$",
-                        ) ;
+                        );
                         $_SESSION['id'] = $info['id'];
                         $_SESSION['email'] = $email;
-                        $_SESSION['user'] =  $info['name'];
-                        $_SESSION['pass'] =  $password;
+                        $_SESSION['user'] = $info['name'];
+                        $_SESSION['pass'] = $password;
                         $_SESSION['admin'] = $info;
                         $_SESSION['role'] = $info['role'];
-                    header('Location: /admin');
-                } else if($info['role'] == 2){
-                    $info['check'] = array(
-                        //Cho phép vào trang bài viết
-                        "\?page=posts&action=add$",
-                        "\?page=posts&action=list$",
-                        "\?page=posts&action=list&f=trash$",
-                        "\?page=posts&action=list&f=note$",
-                        "\?page=categoriesPost&action=list$",
-                        "\?page=categoriesPost&action=edit&id=\d+$",
-                        "\?page=product&action=edit&product=\d+$",
-                        "\?page=posts&action=list&offset=\d+$",
-                        "\?page=posts&action=list&category=\+\d+$",
-                        "\?page=posts&action=list&category=all$",
-                    ) ;
-                    $_SESSION['id'] = $info['id'];
-                    $_SESSION['email'] = $email;
-                    $_SESSION['user'] =  $info['name'];
-                    $_SESSION['pass'] =  $password;
-                    $_SESSION['admin'] = $info;
-                    header('Location: /admin');
-                } else if($info['role'] == 3){
-                    //Cho phép vào trang quản lý sản phẩm
-                    $info['check'] = array(
-                        "\?page=product&action=add$",
-                        "\?page=product&action=list$",
-                        "\?page=product&action=del$",
-                        "\?page=product&action=draft$",
-                        "\?page=product&action=edit-variants&product=\d+$",
-                    );
-                    $_SESSION['id'] = $info['id'];
-                    $_SESSION['email'] = $email;
-                    $_SESSION['user'] =  $info['name'];
-                    $_SESSION['pass'] =  $password;
-                    $_SESSION['admin'] = $info;
-                    header('Location: /admin');
-                } else if($info['role'] == 4){
-                    //Cho phép vào trang người dùng
-                    $info['check'] = array(
-                        "\?page=users&action=list$",
-                        "\?page=users&action=edit&id=\d+$",
-                        "\?page=users&action=list&page-item=\d+$",
-                        "\?page=users&action=add$",
-                        "\?page=users&action=list&id=\d+$",
-                    );
-                    $_SESSION['role'] = $info['role'];
-                    $_SESSION['id'] = $info['id'];
-                    $_SESSION['email'] = $email;
-                    $_SESSION['user'] =  $info['name'];
-                    $_SESSION['pass'] =  $password;
-                    $_SESSION['admin'] = $info;
-                    header('Location: /admin');
-                } else if($info['check'] == 5){
-                    //Cho phép vào trang đơn hàng
-                    $info['check'] = array(
-                        "\?page=order&action=list$",
-                        "\?page=order&action=order-detail&order=\d+$",
-                        "\?page=order&action=edit&edit_order=\d+$",
-                        "\?page=order&action=list&del_order=\d+$",
-                    );
-                    $_SESSION['id'] = $info['id'];
-                    $_SESSION['email'] = $email;
-                    $_SESSION['user'] =  $info['name'];
-                    $_SESSION['pass'] =  $password;
-                    $_SESSION['admin'] = $info;
-                } else if($info['check'] == 6){
-                    //Cho phép vào trang mã giảm giá
-                    $info['check'] = array(
-                        "\?page=discounts&action=add-discount$",
-                        "\?page=discounts&action=list-discount$",
-                        "\?page=discounts&action=edit-discount&id=\d+$",
-                        "\?page=discounts&action=list-discount&id=\d+$",
-                    );
-                    $_SESSION['email'] = $email;
-                    $_SESSION['user'] =  $info['name'];
-                    $_SESSION['pass'] =  $password;
-                    $_SESSION['admin'] = $info;
-                    $_SESSION['role'] = $info['role'];
-                    header('Location: /admin');
-                } else if($info['check'] == 7){
-                    //Cho phép vào trang loại sản phẩm
-                    $info['check'] = array(
-                        "\?page=category&action=add$",
-                        "\?page=category&action=list$",
-                        "\?page=category&action=edit&id\d+$",
-                        "\?page=category&action=list&id=\d+$",
-                        "\?page=category&action=edit&id=\d+$",
-                    );
-                    $_SESSION['email'] = $email;
-                    $_SESSION['user'] =  $info['name'];
-                    $_SESSION['pass'] =  $password;
-                    $_SESSION['admin'] = $info;
-                    $_SESSION['role'] = $info['role'];
-                    header('Location: /admin');
-                }
-//Lưu cooke
-                if(isset($_POST['ghinho']) && ($_POST['ghinho'])){
-                    setcookie("email", $email, time()+(86400));
-                    setcookie("pass", $password, time()+(86400));
-                }
+                        header('Location: /admin');
+                    } else if ($info['role'] == 2) {
+                        $info['check'] = array(
+                            //Cho phép vào trang bài viết
+                            "\?page=posts&action=add$",
+                            "\?page=posts&action=list$",
+                            "\?page=posts&action=list&f=trash$",
+                            "\?page=posts&action=list&f=note$",
+                            "\?page=categoriesPost&action=list$",
+                            "\?page=categoriesPost&action=edit&id=\d+$",
+                            "\?page=product&action=edit&product=\d+$",
+                            "\?page=posts&action=list&offset=\d+$",
+                            "\?page=posts&action=list&category=\+\d+$",
+                            "\?page=posts&action=list&category=all$",
+//                        Chưa thấy cái xóa bài viết đâu
+                        );
+                        $_SESSION['id'] = $info['id'];
+                        $_SESSION['email'] = $email;
+                        $_SESSION['user'] = $info['name'];
+                        $_SESSION['pass'] = $password;
+                        $_SESSION['admin'] = $info;
+                        header('Location: /admin');
+                    } else if ($info['role'] == 3) {
+                        //Cho phép vào trang quản lý sản phẩm
+                        $info['check'] = array(
+                            "\?page=product&action=add$",
+                            "\?page=product&action=list$",
+                            "\?page=product&action=del$",
+                            "\?page=product&action=draft$",
+                            "\?page=product&action=edit-variants&product=\d+$",
+                            "\?page=product&action=edit&product=\d+$",
+                            "\?page=product&action=edit-variants&product=\d+&del_setoption=\d+$",
+                            "\?page=product&action=edit-variants&product=\d+&option_del=\d+$",
+                        );
+                        $_SESSION['id'] = $info['id'];
+                        $_SESSION['email'] = $email;
+                        $_SESSION['user'] = $info['name'];
+                        $_SESSION['pass'] = $password;
+                        $_SESSION['admin'] = $info;
+                        header('Location: /admin');
+                    } else if ($info['role'] == 4) {
+                        //Cho phép vào trang người dùng
+                        $info['check'] = array(
+                            "\?page=users&action=list$",
+                            "\?page=users&action=edit&id=\d+$",
+                            "\?page=users&action=list&page-item=\d+$",
+                            "\?page=users&action=add$",
+                            "\?page=users&action=list&id=\d+$",
+                        );
+                        $_SESSION['role'] = $info['role'];
+                        $_SESSION['id'] = $info['id'];
+                        $_SESSION['email'] = $email;
+                        $_SESSION['user'] = $info['name'];
+                        $_SESSION['pass'] = $password;
+                        $_SESSION['admin'] = $info;
+                        header('Location: /admin');
+                    } else if ($info['role'] == 5) {
+                        //Cho phép vào trang đơn hàng
+                        $info['check'] = array(
+                            "\?page=order&action=list$",
+                            "\?page=order&action=order-detail&order=\d+$",
+                            "\?page=order&action=edit&edit_order=\d+$",
+                            "\?page=order&action=list&del_order=\d+$",
+                        );
+                        $_SESSION['id'] = $info['id'];
+                        $_SESSION['email'] = $email;
+                        $_SESSION['user'] = $info['name'];
+                        $_SESSION['pass'] = $password;
+                        $_SESSION['admin'] = $info;
+                    } else if ($info['role'] == 6) {
+                        //Cho phép vào trang mã giảm giá
+                        $info['check'] = array(
+                            "\?page=discounts&action=add-discount$",
+                            "\?page=discounts&action=list-discount$",
+                            "\?page=discounts&action=edit-discount&id=\d+$",
+                            "\?page=discounts&action=list-discount&id=\d+$",
+                        );
+                        $_SESSION['email'] = $email;
+                        $_SESSION['user'] = $info['name'];
+                        $_SESSION['pass'] = $password;
+                        $_SESSION['admin'] = $info;
+                        $_SESSION['role'] = $info['role'];
+                        header('Location: /admin');
+                    } else if ($info['role'] == 7) {
+                        //Cho phép vào trang loại sản phẩm
+                        $info['check'] = array(
+                            "\?page=category&action=add$",
+                            "\?page=category&action=list$",
+                            "\?page=category&action=edit&id\d+$",
+                            "\?page=category&action=list&id=\d+$",
+                            "\?page=category&action=edit&id=\d+$",
+                        );
+                        $_SESSION['email'] = $email;
+                        $_SESSION['user'] = $info['name'];
+                        $_SESSION['pass'] = $password;
+                        $_SESSION['admin'] = $info;
+                        $_SESSION['role'] = $info['role'];
+                        header('Location: /admin');
+                    }
 
-            }  else{
-                $thongbao = "Thông tin đăng nhập không hợp lệ";
+//Lưu cooke
+                    if (isset($_POST['ghinho']) && ($_POST['ghinho'])) {
+                        setcookie("email", $email, time() + (86400));
+                        setcookie("pass", $password, time() + (86400));
+                    }
+
+                }
             }
         }
     }
