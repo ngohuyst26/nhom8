@@ -53,21 +53,23 @@ if (isset($_SESSION['email']) && isset($_SESSION['name'])) {
         <script src="https://kit.fontawesome.com/91f424987f.js" crossorigin="anonymous"></script>
     </head>
 
-<body>
-<div class="page-wrapper">
-    <?php include './components/header.php'; ?>
-    <main>
-        <?php
-        if (isset($_GET['action'])) {
-            switch ($_GET['action']) {
-                case 'home':
-                    include './page/home.php';
-                    break;
-                case 'products':
-                    include './page/products/products.php';
-                    break;
-                case 'products-detail':
-                    include './page/products/product_detail.php';
+    <body>
+    <div class="page-wrapper">
+        <?php include './components/header.php'; ?>
+        <main>
+            <?php
+            include "config/database.php";
+            include 'mailer/email.php';
+            if (isset($_GET['action'])) {
+                switch ($_GET['action']) {
+                    case 'home':
+                        include './page/home.php';
+                        break;
+                    case 'products':
+                        include './page/products/products.php';
+                        break;
+                    case 'products-detail':
+                        include './page/products/product_detail.php';
                     break;
                 case 'about':
                     include './page/about.php';
