@@ -63,6 +63,7 @@ if ($_SESSION['role'] == 4 && $_SESSION['role_edit'] == 1) {
 
         if ($check == false) {
             $edit_user = edit_user($user, $email, $password, $sex, $role, $address, $id);
+            header('Location: ?page=users&action=list');
         }
     }
 }

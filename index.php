@@ -101,6 +101,9 @@ if (isset($_SESSION['email']) && isset($_SESSION['name'])) {
                 case 'create':
                     include './login/create_account.php';
                     break;
+                case 'update':
+                    include './page/users/update_account.php';
+                    break;
             }
         } else {
             include './page/home.php';

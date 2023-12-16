@@ -57,7 +57,7 @@ if (isset($_SESSION['role'])){
         <div class="col-lg-4 col-md-4 all des">
             <div class="card" style="width: 40rem;">
                 <div class="card-body">
-                    <a href="" class="card-link">CẬP NHẬT TÀI KHOẢN</a>
+                    <a href="?action=update" class="card-link">CẬP NHẬT TÀI KHOẢN</a>
                 </div>
             </div>
         </div>

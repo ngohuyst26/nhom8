@@ -64,6 +64,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if ($check == false){
         $data = add_user($user, $email, $mahoa, $sex, $role, $address);
+        header('Location: ?page=users&action=list');
     }
 }
 ?>
