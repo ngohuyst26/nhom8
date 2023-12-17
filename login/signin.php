@@ -54,6 +54,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             "\?page=posts&action=list&offset=\d+$",
                             "\?page=posts&action=list&category=\+\d+$",
                             "\?page=posts&action=list&category=all$",
+                            "\?page=posts&action=list&category=\+\d+&category=%\d+&offset=\d+$",
+                            "\?page=posts&action=list&f=trash&category=\+\d+&f=trash&category=%\d+&offset=\d+$",
+                            "\?page=posts&action=list&f=note&category=\+\d+&f=note&category=%\d+&offset=\d+$",
+                            "\?page=posts&action=list&f=trash&category=%\d+&offset=\d+$",
+                            "\?page=posts&action=list&f=note&category=%\d+&offset=\d+$",
+                            "\?page=posts&action=list&category=%\d+&offset=\d+$",
+                            "\?page=posts&action=list&f=trash&f=trash&offset=\d+$",
+                            "\?page=posts&action=list&f=note&f=note&offset=\d+$",
+                            "\?page=posts&action=list&f=note&offset=\d+$",
+                            "\?page=posts&action=list&f=trash&offset=\d+$",
+                            "\?page=posts&action=list&+key=|[a-zA-Z]$",
+                            "\?page=posts&action=list&f=note&category=\+\d+$",
+                            "\?page=posts&action=list&f=trash&category=\+\d+$",
 //                        Chưa thấy cái xóa bài viết đâu
                             //Cho phép vào trang mã ưu đãi role = 6
                             "\?page=discounts&action=add-discount$",
@@ -78,16 +91,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     } else if ($info['role'] == 2) {
                         $info['check'] = array(
                             //Cho phép vào trang bài viết
+                            "\?page=posts&action=edit&id=\d+$",
                             "\?page=posts&action=add$",
                             "\?page=posts&action=list$",
                             "\?page=posts&action=list&f=trash$",
                             "\?page=posts&action=list&f=note$",
                             "\?page=categoriesPost&action=list$",
                             "\?page=categoriesPost&action=edit&id=\d+$",
-                            "\?page=product&action=edit&product=\d+$",
                             "\?page=posts&action=list&offset=\d+$",
                             "\?page=posts&action=list&category=\+\d+$",
                             "\?page=posts&action=list&category=all$",
+                            "\?page=posts&action=list&category=\+\d+&category=%\d+&offset=\d+$",
+                            "\?page=posts&action=list&f=trash&category=\+\d+&f=trash&category=%\d+&offset=\d+$",
+                            "\?page=posts&action=list&f=note&category=\+\d+&f=note&category=%\d+&offset=\d+$",
+                            "\?page=posts&action=list&f=trash&category=%\d+&offset=\d+$",
+                            "\?page=posts&action=list&f=note&category=%\d+&offset=\d+$",
+                            "\?page=posts&action=list&category=%\d+&offset=\d+$",
+                            "\?page=posts&action=list&f=trash&f=trash&offset=\d+$",
+                            "\?page=posts&action=list&f=note&f=note&offset=\d+$",
+                            "\?page=posts&action=list&f=note&offset=\d+$",
+                            "\?page=posts&action=list&f=trash&offset=\d+$",
+                            "\?page=posts&action=list&+key=|[a-zA-Z]$",
+                            "\?page=posts&action=list&f=note&category=\+\d+$",
+                            "\?page=posts&action=list&f=trash&category=\+\d+$",
 //                        Chưa thấy cái xóa bài viết đâu
                         );
                         $_SESSION['id'] = $info['id'];
