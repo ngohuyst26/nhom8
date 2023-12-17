@@ -30,7 +30,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $date_end = 'null';
     }
     if (isset($_POST['type'])) {
-        if ($type == 0) {
+        if ($type == 1) {
             if (isset($_POST['discount'])) {
                 $discount = substr($discount, 0, 2);
             }

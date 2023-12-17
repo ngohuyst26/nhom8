@@ -17,7 +17,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if (isset($_POST['email']) && isset($_POST['password'])) {
                 if ($info['email'] == $email && password_verify($password, $info['password']) && ($info['role'] == '1' || $info['role'] == '2' || $info['role'] == '3'
                         || $info['role'] == '4' || $info['role'] == '5' || $info['role'] == '6' || $info['role'] == '7')) {
-                    if ($info['role'] == 1) {
+                    if ($info['role'] == '1') {
                         //Phân quyền khi đăng nhập luôn
                         $info['check'] = array(
                             //Cho phép vào trang quản lý người dùng role = 4
@@ -88,7 +88,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         $_SESSION['admin'] = $info;
                         $_SESSION['role'] = $info['role'];
                         header('Location: /admin');
-                    } else if ($info['role'] == 2) {
+                    } else if ($info['role'] == '2') {
                         $info['check'] = array(
                             //Cho phép vào trang bài viết
                             "\?page=posts&action=edit&id=\d+$",
@@ -122,7 +122,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         $_SESSION['pass'] = $password;
                         $_SESSION['admin'] = $info;
                         header('Location: /admin');
-                    } else if ($info['role'] == 3) {
+                    } else if ($info['role'] == '3') {
                         //Cho phép vào trang quản lý sản phẩm
                         $info['check'] = array(
                             "\?page=product&action=add$",
@@ -140,7 +140,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         $_SESSION['pass'] = $password;
                         $_SESSION['admin'] = $info;
                         header('Location: /admin');
-                    } else if ($info['role'] == 4) {
+                    } else if ($info['role'] == '4') {
                         //Cho phép vào trang người dùng
                         $info['check'] = array(
                             "\?page=users&action=list$",
@@ -156,7 +156,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         $_SESSION['pass'] = $password;
                         $_SESSION['admin'] = $info;
                         header('Location: /admin');
-                    } else if ($info['role'] == 5) {
+                    } else if ($info['role'] == '5') {
                         //Cho phép vào trang đơn hàng
                         $info['check'] = array(
                             "\?page=order&action=list$",
@@ -169,7 +169,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         $_SESSION['user'] = $info['name'];
                         $_SESSION['pass'] = $password;
                         $_SESSION['admin'] = $info;
-                    } else if ($info['role'] == 6) {
+                    } else if ($info['role'] == '6') {
                         //Cho phép vào trang mã giảm giá
                         $info['check'] = array(
                             "\?page=discounts&action=add-discount$",
@@ -183,7 +183,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         $_SESSION['admin'] = $info;
                         $_SESSION['role'] = $info['role'];
                         header('Location: /admin');
-                    } else if ($info['role'] == 7) {
+                    } else if ($info['role'] == '7') {
                         //Cho phép vào trang loại sản phẩm
                         $info['check'] = array(
                             "\?page=category&action=add$",
