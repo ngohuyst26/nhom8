@@ -532,6 +532,13 @@ class  product
         $sql = "SELECT name FROM users WHERE id = ?";
         return $db->pdo_query_one($sql, $user_id);
     }
+
+    function GetRateProduct($product_id)
+    {
+        $db = new connect();
+        $sql = "SELECT AVG(rate_value) as rate_value, COUNT(id) as review FROM reviews WHERE product_id = ?";
+        return $db->pdo_query_one($sql, $product_id);
+    }
 }
 
 
