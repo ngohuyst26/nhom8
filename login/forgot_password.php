@@ -2,7 +2,7 @@
 include_once 'config/database.php';
 include_once 'login/login_function.php';
 include_once 'mailer/email.php';
- $email_error = '';
+$email_error = '';
 $http = 'http://duanone.php/?action=check&verification=';
 $string = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHJIKLMNOPQRSTUVWXYZ';
 $_SESSION['code'] = substr(str_shuffle($string), 0 , 6);
@@ -11,6 +11,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
     $check = false;
     if (isset($_POST['sm'])){
     $email = $_POST['email'];
+        $_SESSION['email_fg'] = $email;
         if (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
             $email_error = "<span style='color:red; font-family: Roboto;'>Error: Email nhập chưa đúng định dạng</span>";
             $check = true;
