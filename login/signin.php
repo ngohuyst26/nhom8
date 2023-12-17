@@ -20,6 +20,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     if ($info['role'] == '1') {
                         //Phân quyền khi đăng nhập luôn
                         $info['check'] = array(
+                            //Cho phép vào trang đánh giá
+                            "\?page=review&action=list$",
+                            "\?page=review&action=detail&id=\d+$",
+                            "\?page=review&action=detail&id=\d+&del_review=\d+$",
                             //Cho phép vào trang quản lý người dùng role = 4
                             "\?page=users&action=list$",
                             "\?page=users&action=edit&id=\d+$",
@@ -31,19 +35,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             "\?page=product&action=list$",
                             "\?page=product&action=del$",
                             "\?page=product&action=draft$",
-                            "\?page=product&action=add-variants",
+                            "\?page=product&action=edit-variants&product=\d+$",
                             "\?page=product&action=edit&product=\d+$",
-                            "\?page=product&action=variants&product=\d+$",
                             "\?page=product&action=edit-variants&product=\d+&del_setoption=\d+$",
                             "\?page=product&action=edit-variants&product=\d+&option_del=\d+$",
-                            "\?page=product&action=edit-variants&product=\d+$",
-                            "\?page=product&action=edit-variants&product=\d+&variant_del=\d+$",
                             //Cho phép vào trang đơn hàng role = 5
                             "\?page=order&action=list$",
                             "\?page=order&action=order-detail&order=\d+$",
                             "\?page=order&action=edit&edit_order=\d+$",
                             "\?page=order&action=list&del_order=\d+$",
                             //Cho phép vào trang bài viết role = 2
+                            "\?page=posts&action=view&id=\d+$",
                             "\?page=posts&action=edit&id=\d+$",
                             "\?page=posts&action=add$",
                             "\?page=posts&action=list$",
@@ -71,8 +73,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             //Cho phép vào trang mã ưu đãi role = 6
                             "\?page=discounts&action=add-discount$",
                             "\?page=discounts&action=list-discount$",
-                            "\?page=discounts&action=edit-discount&id=\d+$",
-                            "\?page=discounts&action=list-discount&id=\d+$",
                             //Chưa thấy cái xóa đâu với edit
                             //Cho phép vào trang loại sản phẩm role = 7
                             "\?page=category&action=add$",
@@ -91,6 +91,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     } else if ($info['role'] == '2') {
                         $info['check'] = array(
                             //Cho phép vào trang bài viết
+                            "\?page=posts&action=view&id=\d+$",
                             "\?page=posts&action=edit&id=\d+$",
                             "\?page=posts&action=add$",
                             "\?page=posts&action=list$",
@@ -174,8 +175,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         $info['check'] = array(
                             "\?page=discounts&action=add-discount$",
                             "\?page=discounts&action=list-discount$",
-                            "\?page=discounts&action=edit-discount&id=\d+$",
-                            "\?page=discounts&action=list-discount&id=\d+$",
                         );
                         $_SESSION['email'] = $email;
                         $_SESSION['user'] = $info['name'];
