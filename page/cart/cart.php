@@ -5,7 +5,6 @@ $car = new cart();
 if (!isset ($_SESSION ['cart'])) {
     $_SESSION ['cart'] = [];
 }
-
 $_SESSION ['discount'] = 4;
 if (isset($_POST['apply'])) {
     if (isset($_POST['discount'])) {

@@ -13,6 +13,7 @@ if (isset($_POST['review'])) {
     }
 }
 
+
 if (isset($_GET['product'])) {
     $id_product = $_GET['product'];
     $value = $pro->GetOneProduct($id_product);
