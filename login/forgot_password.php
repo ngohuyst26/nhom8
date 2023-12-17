@@ -11,6 +11,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $check = false;
     if (isset($_POST['sm'])) {
         $email = $_POST['email'];
+        $_SESSION['email_fg'] = $email;
         if (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
             $email_error = "<span style='color:red; font-family: Roboto;'>Error: Email nhập chưa đúng định dạng</span>";
             $check = true;

@@ -8,10 +8,10 @@ $Verification_delete = str_shuffle($new_string);
 $connect = new connect();
 $sql = "SELECT * FROM users WHERE Verification = ?";
 $data = $connect->pdo_query($sql, $verification);
-if ($data == null) {
+if ($data == null && isset($_SESSION['email_fg'])) {
     $connect = new connect();
-    $sql = "UPDATE users SET Verification = ? WHERE Verification = ?";
-    $data = $connect->pdo_execute($sql, $Verification_delete, $_SESSION['code']);
+    $sql = "UPDATE users SET Verification = ? WHERE email = ?";
+    $data = $connect->pdo_execute($sql, $Verification_delete, $_SESSION['email_fg']);
     include_once 'tb_exit.php';
     exit;
 }
@@ -31,6 +31,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $_SESSION['chk'] = 2;
             }
             unset($_SESSION['code']);
+            unset($_SESSION['email_fg']);
             $connect = new connect();
             $sql = "UPDATE users SET Verification = ? WHERE email = ?";
             $data = $connect->pdo_execute($sql, $Verification_delete, $email);
