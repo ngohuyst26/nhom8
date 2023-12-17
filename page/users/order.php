@@ -49,7 +49,7 @@ if (isset($_GET['order'])) {
                 <b>Hóa đơn</b><br>
                 <b>ID hóa đơn: <?= $order['id'] ?></b><br>
                 <b>Hạn thanh toán: 3 ngày kể từ ngày mua</b> <br>
-                <b>Tổng tiền:</b> <?= $order['total'] ?> VNĐ<br>
+                <b>Tổng tiền:</b> <?= number_format($order['total'], 0, ",", ".") . "VNĐ" ?> VNĐ<br>
                 <b>Tài khoản:</b> <?= $order['customer_name'] ?> <b>
             </div>
             <!-- /.col -->

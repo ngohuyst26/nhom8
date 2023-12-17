@@ -22,6 +22,7 @@ if (isset($_POST['search'])) {
         $nameOption = $pro->GetOptionById($option_id);
     } else {
         $nameOption = [];
+        $id = $product['product_id'];
     }
     ?>
     <div class="col-6 col-md-4 col-lg-4 product-item category-<?= $product['categori_id'] ?>">

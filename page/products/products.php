@@ -11,12 +11,18 @@ if (!isset ($_SESSION ['cart'])) {
 
 //var_dump($_POST['price']);
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    if (isset($_POST['cart_id']) && !empty($_POST['cart_id'])) {
+        $cart_id = $_POST['cart_id'];
+    } else {
+        $cart_id = $_POST['id'];
+    }
     $id = $_POST['id'];
     $name = $_POST['name'];
     $thumbnail = $_POST['thumbnail'];
     $price = $_POST['price'];
     $qty = 1;
     $product = [
+        'cart_id' => $cart_id,
         'id' => $id,
         'name' => $name,
         'thumbnail' => $thumbnail,
@@ -26,8 +32,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $found = false;
     if (isset ($_SESSION['cart'])) {
         foreach ($_SESSION['cart'] as $productId) {
-            if ($id == $productId['id']) {
-                $_SESSION['cart']["$id"]['qty']++;
+            if ($cart_id == $productId['cart_id']) {
+                $_SESSION['cart']["$cart_id"]['qty']++;
                 $found = true;
                 break;
 
@@ -35,14 +41,15 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         }
     }
     if (!$found) {
-        $_SESSION['cart']["$id"] = $product;
+        $_SESSION['cart']["$cart_id"] = $product;
     }
 // header ('location: cart.php') ;
 }
 //var_dump( $_SESSION['cart']);
 
 ?>
-
+<div id="value">
+</div>
 <main class="main">
     <div class="page-header text-center" style="background-image: url('assets/images/page-header-bg.jpg')">
         <div class="container">
@@ -84,7 +91,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                         </div><!-- End .toolbox-right -->
                     </div><!-- End .toolbox -->
 
-                    <div class="products mb-3 content ">
+                    <div class="products mb-3 content">
                         <div class="row" id="product-search">
                             <?php foreach ($value as $product):
                                 $fistOption = $pro->FistOptions($product['product_id']);
@@ -95,6 +102,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                                     $nameOption = $pro->GetOptionById($option_id);
                                 } else {
                                     $nameOption = [];
+                                    $id = $product['product_id'];
                                 }
                                 ?>
                                 <div class="col-6 col-md-4 col-lg-4 product-item category-<?= $product['categori_id'] ?>">
@@ -115,7 +123,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                                                 <form action="" class="addcartForm" method="post">
                                                     <input type="hidden" name="thumbnail"
                                                            value="<?= $product['thumbnail'] ?>" class="thumbnail">
-                                                    <input type="hidden" name="id" value="<?= $id ?>"
+                                                    <input type="hidden" name="id" value="<?= $product['product_id'] ?>"
+                                                           class="id">
+                                                    <input type="hidden" name="cart_id" value="<?= $id ?>"
                                                            class="id">
                                                     <input type="hidden" name="name"
                                                            value="<?= $product['product_name'] ?>
@@ -163,6 +173,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                                 </div><!-- End .col-sm-6 col-lg-4 -->
 
                             <?php endforeach; ?>
+
                         </div><!-- End .row -->
                     </div><!-- End .products -->
 
@@ -286,6 +297,4 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $grid.isotope({filter: filterValue});
         });
     });
-
-
 </script>

@@ -40,10 +40,10 @@ if (isset($_POST['apply'])) {
 $total_bill = 0;
 if (isset($_SESSION['cart'])) {
     if (isset($_POST['removecart'])) {
-        $id = $_POST['removecart'];
+        $cart_id = $_POST['removecart'];
         foreach ($_SESSION['cart'] as $productId) {
-            if ($id == $productId['id']) {
-                unset($_SESSION['cart']["$id"]);
+            if ($cart_id == $productId['cart_id']) {
+                unset($_SESSION['cart']["$cart_id"]);
                 // header('Location: cart.php') ;
                 break;
             }
@@ -54,11 +54,11 @@ if (isset($_SESSION['cart'])) {
 
 if (isset($_SESSION['cart'])) {
     if (isset($_POST['editcart'])) {
-        $id = $_POST['id'];
+        $cart_id = $_POST['id'];
         $leght = sizeof($_SESSION['cart']);
         $qtyedit = $_POST['editqty'];
         for ($i = 0; $i < $leght; $i++) {
-            $_SESSION['cart'][$id[$i]]['qty'] = $qtyedit[$i];
+            $_SESSION['cart'][$cart_id[$i]]['qty'] = $qtyedit[$i];
         }
     }
     // header('Location: cart.php');
@@ -123,14 +123,14 @@ if (isset($_SESSION['cart'])) {
                                             <input type="number" name="editqty[]" class="form-control"
                                                    value="<?= $cart['qty'] ?>" min="1" max="10" step="1"
                                                    data-decimals="0" required>
-                                            <input type="hidden" name="id[]" value="<?= $cart['id'] ?>">
+                                            <input type="hidden" name="id[]" value="<?= $cart['cart_id'] ?>">
                                         </div><!-- End .cart-product-quantity -->
                                     </td>
                                     <td class="total-col"><?= number_format(($cart['price'] * $cart['qty']), 0, ",", ".") ?>
                                         đ
                                     </td>
                                     <td class="remove-col">
-                                        <button class="btn-remove" name="removecart" value="<?= $cart['id'] ?>"><i
+                                        <button class="btn-remove" name="removecart" value="<?= $cart['cart_id'] ?>"><i
                                                     class="icon-close"></i></button>
                                     </td>
                                 </tr>
@@ -161,7 +161,7 @@ if (isset($_SESSION['cart'])) {
                             </div><!-- End .cart-discount -->
 
                             <button type="submit" name="editcart" class="btn btn-outline-dark-2">
-                                <span>UPDATE CART</span><i class="icon-refresh"></i></button>
+                                <span>CẬP NHẬT GIỎ HÀNG</span><i class="icon-refresh"></i></button>
                         </div><!-- End .cart-bottom -->
                         <?php if ($_SESSION['discount'] == 1): ?>
                             <h6 class="text-success mt-5">Áp dụng thành công mã <?= $code ?> đã
@@ -176,15 +176,15 @@ if (isset($_SESSION['cart'])) {
                 </div><!-- End .col-lg-9 -->
                 <aside class="col-lg-3">
                     <div class="summary summary-cart">
-                        <h3 class="summary-title">Cart Total</h3><!-- End .summary-title -->
+                        <h3 class="summary-title">Tổng:</h3><!-- End .summary-title -->
                         <table class="table table-summary">
                             <tbody>
                             <tr class="summary-subtotal">
-                                <td>Tổng:</td>
+                                <td>Tổng đơn hàng</td>
                                 <td><?= number_format($total_bill, 0, ",", ".") ?>đ</td>
                             </tr><!-- End .summary-subtotal -->
                             <tr class="summary-shipping">
-                                <td>Vận chuyển:</td>
+                                <td>Vận chuyển</td>
                                 <td>&nbsp;</td>
                             </tr>
                             <tr class="summary-shipping-row">
@@ -192,23 +192,23 @@ if (isset($_SESSION['cart'])) {
                                     <div class="custom-control custom-radio">
                                         <input type="radio" id="free-shipping" name="shipping"
                                                class="custom-control-input">
-                                        <label class="custom-control-label" for="free-shipping">Nhanh</label>
-                                    </div><!-- End .custom-control -->
-                                </td>
-                                <td>30.000đ</td>
-                            </tr><!-- End .summary-shipping-row -->
-                            <tr class="summary-shipping-row">
-                                <td>
-                                    <div class="custom-control custom-radio">
-                                        <input type="radio" id="standart-shipping" name="shipping"
-                                               class="custom-control-input">
-                                        <label class="custom-control-label" for="standart-shipping">Chậm</label>
+                                        <label class="custom-control-label" for="free-shipping">Chậm:</label>
                                     </div><!-- End .custom-control -->
                                 </td>
                                 <td>10.000đ</td>
                             </tr><!-- End .summary-shipping-row -->
+                            <tr class="summary-shipping-row">
+                                <td>
+                                    <div class="custom-control custom-radio">
+                                        <input type="radio" id="express-shipping" name="shipping"
+                                               class="custom-control-input">
+                                        <label class="custom-control-label" for="express-shipping">Nhanh:</label>
+                                    </div><!-- End .custom-control -->
+                                </td>
+                                <td>30.000đ</td>
+                            </tr><!-- End .summary-shipping-row -->
                             <tr class="summary-total">
-                                <td>Tổng giỏ hàng:</td>
+                                <td>Tổng đơn hàng:</td>
                                 <td><?= number_format($total_bill, 0, ",", ".") ?>đ</td>
                             </tr><!-- End .summary-total -->
                             </tbody>
